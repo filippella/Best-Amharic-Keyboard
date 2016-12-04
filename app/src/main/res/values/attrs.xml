@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2016 Filippo Engidashet
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <declare-styleable name="AmharicTextView">
+        <attr name="amharic_font_type" format="enum">
+            <enum name="AMHARIC_FONT_NYALA" value="0" />
+            <enum name="AMHARIC_FONT_JIRET" value="1" />
+            <enum name="AMHARIC_FONT_FANTUWUA" value="2" />
+            <enum name="AMHARIC_FONT_GOFFER" value="3" />
+            <enum name="AMHARIC_FONT_HIWUA" value="4" />
+            <enum name="AMHARIC_FONT_SABAEAN" value="5" />
+            <enum name="AMHARIC_FONT_TINT" value="6" />
+            <enum name="AMHARIC_FONT_WASHRAB" value="7" />
+            <enum name="AMHARIC_FONT_WASHRASB" value="8" />
+            <enum name="AMHARIC_FONT_WOOKIANOS" value="9" />
+            <enum name="AMHARIC_FONT_YEBSE" value="10" />
+            <enum name="AMHARIC_FONT_YIGEZUBISRAT" value="11" />
+            <enum name="AMHARIC_FONT_ZELAN" value="12" />
+        </attr>
+    </declare-styleable>
+</resources>

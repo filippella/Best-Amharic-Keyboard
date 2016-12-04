@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.dalol.simpleamharickeyboard.keyboard.AmharicKeyboardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/gkeyboard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="#667c8a"
+    android:keyBackground="@drawable/keybackground"
+    android:keyPreviewHeight="@dimen/key_height"
+    android:keyPreviewLayout="@layout/keypreview"
+    android:keyTextColor="#FFFFFF"
+    android:keyTextSize="20sp" />
