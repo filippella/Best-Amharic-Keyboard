@@ -21,6 +21,7 @@ import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView.OnKeyboardActionListener;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +60,8 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
         modifiersContainer.setOrientation(LinearLayout.HORIZONTAL);
         modifiersContainer.setWillNotDraw(true);
         modifiersContainer.setBackgroundColor(Color.RED);
-        modifiersContainer.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.key_height)));
+        modifiersContainer.setGravity(Gravity.CENTER);
+        modifiersContainer.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.modifier_key_height)));
     }
 
     public void onInitializeInterface() {
@@ -255,7 +257,8 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
 
             modifiersContainer.removeAllViews();
             if(tempLength > 0) {
-                for (int i = 0; i < 10; i++) {
+                int random = new Random().nextInt(10);
+                for (int i = 0; i < random; i++) {
                     Button child = new Button(getApplicationContext());
                     child.setText(Integer.toString(new Random().nextInt(10)));
                     child.setOnClickListener(new View.OnClickListener() {
