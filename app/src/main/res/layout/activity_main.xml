@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
+    android:background="#f4f4f4"
     android:layout_height="match_parent"
     tools:context="org.dalol.simpleamharickeyboard.activity.MainActivity">
 
@@ -34,6 +35,8 @@
         android:layout_alignParentBottom="true"
         android:id="@+id/editTextInputView"
         android:layout_width="match_parent"
-        android:inputType="textNoSuggestions"
+        android:padding="12dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/textarea_bg"
         android:layout_height="wrap_content" />
 </RelativeLayout>

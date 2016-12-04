@@ -3,7 +3,7 @@
     android:id="@+id/gkeyboard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
+    android:layout_alignParentTop="true"
     android:background="#667c8a"
     android:keyBackground="@drawable/keybackground"
     android:keyPreviewHeight="@dimen/key_height"

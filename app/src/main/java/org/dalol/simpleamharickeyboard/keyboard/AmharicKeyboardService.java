@@ -24,6 +24,7 @@ import android.inputmethodservice.KeyboardView.OnKeyboardActionListener;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
@@ -54,7 +55,11 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
 
     public void onCreate() {
         super.onCreate();
-
+        modifiersContainer = new LinearLayout(getApplicationContext());
+        modifiersContainer.setOrientation(LinearLayout.HORIZONTAL);
+        modifiersContainer.setWillNotDraw(true);
+        modifiersContainer.setBackgroundColor(Color.RED);
+        modifiersContainer.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.key_height)));
     }
 
     public void onInitializeInterface() {
@@ -80,16 +85,15 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
     }
 
     public View onCreateCandidatesView() {
-        modifiersContainer = new LinearLayout(getApplicationContext());
-        modifiersContainer.setOrientation(LinearLayout.HORIZONTAL);
-        //modifiersContainer.setWillNotDraw(true);
-        modifiersContainer.setBackgroundColor(Color.RED);
-        setCandidatesViewShown(true);
-        modifiersContainer.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.key_height)));
         FrameLayout candidateView = new FrameLayout(getApplicationContext());
         candidateView.removeAllViews();
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+        FrameLayout parent = (FrameLayout) modifiersContainer.getParent();
+        if (parent != null) {
+            parent.removeAllViews();
+        }
         candidateView.addView(modifiersContainer);
+        setCandidatesViewShown(true);
         candidateView.setLayoutParams(params);
         return candidateView;
     }
@@ -212,8 +216,13 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
 //            mKeyboardView.invalidateKey(i);
 //        }
 
-        CharSequence sequence = currentInputConnection.getTextBeforeCursor(9999, 0);
-        int tempLength = sequence.toString().length();
+        CharSequence textBeforeCursor = currentInputConnection.getTextBeforeCursor(9999, 0);
+        CharSequence textAfterCursor = currentInputConnection.getTextAfterCursor(9999, 0);
+
+        int tempLength = textBeforeCursor.toString().length();
+        if (textAfterCursor != null) {
+            tempLength += textAfterCursor.toString().length();
+        }
         if (keyCode < 2944 || keyCode > 3071) {
             switch (keyCode) {
                 case -33:
@@ -227,6 +236,11 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
                     sendBackspaceKey();
                     break;
                 case Keyboard.KEYCODE_CANCEL:
+                    InputMethodManager imeManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    if (imeManager == null) {
+                        return;
+                    }
+                    imeManager.showInputMethodPicker();
                     Toast.makeText(this, "Canceled", Toast.LENGTH_SHORT).show();
                     break;
                 case 10:
@@ -248,6 +262,11 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
                         @Override
                         public void onClick(View v) {
                             Button button = (Button) v;
+                            InputConnection inputConnection = getCurrentInputConnection();
+                            CharSequence beforeCursor = inputConnection.getTextBeforeCursor(9999, 0);
+                            //beforeCursor = new String("Filippo");
+
+                            inputConnection.commitText("Filippo", 1);
                             Toast.makeText(AmharicKeyboardService.this, "Hey " + button.getText().toString(), Toast.LENGTH_SHORT).show();
                         }
                     });
