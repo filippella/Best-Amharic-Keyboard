@@ -16,19 +16,25 @@
 
 package org.dalol.simpleamharickeyboard.keyboard;
 
+import android.graphics.Color;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView.OnKeyboardActionListener;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.ExtractedTextRequest;
+import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import org.dalol.simpleamharickeyboard.R;
 
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -44,9 +50,11 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
     private AmharicKeyboard mKeyboard;
     private AmharicKeyboardView mKeyboardView;
     private AmharicKeyboard mSecondKeyboard;
+    private LinearLayout modifiersContainer;
 
     public void onCreate() {
         super.onCreate();
+
     }
 
     public void onInitializeInterface() {
@@ -62,8 +70,28 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
         return mKeyboardView;
     }
 
+    @Override
+    public void onComputeInsets(InputMethodService.Insets
+                                        outInsets) {
+        super.onComputeInsets(outInsets);
+        if (!isFullscreenMode()) {
+            outInsets.contentTopInsets = outInsets.visibleTopInsets;
+        }
+    }
+
     public View onCreateCandidatesView() {
-        return null;
+        modifiersContainer = new LinearLayout(getApplicationContext());
+        modifiersContainer.setOrientation(LinearLayout.HORIZONTAL);
+        //modifiersContainer.setWillNotDraw(true);
+        modifiersContainer.setBackgroundColor(Color.RED);
+        setCandidatesViewShown(true);
+        modifiersContainer.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.key_height)));
+        FrameLayout candidateView = new FrameLayout(getApplicationContext());
+        candidateView.removeAllViews();
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+        candidateView.addView(modifiersContainer);
+        candidateView.setLayoutParams(params);
+        return candidateView;
     }
 
     public void onStartInputView(EditorInfo attribute, boolean restarting) {
@@ -173,14 +201,19 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
     }
 
     public void onKey(int keyCode, int[] otherKeyCodes) {
+        InputConnection currentInputConnection = getCurrentInputConnection();
 
-        List<Key> keyList = mKeyboardView.getKeyboard().getKeys();
-        for(int i = 0; i < 8; i++) {
-            Key key = keyList.get(i);
-            key.label = Integer.toString(new Random().nextInt(10));
-            mKeyboardView.invalidateKey(i);
-        }
 
+
+//        List<Key> keyList = mKeyboardView.getKeyboard().getKeys();
+//        for (int i = 0; i < 8; i++) {
+//            Key key = keyList.get(i);
+//            key.label = Integer.toString(new Random().nextInt(10));
+//            mKeyboardView.invalidateKey(i);
+//        }
+
+        CharSequence sequence = currentInputConnection.getTextBeforeCursor(9999, 0);
+        int tempLength = sequence.toString().length();
         if (keyCode < 2944 || keyCode > 3071) {
             switch (keyCode) {
                 case -33:
@@ -190,6 +223,7 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
                     switchToSecondTamilKeyboard();
                     break;
                 case Keyboard.KEYCODE_DELETE:
+                    tempLength--;
                     sendBackspaceKey();
                     break;
                 case Keyboard.KEYCODE_CANCEL:
@@ -199,16 +233,36 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
                     keyDownUp(66);
                     break;
                 default:
-                    getCurrentInputConnection().commitText(String.valueOf((char) keyCode), 1);
+                    String text = String.valueOf((char) keyCode);
+                    tempLength++;
+                    currentInputConnection.commitText(text, 1);
                     break;
             }
+
+            modifiersContainer.removeAllViews();
+            if(tempLength > 0) {
+                for (int i = 0; i < 10; i++) {
+                    Button child = new Button(getApplicationContext());
+                    child.setText(Integer.toString(new Random().nextInt(10)));
+                    child.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Button button = (Button) v;
+                            Toast.makeText(AmharicKeyboardService.this, "Hey " + button.getText().toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    child.setPadding(10, 10, 10, 10);
+                    modifiersContainer.addView(child, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
+                }
+            }
+
             return;
         }
         key0Char = (char) keyCode;
         if (keyCode == 3002) {
-            getCurrentInputConnection().commitText("\u0b95\u0bcd\u0bb7", 1);
+            currentInputConnection.commitText("\u0b95\u0bcd\u0bb7", 1);
         } else if (keyCode == 3071) {
-            getCurrentInputConnection().commitText("\u0bb8\u0bcd\u0bb0\u0bc0", 1);
+            currentInputConnection.commitText("\u0bb8\u0bcd\u0bb0\u0bc0", 1);
         } else {
             handleAmharicKeyPress();
         }

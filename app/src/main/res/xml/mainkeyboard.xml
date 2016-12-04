@@ -23,24 +23,6 @@
     android:verticalGap="1px">
 
     <Row
-        android:horizontalGap="10px"
-        android:keyHeight="@dimen/key_height"
-        android:verticalGap="10px">
-        <Key
-            android:keyEdgeFlags="left"
-            android:keyLabel=" " />
-        <Key android:keyLabel=" " />
-        <Key android:keyLabel=" " />
-        <Key android:keyLabel=" " />
-        <Key android:keyLabel=" " />
-        <Key android:keyLabel=" " />
-        <Key android:keyLabel=" " />
-        <Key
-            android:keyEdgeFlags="right"
-            android:keyLabel=" " />
-    </Row>
-
-    <Row
         android:horizontalGap="5px"
         android:keyWidth="9.800002%p"
         android:verticalGap="5px">
