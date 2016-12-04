@@ -14,13 +14,12 @@
   ~ limitations under the License.
   -->
 
-<org.dalol.simpleamharickeyboard.widgets.AmharicTextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:amharic="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="48dp"
-    android:background="@drawable/preview_background"
-    android:gravity="center"
-    android:layout_gravity="center"
-    android:textColor="#FFFFFF"
-    android:textSize="32sp"
-    amharic:amharic_font_type="AMHARIC_FONT_GOFFER" />
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#28bcd8" />
+
+    <stroke
+        android:width="0.5dp"
+        android:color="#fff" />
+    <corners android:radius="3dp" />
+</shape>

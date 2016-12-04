@@ -20,10 +20,14 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import org.dalol.simpleamharickeyboard.R;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,8 +51,32 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(android.provider.Settings.ACTION_INPUT_METHOD_SETTINGS);
-                startActivity(intent);
+                startActivityForResult(intent, 0);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        String packageLocal = getPackageName();
+        boolean isInputDeviceEnabled = false;
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        List<InputMethodInfo> list = inputMethodManager.getEnabledInputMethodList();
+
+        // check if our keyboard is enabled as input method
+        for (InputMethodInfo inputMethod : list) {
+            String packageName = inputMethod.getPackageName();
+            if (packageName.equals(packageLocal)) {
+                isInputDeviceEnabled = true;
+            }
+        }
+
+        if(isInputDeviceEnabled) {
+            Toast.makeText(getApplicationContext(),"Your Keyboard is Enabled",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(),"Your Keyboard is Disabled",Toast.LENGTH_SHORT).show();
+        }
     }
 }
