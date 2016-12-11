@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--<color name="colorPrimary">#3F51B5</color>-->
-    <color name="colorPrimary">#24C975</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#465A65</color>
+    <color name="colorPrimaryDark">#364751</color>
+
+
     <color name="colorAccent">#FF4081</color>
+    <color name="white">#FFFFFF</color>
+    <color name="gray">#DADADA</color>
+    <color name="black">#000000</color>
+
+    <!--Green-->
+    <!--<color name="colorPrimary">#00B47C</color>-->
+    <!--<color name="colorPrimaryDark">#02A673</color>-->
+
+    <!--Orange-->
+    <!--<color name="colorPrimary">#F9C034</color>-->
+    <!--<color name="colorPrimaryDark">#F49D31</color>-->
 </resources>

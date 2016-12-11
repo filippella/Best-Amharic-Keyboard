@@ -14,13 +14,7 @@
   ~ limitations under the License.
   -->
 
-<org.dalol.simpleamharickeyboard.widgets.AmharicButtonView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:amharic="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="48dp"
-    android:background="@drawable/preview_background"
-    android:gravity="center"
-    android:layout_gravity="center"
-    android:textColor="#FFFFFF"
-    android:textSize="32sp"
-    amharic:amharic_font_type="AMHARIC_FONT_GOFFER" />
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/colorAccent" android:state_checked="true" />
+    <item android:color="@color/colorPrimary" />
+</selector>

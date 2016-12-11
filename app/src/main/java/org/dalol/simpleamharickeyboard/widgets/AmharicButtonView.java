@@ -22,7 +22,7 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.widget.TextView;
+import android.widget.Button;
 
 import org.dalol.simpleamharickeyboard.R;
 import org.dalol.simpleamharickeyboard.uitilities.FontType;
@@ -32,28 +32,28 @@ import org.dalol.simpleamharickeyboard.uitilities.FontType;
  * @version 1.0.0
  * @since 12/4/2016
  */
-public class AmharicTextView extends TextView {
+public class AmharicButtonView extends Button {
 
     private static final String FONTS_NYALA_TTF = "fonts/nyala.ttf";
     private int mTextFontType;
 
-    public AmharicTextView(Context context) {
+    public AmharicButtonView(Context context) {
         super(context);
         initialize(context, null);
     }
 
-    public AmharicTextView(Context context, AttributeSet attrs) {
+    public AmharicButtonView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initialize(context, attrs);
     }
 
-    public AmharicTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public AmharicButtonView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initialize(context, attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public AmharicTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public AmharicButtonView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initialize(context, attrs);
     }
@@ -63,13 +63,21 @@ public class AmharicTextView extends TextView {
             return;
         }
 
-        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.AmharicTextView, 0, 0);
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.AmharicButtonView, 0, 0);
         try {
-            mTextFontType = typedArray.getInteger(R.styleable.AmharicTextView_amharic_font_type, 0);
+            mTextFontType = typedArray.getInteger(R.styleable.AmharicButtonView_amharic_font_type, 0);
         } finally {
             typedArray.recycle();
         }
-        Typeface typeface = Typeface.createFromAsset(context.getAssets(), FontType.getPathByType(mTextFontType).getFontPath());
+        applyTypeface(mTextFontType);
+    }
+
+    public void setCustomTypeFace(int typeFaceType) {
+        applyTypeface(typeFaceType);
+    }
+
+    private void applyTypeface(int typefaceType) {
+        Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), FontType.getPathByType(typefaceType).getFontPath());
         setTypeface(typeface);
     }
 }

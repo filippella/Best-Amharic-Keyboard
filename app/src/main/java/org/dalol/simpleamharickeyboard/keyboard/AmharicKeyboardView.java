@@ -18,10 +18,18 @@ package org.dalol.simpleamharickeyboard.keyboard;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView;
 import android.util.AttributeSet;
+
+import org.dalol.simpleamharickeyboard.theme.KeyThemeInfo;
+import org.dalol.simpleamharickeyboard.theme.ThemesInfo;
+
+import java.util.List;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
@@ -49,6 +57,11 @@ public class AmharicKeyboardView extends KeyboardView {
 
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+//        ThemesInfo themesInfo = new ThemesInfo();
+//        List<KeyThemeInfo> themes = themesInfo.getThemes();
+//        GradientDrawable drawable = themesInfo.getGradient(themes.get(11));
+//
 //
 //        Paint mPaint = new Paint();
 //        mPaint.setTextAlign(Paint.Align.CENTER);
@@ -57,6 +70,32 @@ public class AmharicKeyboardView extends KeyboardView {
 //
 //        Typeface font = Typeface.createFromAsset(getContext().getAssets(),"fonts/goffer.ttf");
 //        mPaint.setTypeface(font);
+//
+//        List<Key> keys = getKeyboard().getKeys();
+//        for (Key key : keys) {
+//            drawable.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+//            drawable.draw(canvas);
+//
+//
+//           if (key.label != null) {
+//
+//                String keyLabel = key.label.toString();
+//                //if (caps) {
+//                    //keyLabel = keyLabel.toUpperCase();
+//                //}
+//                canvas.drawText(keyLabel, key.x + (key.width / 2),
+//                        key.y + (key.height / 2), mPaint);
+//            } else if (key.icon != null) {
+//                key.icon.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+//                key.icon.draw(canvas);
+//            }
+//
+//            key.label = "";
+//        }
+
+
+//
+
 //        for (Key key : getKeyboard().getKeys()) {
 //            if (key.label != null) {
 //

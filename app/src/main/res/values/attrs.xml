@@ -15,7 +15,7 @@
   -->
 
 <resources>
-    <declare-styleable name="AmharicTextView">
+    <declare-styleable name="AmharicButtonView">
         <attr name="amharic_font_type" format="enum">
             <enum name="AMHARIC_FONT_NYALA" value="0" />
             <enum name="AMHARIC_FONT_JIRET" value="1" />

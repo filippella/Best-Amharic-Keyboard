@@ -16,6 +16,7 @@
 
 package org.dalol.simpleamharickeyboard.keyboard;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
@@ -36,6 +37,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import org.dalol.simpleamharickeyboard.R;
+import org.dalol.simpleamharickeyboard.uitilities.FontType;
+import org.dalol.simpleamharickeyboard.widgets.AmharicButtonView;
 
 import java.util.Random;
 
@@ -54,6 +57,8 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
     private AmharicKeyboard mSecondKeyboard;
     private LinearLayout modifiersContainer;
 
+    private String am[] = {"ሁ", "ሂ", "ሃ", "ሄ", "ህ", "ሆ", "ሇ"};
+
     public void onCreate() {
         super.onCreate();
         modifiersContainer = new LinearLayout(getApplicationContext());
@@ -70,6 +75,25 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
     }
 
     public View onCreateInputView() {
+
+
+        //Dinamically change themes
+
+//        SharedPreferences pre = getSharedPreferences("test", 1);
+//        int theme = pre.getInt("theme", 1);
+//
+//        if(theme == 1)
+//        {
+//            this.mInputView = (AmharicKeyboardView) this.getLayoutInflater().inflate(R.layout.input, null);
+//        }else
+//        {
+//            this.mInputView = (AmharicKeyboardView) this.getLayoutInflater().inflate(R.layout.input_2, null);
+//
+//        }
+//        this.mInputView.setOnKeyboardActionListener(this);
+//        this.mInputView.setKeyboard(this.mQwertyKeyboard);
+
+
         mKeyboardView = (AmharicKeyboardView) getLayoutInflater().inflate(R.layout.input, null);
         mKeyboardView.setOnKeyboardActionListener(this);
         mKeyboardView.setKeyboard(mKeyboard);
@@ -102,6 +126,9 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
 
     public void onStartInputView(EditorInfo attribute, boolean restarting) {
         super.onStartInputView(attribute, restarting);
+
+        setInputView(onCreateInputView());
+
         mKeyboardView.setKeyboard(mKeyboard);
         mKeyboardView.closing();
     }
@@ -257,10 +284,13 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
 
             modifiersContainer.removeAllViews();
             if(tempLength > 0) {
-                int random = new Random().nextInt(10);
-                for (int i = 0; i < random; i++) {
-                    Button child = new Button(getApplicationContext());
-                    child.setText(Integer.toString(new Random().nextInt(10)));
+                Random random = new Random();
+                int count = random.nextInt(9) + 1;
+                for (int i = 0; i < count; i++) {
+                    AmharicButtonView child = new AmharicButtonView(getApplicationContext());
+                    child.setCustomTypeFace(FontType.NYALA.getFontType());
+                    child.setTextSize(21f);
+                    child.setText(am[random.nextInt(am.length)]);
                     child.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -269,7 +299,7 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
                             CharSequence beforeCursor = inputConnection.getTextBeforeCursor(9999, 0);
                             //beforeCursor = new String("Filippo");
 
-                            inputConnection.commitText("Filippo", 1);
+                            inputConnection.commitText(button.getText().toString(), 1);
                             Toast.makeText(AmharicKeyboardService.this, "Hey " + button.getText().toString(), Toast.LENGTH_SHORT).show();
                         }
                     });

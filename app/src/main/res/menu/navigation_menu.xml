@@ -14,13 +14,22 @@
   ~ limitations under the License.
   -->
 
-<org.dalol.simpleamharickeyboard.widgets.AmharicButtonView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:amharic="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="48dp"
-    android:background="@drawable/preview_background"
-    android:gravity="center"
-    android:layout_gravity="center"
-    android:textColor="#FFFFFF"
-    android:textSize="32sp"
-    amharic:amharic_font_type="AMHARIC_FONT_GOFFER" />
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@mipmap/ic_share_white_24dp"
+            android:title="Share App" />
+
+        <item
+            android:id="@+id/nav_rate_app"
+            android:icon="@mipmap/ic_thumb_up_white_24dp"
+            android:title="Rate App" />
+
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@mipmap/ic_info_white_24dp"
+            android:title="About" />
+    </group>
+</menu>
