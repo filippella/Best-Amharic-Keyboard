@@ -16,6 +16,7 @@
 
 package org.dalol.simpleamharickeyboard.activity;
 
+import android.app.ProgressDialog;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
@@ -32,6 +33,24 @@ import android.view.WindowManager;
  * @since 12/10/2016
  */
 public class BaseActivity extends AppCompatActivity {
+
+    private ProgressDialog mProgressDialog;
+
+    protected void showDialog(String message) {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            mProgressDialog.setCancelable(false);
+        }
+        mProgressDialog.setMessage(message);
+        mProgressDialog.show();
+    }
+
+    protected void hideDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
 
 
     protected void changeStatusBarColor(int statusBarColor) {
@@ -63,10 +82,14 @@ public class BaseActivity extends AppCompatActivity {
         if (actionBar != null) {
             showBack();
             Drawable drawable = ContextCompat.getDrawable(this, resId);
-            drawable.setColorFilter(new
-                    PorterDuffColorFilter(ContextCompat.getColor(this, colorTint), PorterDuff.Mode.SRC_ATOP));
+            tintDrawable(drawable, colorTint);
             actionBar.setHomeAsUpIndicator(drawable);
         }
+    }
+
+    protected void tintDrawable(Drawable drawable, int colorTint) {
+        drawable.setColorFilter(new
+                PorterDuffColorFilter(ContextCompat.getColor(this, colorTint), PorterDuff.Mode.SRC_ATOP));
     }
 
     protected void showHome(Drawable drawable) {

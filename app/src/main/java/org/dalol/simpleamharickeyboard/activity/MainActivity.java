@@ -16,12 +16,19 @@
 
 package org.dalol.simpleamharickeyboard.activity;
 
-import android.content.DialogInterface;
+import android.app.ActivityManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -35,10 +42,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.dalol.simpleamharickeyboard.R;
+import org.dalol.simpleamharickeyboard.keyboard.AmharicKeyboardService;
 import org.dalol.simpleamharickeyboard.theme.KeyThemeInfo;
 import org.dalol.simpleamharickeyboard.theme.ThemesInfo;
 
@@ -53,9 +61,12 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.navigationDrawerKeyboardSetting) protected DrawerLayout drawerLayout;
     @BindView(R.id.navigationViewKeyboardSetting) protected NavigationView navigationView;
+    @BindView(R.id.imageViewKeyboardEnabled) protected ImageView keyboardEnabledImageView;
+    @BindView(R.id.imageViewKeyboardSelected) protected ImageView keyboardSelectedImageView;
 
     private Unbinder bind;
     private ActionBarDrawerToggle drawerToggle;
+    private boolean shown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +125,34 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter filter = new IntentFilter(Intent.ACTION_INPUT_METHOD_CHANGED);
+        registerReceiver(mReceiver, filter);
+        keyboardEnabledImageView.setImageDrawable(getKeyboardStatusDrawable(isBestAmharicKeyboardEnabled()));
+        showDialog("Getting configurations...");
+        configureStatus();
+    }
+
+    @Override
+    protected void onPause() {
+        unregisterReceiver(mReceiver);
+        super.onPause();
+    }
+
+    private Drawable getKeyboardStatusDrawable(boolean enabled) {
+        Drawable drawable;
+        if(enabled) {
+            drawable = ContextCompat.getDrawable(this, R.mipmap.ic_done_all_white_24dp);
+            tintDrawable(drawable, R.color.green);
+        } else {
+            drawable = ContextCompat.getDrawable(this, R.mipmap.ic_clear_white_24dp);
+            tintDrawable(drawable, R.color.red);
+        }
+        return drawable;
+    }
+
+    @Override
     protected void onDestroy() {
         if (bind != null) {
             bind.unbind();
@@ -134,24 +173,21 @@ public class MainActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+
+    }
+
+    private boolean isBestAmharicKeyboardEnabled() {
         String packageLocal = getPackageName();
         boolean isInputDeviceEnabled = false;
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         List<InputMethodInfo> list = inputMethodManager.getEnabledInputMethodList();
-
-        // check if our keyboard is enabled as input method
         for (InputMethodInfo inputMethod : list) {
             String packageName = inputMethod.getPackageName();
             if (packageName.equals(packageLocal)) {
                 isInputDeviceEnabled = true;
             }
         }
-
-        if (isInputDeviceEnabled) {
-            Toast.makeText(getApplicationContext(), "Your Keyboard is Enabled", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getApplicationContext(), "Your Keyboard is Disabled", Toast.LENGTH_SHORT).show();
-        }
+        return isInputDeviceEnabled;
     }
 
     @OnClick(R.id.optionEnableKeyboardView)
@@ -185,5 +221,36 @@ public class MainActivity extends BaseActivity {
         Window window = dialog.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE  | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    InputMethodChangeReceiver mReceiver = new InputMethodChangeReceiver();
+    public class InputMethodChangeReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(Intent.ACTION_INPUT_METHOD_CHANGED)) {
+                showDialog("Configuring Keyboard...");
+                configureStatus();
+            }
+        }
+    }
+
+    private void configureStatus() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                keyboardSelectedImageView.setImageDrawable(getKeyboardStatusDrawable(isMyServiceRunning(AmharicKeyboardService.class)));
+                hideDialog();
+            }
+        }, 350L);
     }
 }

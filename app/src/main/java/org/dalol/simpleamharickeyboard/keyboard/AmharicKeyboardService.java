@@ -74,6 +74,11 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
         mSecondKeyboard = new AmharicKeyboard(this, R.xml.symbols);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
     public View onCreateInputView() {
 
 
