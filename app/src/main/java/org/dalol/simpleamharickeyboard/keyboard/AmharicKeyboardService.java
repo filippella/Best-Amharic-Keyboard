@@ -22,6 +22,7 @@ import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView.OnKeyboardActionListener;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -268,7 +269,7 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
                 case Keyboard.KEYCODE_DELETE:
                     tempLength--;
                     sendBackspaceKey();
-                    break;
+                    return;
                 case Keyboard.KEYCODE_CANCEL:
                     InputMethodManager imeManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                     if (imeManager == null) {
@@ -286,32 +287,43 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
                     currentInputConnection.commitText(text, 1);
                     break;
             }
-
             modifiersContainer.removeAllViews();
-            if(tempLength > 0) {
-                Random random = new Random();
-                int count = random.nextInt(9) + 1;
-                for (int i = 0; i < count; i++) {
-                    AmharicButtonView child = new AmharicButtonView(getApplicationContext());
-                    child.setCustomTypeFace(FontType.NYALA.getFontType());
-                    child.setTextSize(21f);
-                    child.setText(am[random.nextInt(am.length)]);
-                    child.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Button button = (Button) v;
-                            InputConnection inputConnection = getCurrentInputConnection();
-                            CharSequence beforeCursor = inputConnection.getTextBeforeCursor(9999, 0);
-                            //beforeCursor = new String("Filippo");
 
-                            inputConnection.commitText(button.getText().toString(), 1);
-                            Toast.makeText(AmharicKeyboardService.this, "Hey " + button.getText().toString(), Toast.LENGTH_SHORT).show();
+            if(tempLength > 0) {
+
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+
+
+
+                        //Random random = new Random();
+                        //int count = random.nextInt(9) + 1;
+                        for (int i = 0; i < 10; i++) {
+                            AmharicButtonView child = new AmharicButtonView(getApplicationContext());
+                            //child.setCustomTypeFace(FontType.NYALA.getFontType());
+                            child.setTextSize(21f);
+                            child.setText(am[0]);
+                            child.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Button button = (Button) v;
+                                    InputConnection inputConnection = getCurrentInputConnection();
+                                    CharSequence beforeCursor = inputConnection.getTextBeforeCursor(9999, 0);
+                                    //beforeCursor = new String("Filippo");
+
+                                    inputConnection.commitText(button.getText().toString(), 1);
+                                    Toast.makeText(AmharicKeyboardService.this, "Hey " + button.getText().toString(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            //child.setPadding(10, 10, 10, 10);
+                            modifiersContainer.addView(child, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
                         }
-                    });
-                    child.setPadding(10, 10, 10, 10);
-                    modifiersContainer.addView(child, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
-                }
+                    }
+
+            });
             }
+
 
             return;
         }

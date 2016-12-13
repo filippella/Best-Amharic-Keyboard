@@ -35,6 +35,7 @@ public class ThemesInfo {
 
         themeInfos.add(new KeyThemeInfo("Ruby", 0xFFf5d2db, 0xFFeba4b8, 0xFFcc1c4d, 0xFF9e032e, 0xFF7a0222, 0xFFffffff));
         themeInfos.add(new KeyThemeInfo("Fire engine", 0xFFfacdd0, 0xFFeda4a7, 0xFFce2029, 0xFF9e030b, 0xFF73040b, 0xFFffffff));
+
         themeInfos.add(new KeyThemeInfo("Burgundy", 0xFFead0d2, 0xFFd4a0a4, 0xFF94121c, 0xFF6e060d, 0xFF4a090e, 0xFFffffff));
         themeInfos.add(new KeyThemeInfo("Brick red", 0xFFf4ded6, 0xFFe3ad99, 0xFFa32a00, 0xFF891700, 0xFF611000, 0xFFffffff));
         themeInfos.add(new KeyThemeInfo("Vermillion", 0xFFe6d1cf, 0xFFcca29f, 0xFFe34234, 0xFFad2416, 0xFF80170e, 0xFFffffff));

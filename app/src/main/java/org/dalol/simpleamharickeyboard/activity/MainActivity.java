@@ -251,6 +251,6 @@ public class MainActivity extends BaseActivity {
                 keyboardSelectedImageView.setImageDrawable(getKeyboardStatusDrawable(isMyServiceRunning(AmharicKeyboardService.class)));
                 hideDialog();
             }
-        }, 350L);
+        }, 250L);
     }
 }

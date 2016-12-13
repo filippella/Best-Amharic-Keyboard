@@ -18,18 +18,9 @@ package org.dalol.simpleamharickeyboard.keyboard;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
 import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView;
 import android.util.AttributeSet;
-
-import org.dalol.simpleamharickeyboard.theme.KeyThemeInfo;
-import org.dalol.simpleamharickeyboard.theme.ThemesInfo;
-
-import java.util.List;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
@@ -46,10 +37,6 @@ public class AmharicKeyboardView extends KeyboardView {
 
     public AmharicKeyboardView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
-        Typeface font = Typeface.createFromAsset(getContext().getAssets(),"fonts/goffer.ttf");
-//        TextView view = (TextView) getKeyboard().getKeys().get(0).label;
-//        view.setTypeface(font);
     }
     public void registerKeyboardService(AmharicKeyboardService kbService) {
         keyboardService = kbService;
