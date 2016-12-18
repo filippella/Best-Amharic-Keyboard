@@ -77,7 +77,6 @@ public class AmharicButtonView extends Button {
     }
 
     private void applyTypeface(int typefaceType) {
-        Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), FontType.getPathByType(typefaceType).getFontPath());
-        setTypeface(typeface);
+        setTypeface(FontType.getTypeFaceByType(getContext(), typefaceType));
     }
 }

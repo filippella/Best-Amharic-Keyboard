@@ -18,6 +18,7 @@ package org.dalol.simpleamharickeyboard.keyboard;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView;
 import android.util.AttributeSet;
@@ -29,7 +30,7 @@ import android.util.AttributeSet;
  */
 public class AmharicKeyboardView extends KeyboardView {
 
-    private AmharicKeyboardService keyboardService;
+    private InputMethodService keyboardService;
 
     public AmharicKeyboardView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -38,7 +39,7 @@ public class AmharicKeyboardView extends KeyboardView {
     public AmharicKeyboardView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
-    public void registerKeyboardService(AmharicKeyboardService kbService) {
+    public void registerKeyboardService(InputMethodService kbService) {
         keyboardService = kbService;
     }
 
@@ -102,9 +103,9 @@ public class AmharicKeyboardView extends KeyboardView {
     }
 
     protected boolean onLongPress(Key key) {
-        if (keyboardService.ProcessLongPress(key)) {
-            return true;
-        }
+//        if (keyboardService.onKeyLongPress(key)) {
+//            return true;
+//        }
         return super.onLongPress(key);
     }
 }

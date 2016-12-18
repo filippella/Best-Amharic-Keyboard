@@ -16,6 +16,9 @@
 
 package org.dalol.simpleamharickeyboard.uitilities;
 
+import android.content.Context;
+import android.graphics.Typeface;
+
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
  * @version 1.0.0
@@ -53,7 +56,11 @@ public enum FontType {
         return fontType;
     }
 
-    public static FontType getPathByType(int type) {
+    public Typeface getTypeface(Context context) {
+        return Typeface.createFromAsset(context.getAssets(), getFontPath());
+    }
+
+    public static Typeface getTypeFaceByType(Context context, int type) {
         FontType[] values = values();
         FontType selectedFontType = NYALA;
         for (int i = 0; i < values.length; i++) {
@@ -63,6 +70,6 @@ public enum FontType {
                 break;
             }
         }
-        return selectedFontType;
+        return Typeface.createFromAsset(context.getAssets(), selectedFontType.getFontPath());
     }
 }

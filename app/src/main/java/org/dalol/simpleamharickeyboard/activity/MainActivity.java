@@ -198,7 +198,7 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.optionSelectKeyboardView)
     void onSelectKeyboardOptionClicked() {
-        InputMethodManager imeManager = (InputMethodManager) getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
+        InputMethodManager imeManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         imeManager.showInputMethodPicker();
     }
 

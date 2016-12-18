@@ -24,7 +24,6 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView.OnKeyboardActionListener;
 import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -42,10 +41,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.dalol.simpleamharickeyboard.R;
-import org.dalol.simpleamharickeyboard.keyboard.keys.GeezInputKeysInfo;
-import org.dalol.simpleamharickeyboard.keyboard.keys.InputKeyboardView;
-import org.dalol.simpleamharickeyboard.keyboard.keys.InputKeysInfo;
-import org.dalol.simpleamharickeyboard.keyboard.keys.OnInputKeyListener;
 import org.dalol.simpleamharickeyboard.uitilities.FontType;
 import org.dalol.simpleamharickeyboard.widgets.AmharicButtonView;
 
@@ -56,15 +51,49 @@ import java.util.Random;
  * @version 1.0.0
  * @since 12/4/2016
  */
-public class AmharicKeyboardService extends InputMethodService implements OnKeyboardActionListener, OnInputKeyListener {
+public class OldAmharicKeyboardService extends InputMethodService implements OnKeyboardActionListener {
 
+    private char key0Char;
+    private char key1Char;
+    private char key2Char;
+    private AmharicKeyboard mKeyboard;
     private AmharicKeyboardView mKeyboardView;
-
+    private AmharicKeyboard mSecondKeyboard;
     private LinearLayout modifiersContainer;
 
-    private String am[] = {"ሁ", "ሂ", "ሃ", "ሄ", "ህ", "ሆ", "ሇ"};
-    private GeezInputKeysInfo geezKeyInfo;
-    private InputKeyboardView inputKeyboardView;
+    private int themes[] = {
+            R.drawable.theme_amber_bg,
+            R.drawable.theme_aquamarine_bg,
+            R.drawable.theme_army_bg,
+            R.drawable.theme_azure_bg,
+            R.drawable.theme_blue_marble_bg,
+            R.drawable.theme_brick_red_bg,
+            R.drawable.theme_bronze_bg,
+            R.drawable.theme_brown_bg,
+            R.drawable.theme_burgundy_bg,
+            R.drawable.theme_carmine_bg,
+            R.drawable.theme_carnation_pink_bg,
+            R.drawable.theme_cerise_bg,
+            R.drawable.theme_chlorophyle_bg,
+            R.drawable.theme_cold_blue_bg,
+            R.drawable.theme_coral_bg,
+            R.drawable.theme_cyaan_bg,
+            R.drawable.theme_dark_coffee_bg,
+            R.drawable.theme_dark_orange_bg,
+            R.drawable.theme_denim_bg,
+            R.drawable.theme_emerald_bg,
+            R.drawable.theme_ethio_bg,
+            R.drawable.theme_fire_engine_bg,
+            R.drawable.theme_foliage_bg,
+            R.drawable.theme_forest_bg,
+            R.drawable.theme_french_rose_bg,
+            R.drawable.theme_fuschia_bg,
+            R.drawable.theme_gold_bg
+    };
+
+    private String am[] = {"ሁ", "ሂ", "ሃ", "ሄ", "ህ", "ሆ"};
+    private FrameLayout layout;
+//    private String am[] = {"ሁ", "ሂ", "ሃ", "ሄ", "ህ", "ሆ", "ሇ"};
 
     public void onCreate() {
         super.onCreate();
@@ -74,16 +103,73 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
         modifiersContainer.setBackgroundColor(Color.RED);
         modifiersContainer.setGravity(Gravity.CENTER);
         modifiersContainer.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.modifier_key_height)));
-
-        inputKeyboardView = new InputKeyboardView(getApplicationContext());
-        inputKeyboardView.setOnInputKeyListener(this);
     }
 
     public void onInitializeInterface() {
-        geezKeyInfo = new GeezInputKeysInfo();
-        inputKeyboardView.setInputKeyboard(geezKeyInfo);
-//        mKeyboard = new AmharicKeyboard(this, R.xml.mainkeyboard);
-//        mSecondKeyboard = new AmharicKeyboard(this, R.xml.symbols);
+        mKeyboard = new AmharicKeyboard(this, R.xml.mainkeyboard);
+        mSecondKeyboard = new AmharicKeyboard(this, R.xml.symbols);
+
+
+
+        Context context = getApplicationContext();
+        layout = new FrameLayout(context);
+        layout.setBackgroundColor(Color.parseColor("#45ffcc"));
+        int keyHeight = getResources().getDimensionPixelOffset(R.dimen.key_height);
+        int pixelOffset = keyHeight * 5;
+        LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+        Random random = new Random();
+
+        for(int i = 0; i < 5; i++) {
+            LinearLayout keyRow = new LinearLayout(context);
+            keyRow.setOrientation(LinearLayout.HORIZONTAL);
+            for (int j = 0; j < 10; j++) {
+                TextView key = new TextView(context);
+                key.setGravity(Gravity.CENTER);
+                key.setTypeface(FontType.GOFFER.getTypeface(context), Typeface.BOLD);
+                key.setText(am[random.nextInt(am.length)]);
+                key.setTextSize(16f);
+                key.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TextView tt = (TextView) v;
+
+                        InputConnection inputConnection = getCurrentInputConnection();
+
+                        ExtractedText text = inputConnection.getExtractedText(new ExtractedTextRequest(), 0);
+                        CharSequence sequence = text.text;
+
+
+                        inputConnection.commitText(tt.getText().toString(), 1);
+                        EditorInfo editorInfo = getCurrentInputEditorInfo();
+                        int inputType = editorInfo.inputType;
+
+
+
+                        Toast.makeText(getApplicationContext(), "Hello", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                //key.setTextColor(ContextCompat.getColorStateList(context, R.color.amharic_key_text_color_selector));
+                //key.setTag(keyboardKey);
+                key.setIncludeFontPadding(false);
+                key.setBackgroundDrawable(ContextCompat.getDrawable(context, themes[random.nextInt(themes.length)]));
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, keyHeight, 1);
+                //params.setMargins(margin, margin, margin, margin);
+                keyRow.setBaselineAligned(false);
+                keyRow.addView(key, params);
+            }
+            linearLayout.addView(keyRow);
+        }
+
+        linearLayout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, pixelOffset));
+        layout.addView(linearLayout);
+    }
+
+
+    @Override
+    public void onUpdateSelection(int oldSelStart, int oldSelEnd, int newSelStart, int newSelEnd, int candidatesStart, int candidatesEnd) {
+        super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd);
     }
 
     @Override
@@ -111,20 +197,19 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
 //        this.mInputView.setKeyboard(this.mQwertyKeyboard);
 
 
-
 //        mKeyboardView = (AmharicKeyboardView) getLayoutInflater().inflate(R.layout.input, null);
 //        mKeyboardView.setOnKeyboardActionListener(this);
 //        mKeyboardView.setKeyboard(mKeyboard);
 //        mKeyboardView.registerKeyboardService(this);
-        FrameLayout parent = (FrameLayout) inputKeyboardView.getParent();
-        if (parent != null) {
-            parent.removeAllViews();
-        }
-        return inputKeyboardView;
+
+
+
+        return layout;
     }
 
     @Override
-    public void onComputeInsets(InputMethodService.Insets outInsets) {
+    public void onComputeInsets(Insets
+                                        outInsets) {
         super.onComputeInsets(outInsets);
         if (!isFullscreenMode()) {
             outInsets.contentTopInsets = outInsets.visibleTopInsets;
@@ -149,7 +234,7 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
         super.onStartInputView(attribute, restarting);
 
         setInputView(onCreateInputView());
-//
+
 //        mKeyboardView.setKeyboard(mKeyboard);
 //        mKeyboardView.closing();
     }
@@ -196,13 +281,13 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
     }
 
     private void switchToTamilKeyboard() {
-//        mKeyboardView.setKeyboard(mKeyboard);
-//        mKeyboardView.registerKeyboardService(this);
+        mKeyboardView.setKeyboard(mKeyboard);
+        mKeyboardView.registerKeyboardService(this);
     }
 
     private void switchToSecondTamilKeyboard() {
-//        mKeyboardView.setKeyboard(mSecondKeyboard);
-//        mKeyboardView.registerKeyboardService(this);
+        mKeyboardView.setKeyboard(mSecondKeyboard);
+        mKeyboardView.registerKeyboardService(this);
     }
 
     private void sendBackspaceKey() {
@@ -211,56 +296,52 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
     }
 
     private void handleAmharicKeyPress() {
-//        if (key1Char >= '\u0b95' && key1Char <= '\u0bba') {
-//            switch (key0Char) {
-//                case '\u0b83':
-//                    key0Char = '\u0bcd';
-//                    break;
-//                case '\u0b86':
-//                    key0Char = '\u0bbe';
-//                    break;
-//                case '\u0b87':
-//                    key0Char = '\u0bbf';
-//                    break;
-//                case '\u0b88':
-//                    key0Char = '\u0bc0';
-//                    break;
-//                case '\u0b89':
-//                    key0Char = '\u0bc1';
-//                    break;
-//                case '\u0b8a':
-//                    key0Char = '\u0bc2';
-//                    break;
-//                case '\u0b8e':
-//                    key0Char = '\u0bc6';
-//                    break;
-//                case '\u0b8f':
-//                    key0Char = '\u0bc7';
-//                    break;
-//                case '\u0b90':
-//                    key0Char = '\u0bc8';
-//                    break;
-//                case '\u0b92':
-//                    key0Char = '\u0bca';
-//                    break;
-//                case '\u0b93':
-//                    key0Char = '\u0bcb';
-//                    break;
-//                case '\u0b94':
-//                    key0Char = '\u0bcc';
-//                    break;
-//            }
-//        }
-//        getCurrentInputConnection().commitText(String.valueOf(key0Char), 1);
+        if (key1Char >= '\u0b95' && key1Char <= '\u0bba') {
+            switch (key0Char) {
+                case '\u0b83':
+                    key0Char = '\u0bcd';
+                    break;
+                case '\u0b86':
+                    key0Char = '\u0bbe';
+                    break;
+                case '\u0b87':
+                    key0Char = '\u0bbf';
+                    break;
+                case '\u0b88':
+                    key0Char = '\u0bc0';
+                    break;
+                case '\u0b89':
+                    key0Char = '\u0bc1';
+                    break;
+                case '\u0b8a':
+                    key0Char = '\u0bc2';
+                    break;
+                case '\u0b8e':
+                    key0Char = '\u0bc6';
+                    break;
+                case '\u0b8f':
+                    key0Char = '\u0bc7';
+                    break;
+                case '\u0b90':
+                    key0Char = '\u0bc8';
+                    break;
+                case '\u0b92':
+                    key0Char = '\u0bca';
+                    break;
+                case '\u0b93':
+                    key0Char = '\u0bcb';
+                    break;
+                case '\u0b94':
+                    key0Char = '\u0bcc';
+                    break;
+            }
+        }
+        getCurrentInputConnection().commitText(String.valueOf(key0Char), 1);
     }
 
     public void onKey(int keyCode, int[] otherKeyCodes) {
         InputConnection currentInputConnection = getCurrentInputConnection();
 
-//        InputConnection ic = getCurrentInputConnection();
-//        ic.deleteSurroundingText(4, 0);
-//        ic.commitText("Hello", 1);
-//        ic.commitText("!", 1);
 
 
 //        List<Key> keyList = mKeyboardView.getKeyboard().getKeys();
@@ -308,11 +389,12 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
             }
             modifiersContainer.removeAllViews();
 
-            if (tempLength > 0) {
+            if(tempLength > 0) {
 
-                new Handler().post(new Runnable() {
-                    @Override
-                    public void run() {
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+
 
 
                         //Random random = new Random();
@@ -331,7 +413,7 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
                                     //beforeCursor = new String("Filippo");
 
                                     inputConnection.commitText(button.getText().toString(), 1);
-                                    Toast.makeText(AmharicKeyboardService.this, "Hey " + button.getText().toString(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(OldAmharicKeyboardService.this, "Hey " + button.getText().toString(), Toast.LENGTH_SHORT).show();
                                 }
                             });
                             //child.setPadding(10, 10, 10, 10);
@@ -339,13 +421,13 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
                         }
                     }
 
-                });
+            });
             }
 
 
             return;
         }
-//        key0Char = (char) keyCode;
+        key0Char = (char) keyCode;
         if (keyCode == 3002) {
             currentInputConnection.commitText("\u0b95\u0bcd\u0bb7", 1);
         } else if (keyCode == 3071) {
@@ -374,50 +456,5 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
     }
 
     public void onRelease(int primaryCode) {
-    }
-
-    @Override
-    public void onClick(String keyLabel, String[] keyModifiers) {
-        getCurrentInputConnection().commitText(keyLabel, 1);
-        handler.post(new PopulateModifiers(keyModifiers));
-    }
-
-    Handler handler = new Handler(Looper.getMainLooper());
-
-    public class PopulateModifiers implements Runnable {
-
-        private String[] keyModifiers;
-
-        public PopulateModifiers(String[] keyModifiers) {
-            this.keyModifiers = keyModifiers;
-        }
-
-        @Override
-        public void run() {
-            if (keyModifiers != null) {
-                modifiersContainer.removeAllViews();
-                for (int i = 0; i < keyModifiers.length; i++) {
-                    String keyModifier = keyModifiers[i];
-                    AmharicButtonView child = new AmharicButtonView(getApplicationContext());
-                    //child.setCustomTypeFace(FontType.NYALA.getFontType());
-                    child.setTextSize(21f);
-                    child.setText(keyModifier);
-                    child.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Button button = (Button) v;
-                            InputConnection inputConnection = getCurrentInputConnection();
-                            CharSequence beforeCursor = inputConnection.getTextBeforeCursor(9999, 0);
-                            //beforeCursor = new String("Filippo");
-
-                            inputConnection.commitText(button.getText().toString(), 1);
-                            Toast.makeText(AmharicKeyboardService.this, "Hey " + button.getText().toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    //child.setPadding(10, 10, 10, 10);
-                    modifiersContainer.addView(child, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
-                }
-            }
-        }
     }
 }
