@@ -23,15 +23,23 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.dalol.simpleamharickeyboard.R;
 import org.dalol.simpleamharickeyboard.uitilities.FontType;
+import org.dalol.simpleamharickeyboard.widgets.AmharicButtonView;
 
 import java.util.List;
 
@@ -45,6 +53,12 @@ public class InputKeyboardView extends LinearLayout {
     private OnInputKeyListener onInputKeyListener;
     private InputKeysInfo mInputKeysInfo;
     private int mKeyHeight;
+
+    private final static int INITIAL_INTERVAL = 400;
+    private View mPressedKeyView;
+    private int mNormalInterval = 100;
+    private Handler mHandler = new Handler();
+    private LinearLayout modifiersContainer;
 
     public InputKeyboardView(Context context) {
         this(context, null, 0);
@@ -70,10 +84,18 @@ public class InputKeyboardView extends LinearLayout {
         setWillNotDraw(true);
         setOrientation(VERTICAL);
         mKeyHeight = getResources().getDimensionPixelOffset(R.dimen.key_height);
+
+        modifiersContainer = new LinearLayout(context);
+        modifiersContainer.setOrientation(LinearLayout.HORIZONTAL);
+        modifiersContainer.setWillNotDraw(true);
+        modifiersContainer.setBackgroundColor(Color.RED);
+        modifiersContainer.setGravity(Gravity.CENTER);
+        modifiersContainer.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.modifier_key_height)));
+        modifiersContainer.setPadding(5, 5, 5, 5);
     }
 
     private void verifyEditMode() {
-        if(isInEditMode()) {
+        if (isInEditMode()) {
             return;
         }
     }
@@ -95,9 +117,10 @@ public class InputKeyboardView extends LinearLayout {
         @Override
         public void run() {
             removeAllViews();
+            addView(modifiersContainer);
             Context context = getContext();
             //setBackgroundColor(Color.parseColor("#45ffcc"));
-            setBackgroundColor(ContextCompat.getColor(context,android.R.color.transparent));
+            setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent));
 
 
 //        LinearLayout linearLayout = new LinearLayout(context);
@@ -108,7 +131,7 @@ public class InputKeyboardView extends LinearLayout {
             List<InputKeysRow> keysRowList = mInputKeysInfo.getKeysRowList();
 
             int size = keysRowList.size();
-            for(int i = 0; i < size; i++) {
+            for (int i = 0; i < size; i++) {
 
                 LinearLayout keyRow = new LinearLayout(context);
                 keyRow.setOrientation(LinearLayout.HORIZONTAL);
@@ -117,52 +140,178 @@ public class InputKeyboardView extends LinearLayout {
                 for (int j = 0; j < keyInfoList.size(); j++) {
 
                     KeyInfo keyInfo = keyInfoList.get(j);
+                    String keyLabel = keyInfo.getKeyLabel();
 
-                    TextView key = new TextView(context);
-                    key.setGravity(Gravity.CENTER);
-                    key.setTypeface(FontType.NYALA.getTypeface(context), Typeface.BOLD);
-                    key.setText(keyInfo.getKeyLabel());
-                    key.setTextSize(16f);
-                    key.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            TextView labelView = (TextView) v;
-                            //KeyInfo info = (KeyInfo) v.getTag();
-
-                            if(onInputKeyListener != null) {
-                                String label = labelView.getText().toString();
-                                onInputKeyListener.onClick(label, mInputKeysInfo.getModifiers(label));
-                            }
-
-//                        InputConnection inputConnection = getCurrentInputConnection();
-//
-//                        ExtractedText text = inputConnection.getExtractedText(new ExtractedTextRequest(), 0);
-//                        CharSequence sequence = text.text;
+                    float keyWeight = keyInfo.getKeyWeight();
+                    if (keyLabel != null) {
+                        TextView key = new TextView(context);
+                        key.setGravity(Gravity.CENTER);
+                        key.setTypeface(FontType.NYALA.getTypeface(context), Typeface.BOLD);
+                        key.setText(keyLabel);
+                        key.setTextSize(18f);
+//                        key.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
 //
 //
-//                        inputConnection.commitText(tt.getText().toString(), 1);
-//                        EditorInfo editorInfo = getCurrentInputEditorInfo();
-//                        int inputType = editorInfo.inputType;
-//
-//
-//
-//                        Toast.makeText(getApplicationContext(), "Hello", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    //key.setTextColor(ContextCompat.getColorStateList(context, R.color.amharic_key_text_color_selector));
-                    //key.setTag(keyInfo);
-                    key.setIncludeFontPadding(false);
-                    key.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.theme_violet_bg));
+////                        InputConnection inputConnection = getCurrentInputConnection();
+////
+////                        ExtractedText text = inputConnection.getExtractedText(new ExtractedTextRequest(), 0);
+////                        CharSequence sequence = text.text;
+////
+////
+////                        inputConnection.commitText(tt.getText().toString(), 1);
+////                        EditorInfo editorInfo = getCurrentInputEditorInfo();
+////                        int inputType = editorInfo.inputType;
+////
+////
+////
+////                        Toast.makeText(getApplicationContext(), "Hello", Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+                        //key.setTextColor(ContextCompat.getColorStateList(context, R.color.amharic_key_text_color_selector));
+                        //key.setTag(keyInfo);
+                        key.setIncludeFontPadding(false);
+                        //key.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.theme_violet_bg));
 //                    key.setBackgroundColor(ContextCompat.getColor(context,android.R.color.transparent));
-                    key.setTextColor(Color.WHITE);
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, mKeyHeight, keyInfo.getKeyWeight());
-                    //params.setMargins(margin, margin, margin, margin);
-                    keyRow.setBaselineAligned(false);
-                    keyRow.addView(key, params);
+                        key.setTextColor(Color.WHITE);
+                        key.setTag(keyInfo);
+                        handleChild(key, keyWeight, keyRow);
+
+
+                    } else {
+                        ImageView key = new ImageView(context);
+                        key.setImageResource(keyInfo.getKeyIcon());
+                            int padding = getCustomSize(keyWeight * 6);
+                            key.setPadding(padding, padding, padding, padding);
+                        key.setTag(keyInfo);
+                        //child.setTag(keyboardKey);
+                        handleChild(key, keyWeight, keyRow);
+                    }
                 }
                 addView(keyRow);
             }
 
+        }
+
+        private void handleChild(View child, float columnCount, LinearLayout keyContainer) {
+            child.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.theme_blue_marble_bg));
+            child.setOnTouchListener(new OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            mPressedKeyView = v;
+                            mHandler.removeCallbacks(mKeyPressRunnable);
+                            mHandler.postAtTime(mKeyPressRunnable, mPressedKeyView, SystemClock.uptimeMillis() + INITIAL_INTERVAL);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                        case MotionEvent.ACTION_CANCEL:
+                        case MotionEvent.ACTION_OUTSIDE:
+                            mHandler.removeCallbacksAndMessages(mPressedKeyView);
+                            mPressedKeyView = null;
+                            mNormalInterval = 100;
+                            break;
+                    }
+                    return false;
+                }
+            });
+            child.setOnClickListener(mKeyClickListener);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, mKeyHeight, columnCount);
+            //params.setMargins(margin, margin, margin, margin);
+            keyContainer.setBaselineAligned(false);
+            keyContainer.addView(child, params);
+        }
+    }
+
+    private int getCustomSize(float size) {
+        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, size, getResources().getDisplayMetrics()));
+    }
+
+
+    private Runnable mKeyPressRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (mPressedKeyView == null) {
+                return;
+            }
+            mHandler.removeCallbacksAndMessages(mPressedKeyView);
+            mHandler.postAtTime(this, mPressedKeyView, SystemClock.uptimeMillis() + mNormalInterval);
+            mKeyClickListener.onClick(mPressedKeyView);
+        }
+    };
+
+    private final View.OnClickListener mKeyClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+//            TextView labelView = (TextView) v;
+            if (onInputKeyListener != null) {
+
+                KeyInfo info = (KeyInfo) v.getTag();
+                switch (info.getKeyEventType()) {
+                    case KeyInfo.KEY_EVENT_NORMAL:
+                        String label = info.getKeyLabel();
+                        String[] modifiers = mInputKeysInfo.getModifiers(label);
+                        onInputKeyListener.onClick(label);
+                        handler.post(new PopulateModifiers(modifiers));
+                        break;
+                    case KeyInfo.KEY_EVENT_SPACE:
+                        onInputKeyListener.onSpace();
+                        break;
+                    case KeyInfo.KEY_EVENT_BACKSPACE:
+                        onInputKeyListener.onBackSpace();
+                        break;
+                    case KeyInfo.KEY_EVENT_ENTER:
+                        onInputKeyListener.onEnter();
+                        break;
+                    case KeyInfo.KEY_EVENT_SETTINGS:
+                        onInputKeyListener.onSettingClicked();
+                        break;
+                }
+            }
+        }
+    };
+
+
+    public class PopulateModifiers implements Runnable {
+
+        private String[] keyModifiers;
+
+        public PopulateModifiers(String[] keyModifiers) {
+            this.keyModifiers = keyModifiers;
+        }
+
+        @Override
+        public void run() {
+            if (keyModifiers != null) {
+                modifiersContainer.removeAllViews();
+                for (int i = 0; i < keyModifiers.length; i++) {
+                    String keyModifier = keyModifiers[i];
+                    AmharicButtonView child = new AmharicButtonView(getContext());
+                    //child.setCustomTypeFace(FontType.NYALA.getFontType());
+                    child.setTextSize(21f);
+                    child.setText(keyModifier);
+                    child.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Button button = (Button) v;
+                            String label = button.getText().toString();
+                            if (onInputKeyListener != null) {
+                                onInputKeyListener.onClick(label);
+                            }
+
+//                            InputConnection inputConnection = getCurrentInputConnection();
+//                            CharSequence beforeCursor = inputConnection.getTextBeforeCursor(9999, 0);
+//                            //beforeCursor = new String("Filippo");
+//
+//                            inputConnection.commitText(button.getText().toString(), 1);
+                            Toast.makeText(getContext(), "Hey " + button.getText().toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    //child.setPadding(10, 10, 10, 10);
+                    modifiersContainer.addView(child, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
+                }
+            }
         }
     }
 }

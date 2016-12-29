@@ -23,5 +23,13 @@ package org.dalol.simpleamharickeyboard.keyboard.keys;
  */
 public interface OnInputKeyListener {
 
-    void onClick(String keyLabel, String[] keyModifiers);
+    void onClick(String keyLabel);
+
+    void onBackSpace();
+
+    void onSpace();
+
+    void onEnter();
+
+    void onSettingClicked();
 }

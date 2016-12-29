@@ -23,14 +23,24 @@ package org.dalol.simpleamharickeyboard.keyboard.keys;
  */
 public class KeyInfo {
 
-    private final String keyLabel;
     private final float keyWeight;
     private final boolean modifierEnabled;
+    private String keyLabel;
+    private int keyIcon;
+    private int keyEventType;
 
-    public KeyInfo(String keyLabel, float keyWeight, boolean modifierEnabled) {
+    public KeyInfo(String keyLabel, float keyWeight, boolean modifierEnabled, int keyEventType) {
         this.keyLabel = keyLabel;
         this.keyWeight = keyWeight;
         this.modifierEnabled = modifierEnabled;
+        this.keyEventType = keyEventType;
+    }
+
+    public KeyInfo(int keyIcon, float keyWeight, boolean modifierEnabled, int keyEventType) {
+        this.keyIcon = keyIcon;
+        this.keyWeight = keyWeight;
+        this.modifierEnabled = modifierEnabled;
+        this.keyEventType = keyEventType;
     }
 
     public String getKeyLabel() {
@@ -44,4 +54,18 @@ public class KeyInfo {
     public boolean isModifierEnabled() {
         return modifierEnabled;
     }
+
+    public int getKeyIcon() {
+        return keyIcon;
+    }
+
+    public int getKeyEventType() {
+        return keyEventType;
+    }
+
+    public static final int KEY_EVENT_NORMAL = 0;
+    public static final int KEY_EVENT_BACKSPACE = 1;
+    public static final int KEY_EVENT_SPACE = 2;
+    public static final int KEY_EVENT_ENTER = 3;
+    public static final int KEY_EVENT_SETTINGS = 4;
 }

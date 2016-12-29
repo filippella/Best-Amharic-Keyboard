@@ -58,9 +58,9 @@ import java.util.Random;
  */
 public class AmharicKeyboardService extends InputMethodService implements OnKeyboardActionListener, OnInputKeyListener {
 
-    private AmharicKeyboardView mKeyboardView;
+//    private AmharicKeyboardView mKeyboardView;
 
-    private LinearLayout modifiersContainer;
+//    private LinearLayout modifiersContainer;
 
     private String am[] = {"ሁ", "ሂ", "ሃ", "ሄ", "ህ", "ሆ", "ሇ"};
     private GeezInputKeysInfo geezKeyInfo;
@@ -68,12 +68,6 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
 
     public void onCreate() {
         super.onCreate();
-        modifiersContainer = new LinearLayout(getApplicationContext());
-        modifiersContainer.setOrientation(LinearLayout.HORIZONTAL);
-        modifiersContainer.setWillNotDraw(true);
-        modifiersContainer.setBackgroundColor(Color.RED);
-        modifiersContainer.setGravity(Gravity.CENTER);
-        modifiersContainer.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.modifier_key_height)));
 
         inputKeyboardView = new InputKeyboardView(getApplicationContext());
         inputKeyboardView.setOnInputKeyListener(this);
@@ -131,19 +125,19 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
         }
     }
 
-    public View onCreateCandidatesView() {
-        FrameLayout candidateView = new FrameLayout(getApplicationContext());
-        candidateView.removeAllViews();
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-        FrameLayout parent = (FrameLayout) modifiersContainer.getParent();
-        if (parent != null) {
-            parent.removeAllViews();
-        }
-        candidateView.addView(modifiersContainer);
-        setCandidatesViewShown(true);
-        candidateView.setLayoutParams(params);
-        return candidateView;
-    }
+//    public View onCreateCandidatesView() {
+//        FrameLayout candidateView = new FrameLayout(getApplicationContext());
+//        candidateView.removeAllViews();
+//        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+//        FrameLayout parent = (FrameLayout) modifiersContainer.getParent();
+//        if (parent != null) {
+//            parent.removeAllViews();
+//        }
+//        candidateView.addView(modifiersContainer);
+//        setCandidatesViewShown(true);
+//        candidateView.setLayoutParams(params);
+//        return candidateView;
+//    }
 
     public void onStartInputView(EditorInfo attribute, boolean restarting) {
         super.onStartInputView(attribute, restarting);
@@ -205,10 +199,6 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
 //        mKeyboardView.registerKeyboardService(this);
     }
 
-    private void sendBackspaceKey() {
-        getCurrentInputConnection().sendKeyEvent(new KeyEvent(0, 67));
-        getCurrentInputConnection().sendKeyEvent(new KeyEvent(1, 67));
-    }
 
     private void handleAmharicKeyPress() {
 //        if (key1Char >= '\u0b95' && key1Char <= '\u0bba') {
@@ -287,7 +277,7 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
                     break;
                 case Keyboard.KEYCODE_DELETE:
                     tempLength--;
-                    sendBackspaceKey();
+
                     return;
                 case Keyboard.KEYCODE_CANCEL:
                     InputMethodManager imeManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -306,7 +296,7 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
                     currentInputConnection.commitText(text, 1);
                     break;
             }
-            modifiersContainer.removeAllViews();
+            //modifiersContainer.removeAllViews();
 
             if (tempLength > 0) {
 
@@ -335,7 +325,7 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
                                 }
                             });
                             //child.setPadding(10, 10, 10, 10);
-                            modifiersContainer.addView(child, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
+                            //modifiersContainer.addView(child, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
                         }
                     }
 
@@ -377,47 +367,39 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
     }
 
     @Override
-    public void onClick(String keyLabel, String[] keyModifiers) {
+    public void onClick(String keyLabel) {
         getCurrentInputConnection().commitText(keyLabel, 1);
-        handler.post(new PopulateModifiers(keyModifiers));
+       // handler.post(new PopulateModifiers(keyModifiers));
     }
 
-    Handler handler = new Handler(Looper.getMainLooper());
-
-    public class PopulateModifiers implements Runnable {
-
-        private String[] keyModifiers;
-
-        public PopulateModifiers(String[] keyModifiers) {
-            this.keyModifiers = keyModifiers;
-        }
-
-        @Override
-        public void run() {
-            if (keyModifiers != null) {
-                modifiersContainer.removeAllViews();
-                for (int i = 0; i < keyModifiers.length; i++) {
-                    String keyModifier = keyModifiers[i];
-                    AmharicButtonView child = new AmharicButtonView(getApplicationContext());
-                    //child.setCustomTypeFace(FontType.NYALA.getFontType());
-                    child.setTextSize(21f);
-                    child.setText(keyModifier);
-                    child.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Button button = (Button) v;
-                            InputConnection inputConnection = getCurrentInputConnection();
-                            CharSequence beforeCursor = inputConnection.getTextBeforeCursor(9999, 0);
-                            //beforeCursor = new String("Filippo");
-
-                            inputConnection.commitText(button.getText().toString(), 1);
-                            Toast.makeText(AmharicKeyboardService.this, "Hey " + button.getText().toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    //child.setPadding(10, 10, 10, 10);
-                    modifiersContainer.addView(child, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
-                }
-            }
-        }
+    @Override
+    public void onBackSpace() {
+        getCurrentInputConnection().sendKeyEvent(new KeyEvent(0, 67));
+        getCurrentInputConnection().sendKeyEvent(new KeyEvent(1, 67));
     }
+
+    @Override
+    public void onSpace() {
+        getCurrentInputConnection().sendKeyEvent(new KeyEvent(0, 62));
+        getCurrentInputConnection().sendKeyEvent(new KeyEvent(1, 62));
+    }
+
+    @Override
+    public void onEnter() {
+        getCurrentInputConnection().sendKeyEvent(new KeyEvent(0, 66));
+        getCurrentInputConnection().sendKeyEvent(new KeyEvent(1, 66));
+    }
+
+    @Override
+    public void onSettingClicked() {
+        InputMethodManager imeManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        if (imeManager == null) {
+            return;
+        }
+        imeManager.showInputMethodPicker();
+    }
+
+    //Handler handler = new Handler(Looper.getMainLooper());
+
+
 }

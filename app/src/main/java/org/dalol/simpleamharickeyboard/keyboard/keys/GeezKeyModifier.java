@@ -49,8 +49,9 @@ public class GeezKeyModifier {
         modifiersMap.put("\u1230", new String[]{"\u1230", "\u1231", "\u1232", "\u1233", "\u1234", "\u1235", "\u1236", "\u1237"});//SE
         modifiersMap.put("\u1238", new String[]{"\u1238", "\u1239", "\u123A", "\u123B", "\u123C", "\u123D", "\u123E", "\u123F"});//SHE
         modifiersMap.put("\u1240", new String[]{"\u1240", "\u1241", "\u1242", "\u1243", "\u1244", "\u1245", "\u1246", "\u124B"});//QE
-        modifiersMap.put("\u1260", new String[]{"\u1260", "\u1261", "\u1262", "\u1263", "\u1264", "\u1265", "\u1266", "\u1267"});//BE
+        modifiersMap.put("\u1250", new String[]{"\u1250", "\u1251", "\u1252", "\u1253", "\u1254", "\u1255", "\u1256", "\u1258"});//BE
 
+        modifiersMap.put("\u1260", new String[]{"\u1260", "\u1261", "\u1262", "\u1263", "\u1264", "\u1265", "\u1266", "\u1267"});//BE
         modifiersMap.put("\u1268", new String[]{"\u1268", "\u1269", "\u126A", "\u126B", "\u126C", "\u126D", "\u126E", "\u126F"});//VE
         modifiersMap.put("\u1270", new String[]{"\u1270", "\u1271", "\u1272", "\u1273", "\u1274", "\u1275", "\u1276", "\u1277"});//TE
         modifiersMap.put("\u1278", new String[]{"\u1278", "\u1279", "\u127A", "\u127B", "\u127C", "\u127D", "\u127E", "\u127F"});//CE
@@ -60,8 +61,8 @@ public class GeezKeyModifier {
         modifiersMap.put("\u12A0", new String[]{"\u12A0", "\u12A1", "\u12A2", "\u12A3", "\u12A4", "\u12A5", "\u12A6", "\u12A7"});//A
         modifiersMap.put("\u12A8", new String[]{"\u12A8", "\u12A9", "\u12AA", "\u12AB", "\u12AC", "\u12AD", "\u12AE", "\u12B3"});//KE
         modifiersMap.put("\u12B8", new String[]{"\u12B8", "\u12B9", "\u12BA", "\u12BB", "\u12BC", "\u12BD", "\u12BE", "\u12C0"});//HE
-        modifiersMap.put("\u12C8", new String[]{"\u12C8", "\u12C9", "\u12CA", "\u12CB", "\u12CC", "\u12CD", "\u12CE", "\u12CF"});//WE
 
+        modifiersMap.put("\u12C8", new String[]{"\u12C8", "\u12C9", "\u12CA", "\u12CB", "\u12CC", "\u12CD", "\u12CE", "\u12CF"});//WE
         modifiersMap.put("\u12D0", new String[]{"\u12D0", "\u12D1", "\u12D2", "\u12D3", "\u12D4", "\u12D5", "\u12D6"});//AA
         modifiersMap.put("\u12D8", new String[]{"\u12D8", "\u12D9", "\u12DA", "\u12DB", "\u12DC", "\u12DD", "\u12DE", "\u12DF"});//ZE
         modifiersMap.put("\u12E0", new String[]{"\u12E0", "\u12E1", "\u12E2", "\u12E3", "\u12E4", "\u12E5", "\u12E6", "\u12E7"});//ZSE
@@ -71,12 +72,16 @@ public class GeezKeyModifier {
         modifiersMap.put("\u1308", new String[]{"\u1308", "\u1309", "\u130A", "\u130B", "\u130C", "\u130D", "\u130E", "\u1313"});//GE
         modifiersMap.put("\u1320", new String[]{"\u1320", "\u1321", "\u1322", "\u1323", "\u1324", "\u1325", "\u1326", "\u1327"});//THE
         modifiersMap.put("\u1328", new String[]{"\u1328", "\u1329", "\u132A", "\u132B", "\u132C", "\u132D", "\u132E", "\u132F"});//CHEE
-        modifiersMap.put("\u1330", new String[]{"\u1330", "\u1331", "\u1332", "\u1333", "\u1334", "\u1335", "\u1336", "\u1337"});//PEE
 
+        modifiersMap.put("\u1330", new String[]{"\u1330", "\u1331", "\u1332", "\u1333", "\u1334", "\u1335", "\u1336", "\u1337"});//PEE
         modifiersMap.put("\u1338", new String[]{"\u1338", "\u1339", "\u133A", "\u133B", "\u133C", "\u133D", "\u133E", "\u133F"});//TSE
         modifiersMap.put("\u1340", new String[]{"\u1340", "\u1341", "\u1342", "\u1343", "\u1344", "\u1345", "\u1346", "\u1347"});//TSEE
         modifiersMap.put("\u1348", new String[]{"\u1348", "\u1349", "\u134A", "\u134B", "\u134C", "\u134D", "\u134E", "\u134F"});//FE
         modifiersMap.put("\u1350", new String[]{"\u1350", "\u1351", "\u1352", "\u1353", "\u1354", "\u1355", "\u1356", "\u1357"});//PE
+        modifiersMap.put("\u1360", new String[]{"\u1360", "\u1361", "\u1362", "\u1363", "\u1364", "\u1365", "\u1366", "\u1367", "\u1368"});//geez punctuations
+        modifiersMap.put("\u1369", new String[]{"\u1369", "\u136A", "\u136B", "\u136C", "\u136D", "\u136E", "\u136F", "\u1370", "\u1371", "\u1372"});//1-10 geez
+        modifiersMap.put("\u1373", new String[]{"\u1373", "\u1374", "\u1375", "\u1376", "\u1377", "\u1378", "\u1379", "\u137A", "\u137B", "\u137C"});//20-100
+        modifiersMap.put("0", new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"});//1-10 english
     }
 
     public String[] findModifiers(String keyLabel) {
