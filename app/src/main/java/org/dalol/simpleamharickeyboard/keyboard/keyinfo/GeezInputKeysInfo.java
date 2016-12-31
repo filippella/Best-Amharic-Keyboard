@@ -96,7 +96,7 @@ public class GeezInputKeysInfo implements InputKeysInfo {
         keysRow5.addKeyInfo(new KeyInfo("?123", 2, false, KeyInfo.KEY_EVENT_SYMBOLS_ONE));
         keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_settings_white_24dp, 1, false, KeyInfo.KEY_EVENT_SETTINGS));
         keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_space_bar_white_24dp, 3, false, KeyInfo.KEY_EVENT_SPACE));
-        keysRow5.addKeyInfo(new KeyInfo("abc", 2, false, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow5.addKeyInfo(new KeyInfo("abc", 2, false, KeyInfo.KEY_EVENT_ENGLISH));
         keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_subdirectory_arrow_left_white_24dp, 1, false, KeyInfo.KEY_EVENT_NORMAL));
         keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_send_white_24dp, 1, false, KeyInfo.KEY_EVENT_ENTER));
 

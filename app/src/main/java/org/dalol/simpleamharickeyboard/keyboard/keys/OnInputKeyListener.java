@@ -38,4 +38,6 @@ public interface OnInputKeyListener {
     void onSetSymbolsOneKeyboard();
 
     void onSetSymbolsTwoKeyboard();
+
+    void onSetEnglishKeyboard();
 }

@@ -111,7 +111,7 @@ public class SymbolsTwoInputKeysInfo implements InputKeysInfo {
 
         InputKeysRow keysRow5 = new InputKeysRow();
         keysRow5.addKeyInfo(new KeyInfo("\u1200\u1201", 2, false, KeyInfo.KEY_EVENT_HAHU));
-        keysRow5.addKeyInfo(new KeyInfo("abc", 2, false, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow5.addKeyInfo(new KeyInfo("abc", 2, false, KeyInfo.KEY_EVENT_ENGLISH));
         keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_space_bar_white_24dp, 3, false, KeyInfo.KEY_EVENT_SPACE));
         keysRow5.addKeyInfo(new KeyInfo(",", 1, false, KeyInfo.KEY_EVENT_NORMAL));
         keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_subdirectory_arrow_left_white_24dp, 1, false, KeyInfo.KEY_EVENT_NORMAL));

@@ -282,6 +282,9 @@ public class InputKeyboardView extends LinearLayout {
                     case KeyInfo.KEY_EVENT_SYMBOLS_TWO:
                         onInputKeyListener.onSetSymbolsTwoKeyboard();
                         break;
+                    case KeyInfo.KEY_EVENT_ENGLISH:
+                        onInputKeyListener.onSetEnglishKeyboard();
+                        break;
                 }
             }
         }

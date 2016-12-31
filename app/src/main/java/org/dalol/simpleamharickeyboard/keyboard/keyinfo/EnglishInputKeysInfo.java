@@ -16,8 +16,11 @@
 
 package org.dalol.simpleamharickeyboard.keyboard.keyinfo;
 
+import org.dalol.simpleamharickeyboard.R;
 import org.dalol.simpleamharickeyboard.keyboard.keys.InputKeysRow;
+import org.dalol.simpleamharickeyboard.keyboard.keys.KeyInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +31,10 @@ import java.util.List;
 public class EnglishInputKeysInfo implements InputKeysInfo {
     @Override
     public List<InputKeysRow> getKeysRowList() {
-        return null;
+        if (inputKeysRows == null || inputKeysRows.isEmpty()) {
+            populateKeys();
+        }
+        return inputKeysRows;
     }
 
     @Override
@@ -39,5 +45,82 @@ public class EnglishInputKeysInfo implements InputKeysInfo {
     @Override
     public boolean isModifiersEnabled() {
         return false;
+    }
+
+    private List<InputKeysRow> inputKeysRows;
+
+    {
+        populateKeys();
+    }
+
+    private void populateKeys() {
+
+        inputKeysRows = new ArrayList<>();
+
+        InputKeysRow keysRow1 = new InputKeysRow();
+        keysRow1.addKeyInfo(new KeyInfo("1", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow1.addKeyInfo(new KeyInfo("2", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow1.addKeyInfo(new KeyInfo("3", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow1.addKeyInfo(new KeyInfo("4", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow1.addKeyInfo(new KeyInfo("5", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow1.addKeyInfo(new KeyInfo("6", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow1.addKeyInfo(new KeyInfo("7", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow1.addKeyInfo(new KeyInfo("8", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow1.addKeyInfo(new KeyInfo("9", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow1.addKeyInfo(new KeyInfo("0", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+
+
+
+
+        InputKeysRow keysRow2 = new InputKeysRow();
+        keysRow2.addKeyInfo(new KeyInfo("q", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo("w", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo("e", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo("r", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo("t", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo("y", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo("u", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo("i", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo("o", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo("p", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+
+        InputKeysRow keysRow3 = new InputKeysRow();
+        keysRow3.addKeyInfo(new KeyInfo("a", 1.5f, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo("s", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo("d", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo("f", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo("g", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo("h", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo("j", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo("k", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo("l", 1.5f, true, KeyInfo.KEY_EVENT_NORMAL));
+
+
+        InputKeysRow keysRow4 = new InputKeysRow();
+
+        keysRow4.addKeyInfo(new KeyInfo(android.R.drawable.arrow_up_float, 1, false, KeyInfo.KEY_EVENT_SHIFT));
+        keysRow4.addKeyInfo(new KeyInfo("z", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo("x", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo("c", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo("v", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo("b", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo("n", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo("m", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo(R.mipmap.ic_backspace_white_24dp, 2, false, KeyInfo.KEY_EVENT_BACKSPACE));
+
+        InputKeysRow keysRow5 = new InputKeysRow();
+        keysRow5.addKeyInfo(new KeyInfo("\u1200\u1201", 2, false, KeyInfo.KEY_EVENT_HAHU));
+        keysRow5.addKeyInfo(new KeyInfo("?123", 2, false, KeyInfo.KEY_EVENT_SYMBOLS_ONE));
+        keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_space_bar_white_24dp, 3, false, KeyInfo.KEY_EVENT_SPACE));
+        keysRow5.addKeyInfo(new KeyInfo(",", 1, false, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_subdirectory_arrow_left_white_24dp, 1, false, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_send_white_24dp, 1, false, KeyInfo.KEY_EVENT_ENTER));
+
+
+        inputKeysRows.add(keysRow1);
+        inputKeysRows.add(keysRow2);
+        inputKeysRows.add(keysRow3);
+        inputKeysRows.add(keysRow4);
+        inputKeysRows.add(keysRow5);
     }
 }

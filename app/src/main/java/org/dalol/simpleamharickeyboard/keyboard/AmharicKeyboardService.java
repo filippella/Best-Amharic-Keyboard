@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import org.dalol.simpleamharickeyboard.keyboard.keyinfo.EnglishInputKeysInfo;
 import org.dalol.simpleamharickeyboard.keyboard.keyinfo.GeezInputKeysInfo;
 import org.dalol.simpleamharickeyboard.keyboard.keyinfo.InputKeysInfo;
 import org.dalol.simpleamharickeyboard.keyboard.keyinfo.SymbolsOneInputKeysInfo;
@@ -50,7 +51,7 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
 //    private LinearLayout modifiersContainer;
 
     private String am[] = {"ሁ", "ሂ", "ሃ", "ሄ", "ህ", "ሆ", "ሇ"};
-    private InputKeysInfo geezKeyInfo, symbolsOneKeyInfo, symbolsTwoKeyInfo;
+    private InputKeysInfo geezKeyInfo, englishKeyInfo, symbolsOneKeyInfo, symbolsTwoKeyInfo;
     private InputKeyboardView inputKeyboardView;
 
     public void onCreate() {
@@ -62,6 +63,7 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
 
     public void onInitializeInterface() {
         geezKeyInfo = new GeezInputKeysInfo();
+        englishKeyInfo = new EnglishInputKeysInfo();
         symbolsOneKeyInfo = new SymbolsOneInputKeysInfo();
         symbolsTwoKeyInfo = new SymbolsTwoInputKeysInfo();
         inputKeyboardView.setInputKeyboard(geezKeyInfo);
@@ -401,6 +403,11 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
     @Override
     public void onSetSymbolsTwoKeyboard() {
         inputKeyboardView.setInputKeyboard(symbolsTwoKeyInfo);
+    }
+
+    @Override
+    public void onSetEnglishKeyboard() {
+        inputKeyboardView.setInputKeyboard(englishKeyInfo);
     }
 
     //Handler handler = new Handler(Looper.getMainLooper());
