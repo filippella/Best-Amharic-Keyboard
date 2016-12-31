@@ -14,18 +14,30 @@
  * limitations under the License.
  */
 
-package org.dalol.simpleamharickeyboard.keyboard.keys;
+package org.dalol.simpleamharickeyboard.keyboard.keyinfo;
+
+import org.dalol.simpleamharickeyboard.keyboard.keys.InputKeysRow;
 
 import java.util.List;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
  * @version 1.0.0
- * @since 12/18/2016
+ * @since 12/29/2016
  */
-public interface InputKeysInfo {
+public class EnglishInputKeysInfo implements InputKeysInfo {
+    @Override
+    public List<InputKeysRow> getKeysRowList() {
+        return null;
+    }
 
-    List<InputKeysRow> getKeysRowList();
+    @Override
+    public String[] getModifiers(String keyLabel) {
+        return new String[0];
+    }
 
-    String[] getModifiers(String keyLabel);
+    @Override
+    public boolean isModifiersEnabled() {
+        return false;
+    }
 }

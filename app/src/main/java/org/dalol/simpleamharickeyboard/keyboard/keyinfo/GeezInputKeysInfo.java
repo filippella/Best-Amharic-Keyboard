@@ -14,9 +14,15 @@
  * limitations under the License.
  */
 
-package org.dalol.simpleamharickeyboard.keyboard.keys;
+package org.dalol.simpleamharickeyboard.keyboard.keyinfo;
 
+import org.dalol.simpleamharickeyboard.R;
+import org.dalol.simpleamharickeyboard.keyboard.keys.InputKeysRow;
+import org.dalol.simpleamharickeyboard.keyboard.keys.KeyInfo;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,19 +30,91 @@ import java.util.Map;
  * @version 1.0.0
  * @since 12/18/2016
  */
-public class GeezKeyModifier {
+public class GeezInputKeysInfo implements InputKeysInfo {
+
+    private List<InputKeysRow> inputKeysRows = new ArrayList<>();
     private Map<String, String[]> modifiersMap;
 
-    //    AM_NUMBERS_ONE_TO_TEN("\u1369", "\u136A", "\u136B", "\u136C", "\u136D", "\u136E", "\u136F", "\u1370", "\u1371", "\u1372"),
-//    EN_NUMBERS_ONE_TO_TEN("0", "1", "2", "3", "4", "5", "6", "7", "8", "9"),
-//    AM_NUMBERS_TWENTY_TO_TEN_THOUSAND("\u1373", "\u1374", "\u1375", "\u1376", "\u1377", "\u1378", "\u1379", "\u137A", "\u137B", "\u137C"),
-//    SYMBOLS("\u1360", "\u1361", "\u1362", "\u1363", "\u1364", "\u1365", "\u1366", "\u1367", "\u1367"),
-//
+    @Override
+    public List<InputKeysRow> getKeysRowList() {
+        if (inputKeysRows == null || inputKeysRows.isEmpty()) {
+            populateInputKeyRows();
+        }
+        return inputKeysRows;
+    }
 
-//
-//    public GeezKeyModifier() {
-//        populateModifiers();
-//    }
+    private void populateInputKeyRows() {
+        InputKeysRow keysRow1 = new InputKeysRow();
+
+        keysRow1.addKeyInfo(new KeyInfo("\u1200", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow1.addKeyInfo(new KeyInfo("\u1208", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow1.addKeyInfo(new KeyInfo("\u1210", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow1.addKeyInfo(new KeyInfo("\u1218", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow1.addKeyInfo(new KeyInfo("\u1220", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow1.addKeyInfo(new KeyInfo("\u1228", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow1.addKeyInfo(new KeyInfo("\u1230", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow1.addKeyInfo(new KeyInfo("\u1238", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow1.addKeyInfo(new KeyInfo("\u1240", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow1.addKeyInfo(new KeyInfo("\u1250", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+
+        InputKeysRow keysRow2 = new InputKeysRow();
+        keysRow2.addKeyInfo(new KeyInfo("\u1260", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo("\u1268", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo("\u1270", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo("\u1278", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo("\u1280", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo("\u1290", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo("\u1298", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo("\u12A0", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo("\u12A8", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo("\u12B8", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+
+        InputKeysRow keysRow3 = new InputKeysRow();
+        keysRow3.addKeyInfo(new KeyInfo("\u12C8", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo("\u12D0", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo("\u12D8", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo("\u12E0", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo("\u12E8", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo("\u12F0", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo("\u1300", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo("\u1308", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo("\u1320", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo("\u1328", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+
+        InputKeysRow keysRow4 = new InputKeysRow();
+        keysRow4.addKeyInfo(new KeyInfo("\u1330", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo("\u1338", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo("\u1340", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo("\u1348", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo("\u1350", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo("\u1360", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo("\u1369", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo("\u1373", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo(R.mipmap.ic_backspace_white_24dp, 2, false, KeyInfo.KEY_EVENT_BACKSPACE));
+
+        InputKeysRow keysRow5 = new InputKeysRow();
+        keysRow5.addKeyInfo(new KeyInfo("?123", 2, false, KeyInfo.KEY_EVENT_SYMBOLS_ONE));
+        keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_settings_white_24dp, 1, false, KeyInfo.KEY_EVENT_SETTINGS));
+        keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_space_bar_white_24dp, 3, false, KeyInfo.KEY_EVENT_SPACE));
+        keysRow5.addKeyInfo(new KeyInfo("abc", 2, false, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_subdirectory_arrow_left_white_24dp, 1, false, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_send_white_24dp, 1, false, KeyInfo.KEY_EVENT_ENTER));
+
+        inputKeysRows.add(keysRow1);
+        inputKeysRows.add(keysRow2);
+        inputKeysRows.add(keysRow3);
+        inputKeysRows.add(keysRow4);
+        inputKeysRows.add(keysRow5);
+    }
+
+    @Override
+    public String[] getModifiers(String keyLabel) {
+
+        if (modifiersMap == null) {
+            populateModifiers();
+        }
+        return modifiersMap.get(keyLabel);
+    }
 
     private void populateModifiers() {
         modifiersMap = new HashMap<>();
@@ -84,10 +162,13 @@ public class GeezKeyModifier {
         modifiersMap.put("0", new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"});//1-10 english
     }
 
-    public String[] findModifiers(String keyLabel) {
-        if (modifiersMap == null) {
-            populateModifiers();
-        }
-        return modifiersMap.get(keyLabel);
+    @Override
+    public boolean isModifiersEnabled() {
+        return true;
+    }
+
+    {
+        populateInputKeyRows();
+        populateModifiers();
     }
 }

@@ -16,40 +16,27 @@
 
 package org.dalol.simpleamharickeyboard.keyboard;
 
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView.OnKeyboardActionListener;
 import android.os.Handler;
-import android.os.Looper;
-import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.ExtractedText;
-import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import org.dalol.simpleamharickeyboard.R;
-import org.dalol.simpleamharickeyboard.keyboard.keys.GeezInputKeysInfo;
+import org.dalol.simpleamharickeyboard.keyboard.keyinfo.GeezInputKeysInfo;
+import org.dalol.simpleamharickeyboard.keyboard.keyinfo.InputKeysInfo;
+import org.dalol.simpleamharickeyboard.keyboard.keyinfo.SymbolsOneInputKeysInfo;
+import org.dalol.simpleamharickeyboard.keyboard.keyinfo.SymbolsTwoInputKeysInfo;
 import org.dalol.simpleamharickeyboard.keyboard.keys.InputKeyboardView;
-import org.dalol.simpleamharickeyboard.keyboard.keys.InputKeysInfo;
 import org.dalol.simpleamharickeyboard.keyboard.keys.OnInputKeyListener;
-import org.dalol.simpleamharickeyboard.uitilities.FontType;
 import org.dalol.simpleamharickeyboard.widgets.AmharicButtonView;
-
-import java.util.Random;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
@@ -63,7 +50,7 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
 //    private LinearLayout modifiersContainer;
 
     private String am[] = {"ሁ", "ሂ", "ሃ", "ሄ", "ህ", "ሆ", "ሇ"};
-    private GeezInputKeysInfo geezKeyInfo;
+    private InputKeysInfo geezKeyInfo, symbolsOneKeyInfo, symbolsTwoKeyInfo;
     private InputKeyboardView inputKeyboardView;
 
     public void onCreate() {
@@ -75,6 +62,8 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
 
     public void onInitializeInterface() {
         geezKeyInfo = new GeezInputKeysInfo();
+        symbolsOneKeyInfo = new SymbolsOneInputKeysInfo();
+        symbolsTwoKeyInfo = new SymbolsTwoInputKeysInfo();
         inputKeyboardView.setInputKeyboard(geezKeyInfo);
 //        mKeyboard = new AmharicKeyboard(this, R.xml.mainkeyboard);
 //        mSecondKeyboard = new AmharicKeyboard(this, R.xml.symbols);
@@ -397,6 +386,21 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
             return;
         }
         imeManager.showInputMethodPicker();
+    }
+
+    @Override
+    public void onSetAmharicKeyboard() {
+        inputKeyboardView.setInputKeyboard(geezKeyInfo);
+    }
+
+    @Override
+    public void onSetSymbolsOneKeyboard() {
+        inputKeyboardView.setInputKeyboard(symbolsOneKeyInfo);
+    }
+
+    @Override
+    public void onSetSymbolsTwoKeyboard() {
+        inputKeyboardView.setInputKeyboard(symbolsTwoKeyInfo);
     }
 
     //Handler handler = new Handler(Looper.getMainLooper());

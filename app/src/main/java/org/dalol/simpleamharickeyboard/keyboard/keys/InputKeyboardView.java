@@ -38,6 +38,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.dalol.simpleamharickeyboard.R;
+import org.dalol.simpleamharickeyboard.keyboard.keyinfo.InputKeysInfo;
 import org.dalol.simpleamharickeyboard.uitilities.FontType;
 import org.dalol.simpleamharickeyboard.widgets.AmharicButtonView;
 
@@ -50,13 +51,14 @@ import java.util.List;
  */
 public class InputKeyboardView extends LinearLayout {
 
+    public static final int DEFAULT_NORMAL_CALLBACK_INTERVAL_DELAY = 50;
     private OnInputKeyListener onInputKeyListener;
     private InputKeysInfo mInputKeysInfo;
     private int mKeyHeight;
 
     private final static int INITIAL_INTERVAL = 400;
     private View mPressedKeyView;
-    private int mNormalInterval = 100;
+    private int mNormalInterval = DEFAULT_NORMAL_CALLBACK_INTERVAL_DELAY;
     private Handler mHandler = new Handler();
     private LinearLayout modifiersContainer;
 
@@ -105,6 +107,7 @@ public class InputKeyboardView extends LinearLayout {
     }
 
     public void setInputKeyboard(InputKeysInfo inputKeysInfo) {
+        modifiersContainer.setVisibility(inputKeysInfo.isModifiersEnabled() ? VISIBLE: GONE);
         mInputKeysInfo = inputKeysInfo;
         //setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, mKeyHeight * inputKeysInfo.getKeysRowList().size()));
         handler.post(new CreateKeyboard());
@@ -135,8 +138,10 @@ public class InputKeyboardView extends LinearLayout {
 
                 LinearLayout keyRow = new LinearLayout(context);
                 keyRow.setOrientation(LinearLayout.HORIZONTAL);
+                keyRow.setGravity(Gravity.CENTER);
 
                 List<KeyInfo> keyInfoList = keysRowList.get(i).getKeyInfoList();
+
                 for (int j = 0; j < keyInfoList.size(); j++) {
 
                     KeyInfo keyInfo = keyInfoList.get(j);
@@ -182,7 +187,7 @@ public class InputKeyboardView extends LinearLayout {
                     } else {
                         ImageView key = new ImageView(context);
                         key.setImageResource(keyInfo.getKeyIcon());
-                            int padding = getCustomSize(keyWeight * 6);
+                            int padding = getCustomSize(keyWeight * 5);
                             key.setPadding(padding, padding, padding, padding);
                         key.setTag(keyInfo);
                         //child.setTag(keyboardKey);
@@ -210,13 +215,14 @@ public class InputKeyboardView extends LinearLayout {
                         case MotionEvent.ACTION_OUTSIDE:
                             mHandler.removeCallbacksAndMessages(mPressedKeyView);
                             mPressedKeyView = null;
-                            mNormalInterval = 100;
+                            mNormalInterval = DEFAULT_NORMAL_CALLBACK_INTERVAL_DELAY;
                             break;
                     }
                     return false;
                 }
             });
             child.setOnClickListener(mKeyClickListener);
+
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, mKeyHeight, columnCount);
             //params.setMargins(margin, margin, margin, margin);
             keyContainer.setBaselineAligned(false);
@@ -266,6 +272,15 @@ public class InputKeyboardView extends LinearLayout {
                         break;
                     case KeyInfo.KEY_EVENT_SETTINGS:
                         onInputKeyListener.onSettingClicked();
+                        break;
+                    case KeyInfo.KEY_EVENT_HAHU:
+                        onInputKeyListener.onSetAmharicKeyboard();
+                        break;
+                    case KeyInfo.KEY_EVENT_SYMBOLS_ONE:
+                        onInputKeyListener.onSetSymbolsOneKeyboard();
+                        break;
+                    case KeyInfo.KEY_EVENT_SYMBOLS_TWO:
+                        onInputKeyListener.onSetSymbolsTwoKeyboard();
                         break;
                 }
             }

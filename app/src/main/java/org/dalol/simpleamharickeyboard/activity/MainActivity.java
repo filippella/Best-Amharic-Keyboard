@@ -33,7 +33,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -42,6 +45,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -58,6 +62,8 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class MainActivity extends BaseActivity {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @BindView(R.id.navigationDrawerKeyboardSetting) protected DrawerLayout drawerLayout;
     @BindView(R.id.navigationViewKeyboardSetting) protected NavigationView navigationView;
@@ -217,10 +223,30 @@ public class MainActivity extends BaseActivity {
 //            }
 //        });
 
+
+
         dialog.show();
         Window window = dialog.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE  | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+//        EditText editorView = (EditText) dialog.findViewById(R.id.editorEditText);
+//        editorView.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                Log.d(TAG, "Input is -> " + s);
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
     }
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {

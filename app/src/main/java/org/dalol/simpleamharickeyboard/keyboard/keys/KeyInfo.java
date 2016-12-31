@@ -68,4 +68,9 @@ public class KeyInfo {
     public static final int KEY_EVENT_SPACE = 2;
     public static final int KEY_EVENT_ENTER = 3;
     public static final int KEY_EVENT_SETTINGS = 4;
+    public static final int KEY_EVENT_SHIFT = 5;
+    public static final int KEY_EVENT_HAHU = 6;
+    public static final int KEY_EVENT_SYMBOLS_ONE = 7;
+    public static final int KEY_EVENT_SYMBOLS_TWO = 8;
+    public static final int KEY_EVENT_ENGLISH = 9;
 }

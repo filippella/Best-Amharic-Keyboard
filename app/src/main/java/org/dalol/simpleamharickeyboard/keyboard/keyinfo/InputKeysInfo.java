@@ -14,28 +14,22 @@
  * limitations under the License.
  */
 
-package org.dalol.simpleamharickeyboard.keyboard.keys;
+package org.dalol.simpleamharickeyboard.keyboard.keyinfo;
+
+import org.dalol.simpleamharickeyboard.keyboard.keys.InputKeysRow;
+
+import java.util.List;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
  * @version 1.0.0
  * @since 12/18/2016
  */
-public interface OnInputKeyListener {
+public interface InputKeysInfo {
 
-    void onClick(String keyLabel);
+    List<InputKeysRow> getKeysRowList();
 
-    void onBackSpace();
+    String[] getModifiers(String keyLabel);
 
-    void onSpace();
-
-    void onEnter();
-
-    void onSettingClicked();
-
-    void onSetAmharicKeyboard();
-
-    void onSetSymbolsOneKeyboard();
-
-    void onSetSymbolsTwoKeyboard();
+    boolean isModifiersEnabled();
 }
