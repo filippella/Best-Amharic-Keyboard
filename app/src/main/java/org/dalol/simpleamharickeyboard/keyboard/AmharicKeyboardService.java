@@ -24,6 +24,8 @@ import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.ExtractedText;
+import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -53,6 +55,8 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
     private String am[] = {"ሁ", "ሂ", "ሃ", "ሄ", "ህ", "ሆ", "ሇ"};
     private InputKeysInfo geezKeyInfo, englishKeyInfo, symbolsOneKeyInfo, symbolsTwoKeyInfo;
     private InputKeyboardView inputKeyboardView;
+    private boolean modifierReady;
+    private int selectionEnd, selectionStart;
 
     public void onCreate() {
         super.onCreate();
@@ -359,7 +363,13 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
 
     @Override
     public void onClick(String keyLabel) {
-        getCurrentInputConnection().commitText(keyLabel, 1);
+        InputConnection inputConnection = getCurrentInputConnection();
+        inputConnection.commitText(keyLabel, 1);
+        modifierReady = true;
+
+        ExtractedText et = inputConnection.getExtractedText(new ExtractedTextRequest(), 0);
+        selectionStart = et.selectionStart;
+        selectionEnd = et.selectionEnd;
        // handler.post(new PopulateModifiers(keyModifiers));
     }
 
@@ -408,6 +418,23 @@ public class AmharicKeyboardService extends InputMethodService implements OnKeyb
     @Override
     public void onSetEnglishKeyboard() {
         inputKeyboardView.setInputKeyboard(englishKeyInfo);
+    }
+
+    @Override
+    public void onModifierClick(String keyLabel) {
+        InputConnection inputConnection = getCurrentInputConnection();
+
+        ExtractedText et = inputConnection.getExtractedText(new ExtractedTextRequest(), 0);
+        int ss = et.selectionStart;
+        int se = et.selectionEnd;
+
+        if(modifierReady && se == ss && ss == selectionStart) inputConnection.deleteSurroundingText(1, 0);
+        inputConnection.commitText(keyLabel, 1);
+        modifierReady = false;
+        //        InputConnection ic = getCurrentInputConnection();
+//        ic.deleteSurroundingText(4, 0);
+//        ic.commitText("Hello", 1);
+//        ic.commitText("!", 1);
     }
 
     //Handler handler = new Handler(Looper.getMainLooper());

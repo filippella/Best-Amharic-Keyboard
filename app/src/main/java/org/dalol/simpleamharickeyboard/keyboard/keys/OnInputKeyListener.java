@@ -40,4 +40,6 @@ public interface OnInputKeyListener {
     void onSetSymbolsTwoKeyboard();
 
     void onSetEnglishKeyboard();
+
+    void onModifierClick(String keyLabel);
 }

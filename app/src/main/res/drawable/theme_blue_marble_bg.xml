@@ -25,7 +25,7 @@
                 android:endColor="#435b85"
                 android:type="linear" />
             <corners android:radius="0dp" />
-            <stroke android:color="@color/black" android:width="0.5dp" />
+            <stroke android:color="@color/black" android:width=".3dp" />
         </shape>
     </item>
 
@@ -38,7 +38,7 @@
                 android:endColor="#b37600"
                 android:type="linear" />
             <corners android:radius="0dp" />
-            <stroke android:color="@color/black" android:width="0.5dp" />
+            <stroke android:color="@color/black" android:width=".3dp" />
         </shape>
     </item>
 </selector>

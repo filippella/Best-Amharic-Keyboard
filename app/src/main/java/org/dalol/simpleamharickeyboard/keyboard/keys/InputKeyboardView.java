@@ -41,6 +41,7 @@ import org.dalol.simpleamharickeyboard.R;
 import org.dalol.simpleamharickeyboard.keyboard.keyinfo.InputKeysInfo;
 import org.dalol.simpleamharickeyboard.uitilities.FontType;
 import org.dalol.simpleamharickeyboard.widgets.AmharicButtonView;
+import org.dalol.simpleamharickeyboard.widgets.AmharicTextView;
 
 import java.util.List;
 
@@ -122,8 +123,8 @@ public class InputKeyboardView extends LinearLayout {
             removeAllViews();
             addView(modifiersContainer);
             Context context = getContext();
-            //setBackgroundColor(Color.parseColor("#45ffcc"));
-            setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent));
+            setBackgroundColor(Color.parseColor("#45ffcc"));
+            //setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent));
 
 
 //        LinearLayout linearLayout = new LinearLayout(context);
@@ -150,8 +151,9 @@ public class InputKeyboardView extends LinearLayout {
                     float keyWeight = keyInfo.getKeyWeight();
                     if (keyLabel != null) {
                         TextView key = new TextView(context);
+//                        AmharicTextView key = new AmharicTextView(context);
                         key.setGravity(Gravity.CENTER);
-                        key.setTypeface(FontType.NYALA.getTypeface(context), Typeface.BOLD);
+
                         key.setText(keyLabel);
                         key.setTextSize(18f);
 //                        key.setOnClickListener(new View.OnClickListener() {
@@ -224,6 +226,7 @@ public class InputKeyboardView extends LinearLayout {
             child.setOnClickListener(mKeyClickListener);
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, mKeyHeight, columnCount);
+            int margin = getCustomSize(3f);
             //params.setMargins(margin, margin, margin, margin);
             keyContainer.setBaselineAligned(false);
             keyContainer.addView(child, params);
@@ -315,7 +318,7 @@ public class InputKeyboardView extends LinearLayout {
                             Button button = (Button) v;
                             String label = button.getText().toString();
                             if (onInputKeyListener != null) {
-                                onInputKeyListener.onClick(label);
+                                onInputKeyListener.onModifierClick(label);
                             }
 
 //                            InputConnection inputConnection = getCurrentInputConnection();
