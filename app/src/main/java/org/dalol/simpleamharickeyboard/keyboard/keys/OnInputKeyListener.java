@@ -42,4 +42,6 @@ public interface OnInputKeyListener {
     void onSetEnglishKeyboard();
 
     void onModifierClick(String keyLabel);
+
+    void onSetUppercaseEnglish();
 }

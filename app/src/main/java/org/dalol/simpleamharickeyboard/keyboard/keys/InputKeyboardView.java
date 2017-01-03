@@ -19,10 +19,8 @@ package org.dalol.simpleamharickeyboard.keyboard.keys;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.SystemClock;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -31,7 +29,6 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -39,8 +36,6 @@ import android.widget.Toast;
 
 import org.dalol.simpleamharickeyboard.R;
 import org.dalol.simpleamharickeyboard.keyboard.keyinfo.InputKeysInfo;
-import org.dalol.simpleamharickeyboard.uitilities.FontType;
-import org.dalol.simpleamharickeyboard.widgets.AmharicButtonView;
 
 import java.util.List;
 
@@ -274,6 +269,9 @@ public class InputKeyboardView extends LinearLayout {
                         break;
                     case KeyInfo.KEY_EVENT_ENGLISH:
                         onInputKeyListener.onSetEnglishKeyboard();
+                        break;
+                    case KeyInfo.KEY_EVENT_SHIFT:
+                        onInputKeyListener.onSetUppercaseEnglish();
                         break;
                 }
             }

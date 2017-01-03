@@ -29,6 +29,14 @@ import java.util.List;
  * @since 12/29/2016
  */
 public class EnglishInputKeysInfo implements InputKeysInfo {
+
+    private boolean lowercase;
+
+    public EnglishInputKeysInfo(boolean lowercase) {
+        this.lowercase = lowercase;
+        populateKeys();
+    }
+
     @Override
     public List<InputKeysRow> getKeysRowList() {
         if (inputKeysRows == null || inputKeysRows.isEmpty()) {
@@ -49,10 +57,6 @@ public class EnglishInputKeysInfo implements InputKeysInfo {
 
     private List<InputKeysRow> inputKeysRows;
 
-    {
-        populateKeys();
-    }
-
     private void populateKeys() {
 
         inputKeysRows = new ArrayList<>();
@@ -69,43 +73,38 @@ public class EnglishInputKeysInfo implements InputKeysInfo {
         keysRow1.addKeyInfo(new KeyInfo("9", 1, true, KeyInfo.KEY_EVENT_NORMAL));
         keysRow1.addKeyInfo(new KeyInfo("0", 1, true, KeyInfo.KEY_EVENT_NORMAL));
 
-
-
-
         InputKeysRow keysRow2 = new InputKeysRow();
-        keysRow2.addKeyInfo(new KeyInfo("q", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow2.addKeyInfo(new KeyInfo("w", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow2.addKeyInfo(new KeyInfo("e", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow2.addKeyInfo(new KeyInfo("r", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow2.addKeyInfo(new KeyInfo("t", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow2.addKeyInfo(new KeyInfo("y", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow2.addKeyInfo(new KeyInfo("u", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow2.addKeyInfo(new KeyInfo("i", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow2.addKeyInfo(new KeyInfo("o", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow2.addKeyInfo(new KeyInfo("p", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo(lowercase ? "q" : "Q", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo(lowercase ? "w" : "W", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo(lowercase ? "e" : "E", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo(lowercase ? "r" : "R", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo(lowercase ? "t" : "T", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo(lowercase ? "y" : "Y", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo(lowercase ? "u" : "U", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo(lowercase ? "i" : "I", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo(lowercase ? "o" : "O", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo(lowercase ? "p" : "P", 1, true, KeyInfo.KEY_EVENT_NORMAL));
 
         InputKeysRow keysRow3 = new InputKeysRow();
-        keysRow3.addKeyInfo(new KeyInfo("a", 1.5f, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow3.addKeyInfo(new KeyInfo("s", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow3.addKeyInfo(new KeyInfo("d", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow3.addKeyInfo(new KeyInfo("f", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow3.addKeyInfo(new KeyInfo("g", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow3.addKeyInfo(new KeyInfo("h", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow3.addKeyInfo(new KeyInfo("j", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow3.addKeyInfo(new KeyInfo("k", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow3.addKeyInfo(new KeyInfo("l", 1.5f, true, KeyInfo.KEY_EVENT_NORMAL));
-
+        keysRow3.addKeyInfo(new KeyInfo(lowercase ? "a" : "A", 1.5f, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo(lowercase ? "s" : "S", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo(lowercase ? "d" : "D", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo(lowercase ? "f" : "F", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo(lowercase ? "g" : "G", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo(lowercase ? "h" : "H", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo(lowercase ? "j" : "J", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo(lowercase ? "k" : "K", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo(lowercase ? "l" : "L", 1.5f, true, KeyInfo.KEY_EVENT_NORMAL));
 
         InputKeysRow keysRow4 = new InputKeysRow();
-
         keysRow4.addKeyInfo(new KeyInfo(android.R.drawable.arrow_up_float, 1, false, KeyInfo.KEY_EVENT_SHIFT));
-        keysRow4.addKeyInfo(new KeyInfo("z", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow4.addKeyInfo(new KeyInfo("x", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow4.addKeyInfo(new KeyInfo("c", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow4.addKeyInfo(new KeyInfo("v", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow4.addKeyInfo(new KeyInfo("b", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow4.addKeyInfo(new KeyInfo("n", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow4.addKeyInfo(new KeyInfo("m", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo(lowercase ? "z" : "Z", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo(lowercase ? "x" : "X", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo(lowercase ? "c" : "C", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo(lowercase ? "v" : "V", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo(lowercase ? "b" : "B", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo(lowercase ? "n" : "N", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo(lowercase ? "m" : "M", 1, true, KeyInfo.KEY_EVENT_NORMAL));
         keysRow4.addKeyInfo(new KeyInfo(R.mipmap.ic_backspace_white_24dp, 2, false, KeyInfo.KEY_EVENT_BACKSPACE));
 
         InputKeysRow keysRow5 = new InputKeysRow();

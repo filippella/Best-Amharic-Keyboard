@@ -41,26 +41,27 @@ import org.dalol.simpleamharickeyboard.keyboard.keys.OnInputKeyListener;
  */
 public class AmharicKeyboardService extends InputMethodService implements OnInputKeyListener {
 
-    private InputKeysInfo geezKeyInfo, englishKeyInfo, symbolsOneKeyInfo, symbolsTwoKeyInfo;
+    private InputKeysInfo geezKeyInfo, englishLowerCaseKeyInfo, englishUpperCaseKeyInfo, symbolsOneKeyInfo, symbolsTwoKeyInfo;
     private InputKeyboardView inputKeyboardView;
     private boolean modifierReady;
-    private int selectionEnd, selectionStart;
+    private int selectionStart;
+    private boolean uppercase;
 
+    @Override
     public void onCreate() {
         super.onCreate();
-
         inputKeyboardView = new InputKeyboardView(getApplicationContext());
         inputKeyboardView.setOnInputKeyListener(this);
     }
 
+    @Override
     public void onInitializeInterface() {
         geezKeyInfo = new GeezInputKeysInfo();
-        englishKeyInfo = new EnglishInputKeysInfo();
+        englishLowerCaseKeyInfo = new EnglishInputKeysInfo(true);
+        englishUpperCaseKeyInfo = new EnglishInputKeysInfo(false);
         symbolsOneKeyInfo = new SymbolsOneInputKeysInfo();
         symbolsTwoKeyInfo = new SymbolsTwoInputKeysInfo();
         inputKeyboardView.setInputKeyboard(geezKeyInfo);
-//        mKeyboard = new AmharicKeyboard(this, R.xml.mainkeyboard);
-//        mSecondKeyboard = new AmharicKeyboard(this, R.xml.symbols);
     }
 
     @Override
@@ -69,30 +70,6 @@ public class AmharicKeyboardService extends InputMethodService implements OnInpu
     }
 
     public View onCreateInputView() {
-
-
-        //Dinamically change themes
-
-//        SharedPreferences pre = getSharedPreferences("test", 1);
-//        int theme = pre.getInt("theme", 1);
-//
-//        if(theme == 1)
-//        {
-//            this.mInputView = (AmharicKeyboardView) this.getLayoutInflater().inflate(R.layout.input, null);
-//        }else
-//        {
-//            this.mInputView = (AmharicKeyboardView) this.getLayoutInflater().inflate(R.layout.input_2, null);
-//
-//        }
-//        this.mInputView.setOnKeyboardActionListener(this);
-//        this.mInputView.setKeyboard(this.mQwertyKeyboard);
-
-
-
-//        mKeyboardView = (AmharicKeyboardView) getLayoutInflater().inflate(R.layout.input, null);
-//        mKeyboardView.setOnKeyboardActionListener(this);
-//        mKeyboardView.setKeyboard(mKeyboard);
-//        mKeyboardView.registerKeyboardService(this);
         FrameLayout parent = (FrameLayout) inputKeyboardView.getParent();
         if (parent != null) {
             parent.removeAllViews();
@@ -108,15 +85,13 @@ public class AmharicKeyboardService extends InputMethodService implements OnInpu
         }
     }
 
+    @Override
     public void onStartInputView(EditorInfo attribute, boolean restarting) {
         super.onStartInputView(attribute, restarting);
-
         setInputView(onCreateInputView());
-//
-//        mKeyboardView.setKeyboard(mKeyboard);
-//        mKeyboardView.closing();
     }
 
+    @Override
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
     }
@@ -129,25 +104,27 @@ public class AmharicKeyboardService extends InputMethodService implements OnInpu
 
         ExtractedText et = inputConnection.getExtractedText(new ExtractedTextRequest(), 0);
         selectionStart = et.selectionStart;
-        selectionEnd = et.selectionEnd;
     }
 
     @Override
     public void onBackSpace() {
-        getCurrentInputConnection().sendKeyEvent(new KeyEvent(0, 67));
-        getCurrentInputConnection().sendKeyEvent(new KeyEvent(1, 67));
+        InputConnection inputConnection = getCurrentInputConnection();
+        inputConnection.sendKeyEvent(new KeyEvent(0, 67));
+        inputConnection.sendKeyEvent(new KeyEvent(1, 67));
     }
 
     @Override
     public void onSpace() {
-        getCurrentInputConnection().sendKeyEvent(new KeyEvent(0, 62));
-        getCurrentInputConnection().sendKeyEvent(new KeyEvent(1, 62));
+        InputConnection inputConnection = getCurrentInputConnection();
+        inputConnection.sendKeyEvent(new KeyEvent(0, 62));
+        inputConnection.sendKeyEvent(new KeyEvent(1, 62));
     }
 
     @Override
     public void onEnter() {
-        getCurrentInputConnection().sendKeyEvent(new KeyEvent(0, 66));
-        getCurrentInputConnection().sendKeyEvent(new KeyEvent(1, 66));
+        InputConnection inputConnection = getCurrentInputConnection();
+        inputConnection.sendKeyEvent(new KeyEvent(0, 66));
+        inputConnection.sendKeyEvent(new KeyEvent(1, 66));
     }
 
     @Override
@@ -176,7 +153,8 @@ public class AmharicKeyboardService extends InputMethodService implements OnInpu
 
     @Override
     public void onSetEnglishKeyboard() {
-        inputKeyboardView.setInputKeyboard(englishKeyInfo);
+        if(uppercase) inputKeyboardView.setInputKeyboard(englishUpperCaseKeyInfo);
+        else inputKeyboardView.setInputKeyboard(englishLowerCaseKeyInfo);
     }
 
     @Override
@@ -190,5 +168,11 @@ public class AmharicKeyboardService extends InputMethodService implements OnInpu
         if(modifierReady && se == ss && ss == selectionStart) inputConnection.deleteSurroundingText(1, 0);
         inputConnection.commitText(keyLabel, 1);
         modifierReady = false;
+    }
+
+    @Override
+    public void onSetUppercaseEnglish() {
+        if(!uppercase) {uppercase = true;inputKeyboardView.setInputKeyboard(englishUpperCaseKeyInfo);}
+        else {uppercase = false;inputKeyboardView.setInputKeyboard(englishLowerCaseKeyInfo);}
     }
 }
