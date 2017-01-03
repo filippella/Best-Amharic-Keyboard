@@ -32,7 +32,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.dalol.simpleamharickeyboard.R;
 import org.dalol.simpleamharickeyboard.keyboard.keyinfo.InputKeysInfo;
@@ -106,8 +105,6 @@ public class InputKeyboardView extends LinearLayout {
         mInputKeysInfo = inputKeysInfo;
         removeAllViews();
         setMeasuredDimension(ViewGroup.LayoutParams.MATCH_PARENT, inputKeysInfo.getKeysRowList().size() * mKeyHeight);
-        //setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, mKeyHeight * inputKeysInfo.getKeysRowList().size()));
-
         addView(modifiersContainer);
         Context context = getContext();
         setBackgroundColor(Color.parseColor("#45ffcc"));
@@ -203,7 +200,6 @@ public class InputKeyboardView extends LinearLayout {
     private final View.OnClickListener mKeyClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-//            TextView labelView = (TextView) v;
             if (onInputKeyListener != null) {
 
                 KeyInfo info = (KeyInfo) v.getTag();
@@ -217,7 +213,7 @@ public class InputKeyboardView extends LinearLayout {
                             for (int i = 0; i < keyModifiers.length; i++) {
                                 String keyModifier = keyModifiers[i];
                                 TextView modifierKey = new TextView(getContext());
-                               // AmharicButtonView modifierKey = new AmharicButtonView(getContext());
+                                // AmharicButtonView modifierKey = new AmharicButtonView(getContext());
                                 //modifierKey.setTypeface(FontType.NYALA.getTypeface(getContext()), Typeface.BOLD);
                                 modifierKey.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.theme_modifiers_bg));
                                 modifierKey.setTextSize(21f);
@@ -232,16 +228,8 @@ public class InputKeyboardView extends LinearLayout {
                                         if (onInputKeyListener != null) {
                                             onInputKeyListener.onModifierClick(label);
                                         }
-
-//                            InputConnection inputConnection = getCurrentInputConnection();
-//                            CharSequence beforeCursor = inputConnection.getTextBeforeCursor(9999, 0);
-//                            //beforeCursor = new String("Filippo");
-//
-//                            inputConnection.commitText(button.getText().toString(), 1);
-                                        Toast.makeText(getContext(), "Hey " + modifierKeyButton.getText().toString(), Toast.LENGTH_SHORT).show();
                                     }
                                 });
-                                //child.setPadding(10, 10, 10, 10);
                                 modifiersContainer.addView(modifierKey, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
                             }
                         }
