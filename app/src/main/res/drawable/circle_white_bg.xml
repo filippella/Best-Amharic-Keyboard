@@ -15,4 +15,9 @@
   ~ limitations under the License.
   -->
 
-<input-method xmlns:android="http://schemas.android.com/apk/res/android" />
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <solid android:color="@color/white" />
+    <size android:height="36dip" android:width="36dip" />
+</shape>

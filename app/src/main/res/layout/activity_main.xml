@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="org.dalol.simpleamharickeyboard.activity.MainActivity">
+    tools:context="org.dalol.bestamharickeyboard.activity.MainActivity">
 
     <LinearLayout
         android:id="@+id/activity_main"
@@ -260,7 +260,8 @@
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
                             android:paddingLeft="16dp"
-                            android:paddingRight="16dp">
+                            android:paddingRight="16dp"
+                            android:id="@+id/optionChangeTheme">
 
                             <TextView
                                 android:layout_width="match_parent"

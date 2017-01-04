@@ -5,7 +5,8 @@
 
     <dimen name="key_height">44dip</dimen>
     <dimen name="keyboard_height">350dip</dimen>
-    <dimen name="modifier_key_height">48dip</dimen>
+    <dimen name="medium_height">48dip</dimen>
+    <dimen name="theme_row_height">56dip</dimen>
     <dimen name="candidate_font_height">16sp</dimen>
     <dimen name="candidate_vertical_padding">6sp</dimen>
 </resources>
