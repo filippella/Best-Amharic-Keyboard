@@ -80,7 +80,6 @@ public class InputKeyboardView extends LinearLayout {
         setWillNotDraw(true);
         setOrientation(VERTICAL);
         mKeyHeight = getResources().getDimensionPixelOffset(R.dimen.key_height);
-
         modifiersContainer = new LinearLayout(context);
         modifiersContainer.setOrientation(LinearLayout.HORIZONTAL);
         modifiersContainer.setWillNotDraw(true);
@@ -127,23 +126,29 @@ public class InputKeyboardView extends LinearLayout {
 
                 float keyWeight = keyInfo.getKeyWeight();
                 if (keyLabel != null) {
-                    TextView key = new TextView(context);
+                    TextView keyText = new TextView(context);
 //                    key.setTypeface(FontType.NYALA.getTypeface(context), Typeface.BOLD);
 //                        AmharicTextView key = new AmharicTextView(context);
-                    key.setGravity(Gravity.CENTER);
-                    key.setText(keyLabel);
-                    key.setTextSize(18f);
-                    key.setIncludeFontPadding(false);
-                    key.setTextColor(Color.WHITE);
-                    key.setTag(keyInfo);
-                    configureKey(key, keyWeight, keyRow);
+                    keyText.setGravity(Gravity.CENTER);
+                    keyText.setText(keyLabel);
+                    keyText.setTextSize(18f);
+                    keyText.setIncludeFontPadding(false);
+                    keyText.setTextColor(Color.WHITE);
+                    keyText.setTag(keyInfo);
+                    keyText.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.theme_blue_marble_bg));
+                    configureKey(keyText, keyWeight, keyRow);
                 } else {
-                    ImageView key = new ImageView(context);
-                    key.setImageResource(keyInfo.getKeyIcon());
+                    ImageView keyImage = new ImageView(context);
+                    keyImage.setImageResource(keyInfo.getKeyIcon());
                     int padding = getCustomSize(keyWeight * 5);
-                    key.setPadding(padding, padding, padding, padding);
-                    key.setTag(keyInfo);
-                    configureKey(key, keyWeight, keyRow);
+                    keyImage.setPadding(padding, padding, padding, padding);
+                    keyImage.setTag(keyInfo);
+                    if(keyInfo.isSelected()) {
+                        keyImage.setBackgroundColor(0xFFff0000);
+                    } else {
+                        keyImage.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.theme_blue_marble_bg));
+                    }
+                    configureKey(keyImage, keyWeight, keyRow);
                 }
             }
             addView(keyRow);
@@ -151,7 +156,6 @@ public class InputKeyboardView extends LinearLayout {
     }
 
     private void configureKey(View child, float columnCount, LinearLayout keyContainer) {
-        child.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.theme_blue_marble_bg));
         child.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -185,6 +189,12 @@ public class InputKeyboardView extends LinearLayout {
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, size, getResources().getDisplayMetrics()));
     }
 
+    public void resetModifiersRow() {
+        if (modifiersContainer != null) {
+            modifiersContainer.removeAllViews();
+        }
+    }
+
     private Runnable mKeyPressRunnable = new Runnable() {
         @Override
         public void run() {
@@ -201,7 +211,6 @@ public class InputKeyboardView extends LinearLayout {
         @Override
         public void onClick(View v) {
             if (onInputKeyListener != null) {
-
                 KeyInfo info = (KeyInfo) v.getTag();
                 switch (info.getKeyEventType()) {
                     case KeyInfo.KEY_EVENT_NORMAL:
@@ -209,7 +218,7 @@ public class InputKeyboardView extends LinearLayout {
                         String[] keyModifiers = mInputKeysInfo.getModifiers(label);
                         onInputKeyListener.onClick(label);
                         if (keyModifiers != null) {
-                            modifiersContainer.removeAllViews();
+                            resetModifiersRow();
                             for (int i = 0; i < keyModifiers.length; i++) {
                                 String keyModifier = keyModifiers[i];
                                 TextView modifierKey = new TextView(getContext());
@@ -259,7 +268,7 @@ public class InputKeyboardView extends LinearLayout {
                         onInputKeyListener.onSetEnglishKeyboard();
                         break;
                     case KeyInfo.KEY_EVENT_SHIFT:
-                        onInputKeyListener.onSetUppercaseEnglish();
+                        onInputKeyListener.onChangeEnglishCharactersCase();
                         break;
                 }
             }

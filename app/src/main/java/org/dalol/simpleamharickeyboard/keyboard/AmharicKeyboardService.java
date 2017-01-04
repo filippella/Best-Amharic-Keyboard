@@ -66,6 +66,21 @@ public class AmharicKeyboardService extends InputMethodService implements OnInpu
 
     @Override
     public void onDestroy() {
+        if (geezKeyInfo != null) {
+            geezKeyInfo.clean();
+        }
+        if (englishLowerCaseKeyInfo != null) {
+            englishLowerCaseKeyInfo.clean();
+        }
+        if (englishUpperCaseKeyInfo != null) {
+            englishUpperCaseKeyInfo.clean();
+        }
+        if (symbolsOneKeyInfo != null) {
+            symbolsOneKeyInfo.clean();
+        }
+        if (symbolsTwoKeyInfo != null) {
+            symbolsTwoKeyInfo.clean();
+        }
         super.onDestroy();
     }
 
@@ -74,6 +89,7 @@ public class AmharicKeyboardService extends InputMethodService implements OnInpu
         if (parent != null) {
             parent.removeAllViews();
         }
+        inputKeyboardView.resetModifiersRow();
         return inputKeyboardView;
     }
 
@@ -89,11 +105,6 @@ public class AmharicKeyboardService extends InputMethodService implements OnInpu
     public void onStartInputView(EditorInfo attribute, boolean restarting) {
         super.onStartInputView(attribute, restarting);
         setInputView(onCreateInputView());
-    }
-
-    @Override
-    public void onStartInput(EditorInfo attribute, boolean restarting) {
-        super.onStartInput(attribute, restarting);
     }
 
     @Override
@@ -153,8 +164,8 @@ public class AmharicKeyboardService extends InputMethodService implements OnInpu
 
     @Override
     public void onSetEnglishKeyboard() {
-        if(uppercase) inputKeyboardView.setInputKeyboard(englishUpperCaseKeyInfo);
-        else inputKeyboardView.setInputKeyboard(englishLowerCaseKeyInfo);
+        inputKeyboardView.setInputKeyboard(englishLowerCaseKeyInfo);
+        uppercase = false;
     }
 
     @Override
@@ -171,7 +182,7 @@ public class AmharicKeyboardService extends InputMethodService implements OnInpu
     }
 
     @Override
-    public void onSetUppercaseEnglish() {
+    public void onChangeEnglishCharactersCase() {
         if(!uppercase) {uppercase = true;inputKeyboardView.setInputKeyboard(englishUpperCaseKeyInfo);}
         else {uppercase = false;inputKeyboardView.setInputKeyboard(englishLowerCaseKeyInfo);}
     }

@@ -15,7 +15,6 @@
  */
 
 package org.dalol.simpleamharickeyboard.keyboard.keys;
-
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
  * @version 1.0.0
@@ -28,6 +27,7 @@ public class KeyInfo {
     private String keyLabel;
     private int keyIcon;
     private int keyEventType;
+    private boolean selected;
 
     public KeyInfo(String keyLabel, float keyWeight, boolean modifierEnabled, int keyEventType) {
         this.keyLabel = keyLabel;
@@ -61,6 +61,15 @@ public class KeyInfo {
 
     public int getKeyEventType() {
         return keyEventType;
+    }
+
+    public KeyInfo selected() {
+        this.selected = true;
+        return this;
+    }
+
+    public boolean isSelected() {
+        return selected;
     }
 
     public static final int KEY_EVENT_NORMAL = 0;

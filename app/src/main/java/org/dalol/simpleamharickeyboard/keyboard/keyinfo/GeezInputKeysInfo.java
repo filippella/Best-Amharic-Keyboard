@@ -30,7 +30,7 @@ import java.util.Map;
  * @version 1.0.0
  * @since 12/18/2016
  */
-public class GeezInputKeysInfo implements InputKeysInfo {
+public class GeezInputKeysInfo extends BaseInputKeysInfo {
 
     private List<InputKeysRow> inputKeysRows = new ArrayList<>();
     private Map<String, String[]> modifiersMap;
@@ -94,9 +94,9 @@ public class GeezInputKeysInfo implements InputKeysInfo {
 
         InputKeysRow keysRow5 = new InputKeysRow();
         keysRow5.addKeyInfo(new KeyInfo("?123", 2, false, KeyInfo.KEY_EVENT_SYMBOLS_ONE));
-        keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_settings_white_24dp, 1, false, KeyInfo.KEY_EVENT_SETTINGS));
-        keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_space_bar_white_24dp, 3, false, KeyInfo.KEY_EVENT_SPACE));
         keysRow5.addKeyInfo(new KeyInfo("abc", 2, false, KeyInfo.KEY_EVENT_ENGLISH));
+        keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_space_bar_white_24dp, 3, false, KeyInfo.KEY_EVENT_SPACE));
+        keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_settings_white_24dp, 1, false, KeyInfo.KEY_EVENT_SETTINGS));
         keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_subdirectory_arrow_left_white_24dp, 1, false, KeyInfo.KEY_EVENT_NORMAL));
         keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_send_white_24dp, 1, false, KeyInfo.KEY_EVENT_ENTER));
 
@@ -165,6 +165,12 @@ public class GeezInputKeysInfo implements InputKeysInfo {
     @Override
     public boolean isModifiersEnabled() {
         return true;
+    }
+
+    @Override
+    public void clean() {
+        inputKeysRows = null;
+        modifiersMap = null;
     }
 
     {

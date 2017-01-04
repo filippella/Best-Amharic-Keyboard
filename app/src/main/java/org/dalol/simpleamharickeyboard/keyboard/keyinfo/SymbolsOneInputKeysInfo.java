@@ -28,7 +28,7 @@ import java.util.List;
  * @version 1.0.0
  * @since 12/29/2016
  */
-public class SymbolsOneInputKeysInfo implements InputKeysInfo {
+public class SymbolsOneInputKeysInfo extends BaseInputKeysInfo {
 
     @Override
     public List<InputKeysRow> getKeysRowList() {
@@ -46,6 +46,11 @@ public class SymbolsOneInputKeysInfo implements InputKeysInfo {
     @Override
     public boolean isModifiersEnabled() {
         return false;
+    }
+
+    @Override
+    public void clean() {
+        inputKeysRows = null;
     }
 
     private List<InputKeysRow> inputKeysRows;
@@ -100,7 +105,7 @@ public class SymbolsOneInputKeysInfo implements InputKeysInfo {
 
         InputKeysRow keysRow4 = new InputKeysRow();
 
-        keysRow4.addKeyInfo(new KeyInfo(android.R.drawable.arrow_up_float, 1, false, KeyInfo.KEY_EVENT_SYMBOLS_TWO));
+        keysRow4.addKeyInfo(new KeyInfo(R.mipmap.ic_keyboard_capslock_white_24dp, 1, false, KeyInfo.KEY_EVENT_SYMBOLS_TWO));
         keysRow4.addKeyInfo(new KeyInfo("!", 1, true, KeyInfo.KEY_EVENT_NORMAL));
         keysRow4.addKeyInfo(new KeyInfo("\"", 1, true, KeyInfo.KEY_EVENT_NORMAL));
         keysRow4.addKeyInfo(new KeyInfo("'", 1, true, KeyInfo.KEY_EVENT_NORMAL));
@@ -117,7 +122,6 @@ public class SymbolsOneInputKeysInfo implements InputKeysInfo {
         keysRow5.addKeyInfo(new KeyInfo(".", 1, true, KeyInfo.KEY_EVENT_NORMAL));
         keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_subdirectory_arrow_left_white_24dp, 1, false, KeyInfo.KEY_EVENT_NORMAL));
         keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_send_white_24dp, 1, false, KeyInfo.KEY_EVENT_ENTER));
-
 
         inputKeysRows.add(keysRow1);
         inputKeysRows.add(keysRow2);

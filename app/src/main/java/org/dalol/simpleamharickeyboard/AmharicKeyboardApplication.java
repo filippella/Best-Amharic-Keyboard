@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Filippo Engidashet
+ * Copyright (c) 2017 Filippo Engidashet
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,34 +14,27 @@
  * limitations under the License.
  */
 
-package org.dalol.simpleamharickeyboard.keyboard.keys;
+package org.dalol.simpleamharickeyboard;
+
+import android.app.Application;
+import android.content.Context;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
  * @version 1.0.0
- * @since 12/18/2016
+ * @since 1/4/2017
  */
-public interface OnInputKeyListener {
+public class AmharicKeyboardApplication extends Application {
 
-    void onClick(String keyLabel);
+    private static Context keyboardContext;
 
-    void onBackSpace();
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        keyboardContext = this;
+    }
 
-    void onSpace();
-
-    void onEnter();
-
-    void onSettingClicked();
-
-    void onSetAmharicKeyboard();
-
-    void onSetSymbolsOneKeyboard();
-
-    void onSetSymbolsTwoKeyboard();
-
-    void onSetEnglishKeyboard();
-
-    void onModifierClick(String keyLabel);
-
-    void onChangeEnglishCharactersCase();
+    public static Context getKeyboardContext() {
+        return keyboardContext;
+    }
 }

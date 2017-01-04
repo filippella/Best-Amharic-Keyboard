@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Filippo Engidashet
+ * Copyright (c) 2017 Filippo Engidashet
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,22 +16,23 @@
 
 package org.dalol.simpleamharickeyboard.keyboard.keyinfo;
 
-import org.dalol.simpleamharickeyboard.keyboard.keys.InputKeysRow;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 
-import java.util.List;
+import org.dalol.simpleamharickeyboard.AmharicKeyboardApplication;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
  * @version 1.0.0
- * @since 12/18/2016
+ * @since 1/4/2017
  */
-public interface InputKeysInfo {
+public abstract class BaseInputKeysInfo implements InputKeysInfo {
 
-    List<InputKeysRow> getKeysRowList();
-
-    String[] getModifiers(String keyLabel);
-
-    boolean isModifiersEnabled();
-
-    void clean();
+//    protected Drawable getKeyDrawable(int resId) {
+//        return AmharicKeyboardApplication.getKeyboardContext().getResources().getDrawable(resId);
+//    }
+//
+//    protected void setKeyColorFilter(Drawable keyIconDrawable, int colorRes) {
+//        keyIconDrawable.setColorFilter(AmharicKeyboardApplication.getKeyboardContext().getResources().getColor(colorRes), PorterDuff.Mode.MULTIPLY);
+//    }
 }
