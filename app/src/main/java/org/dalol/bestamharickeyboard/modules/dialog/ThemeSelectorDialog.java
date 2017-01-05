@@ -22,6 +22,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ import butterknife.BindView;
 public class ThemeSelectorDialog extends BaseDialog {
 
     @BindView(R.id.themesList) protected RecyclerView mThemeList;
+    private OnThemeSelectListener listener;
 
     public ThemeSelectorDialog(Context context) {
         super(context);
@@ -70,10 +72,15 @@ public class ThemeSelectorDialog extends BaseDialog {
         mThemeList.setAdapter(new ThemeListAdapter(new ThemesInfo()));
     }
 
+    public void setOnThemeSelectListener(OnThemeSelectListener listener) {
+        this.listener = listener;
+    }
+
     public class ThemeListAdapter extends RecyclerView.Adapter<ThemeListAdapter.Holder> {
 
         private final ThemesInfo themesInfo;
         private final List<KeyThemeInfo> themes;
+        private int lastSelectedPosition;
 
         public ThemeListAdapter(ThemesInfo themesInfo) {
             this.themesInfo = themesInfo;
@@ -89,6 +96,7 @@ public class ThemeSelectorDialog extends BaseDialog {
         public void onBindViewHolder(Holder holder, int position) {
             View itemView = holder.itemView;
             KeyThemeInfo themeInfo = themes.get(position);
+            holder.themeSelected.setVisibility(themeInfo.isSelected() ? View.VISIBLE: View.GONE);
             itemView.setBackgroundDrawable(themesInfo.getGradient(themeInfo));
             TextView themeName = holder.themeName;
             themeName.setText(themeInfo.getColorName());
@@ -105,18 +113,35 @@ public class ThemeSelectorDialog extends BaseDialog {
 
             private TextView themeBG;
             private TextView themeName;
+            private ImageView themeSelected;
 
             public Holder(View itemView) {
                 super(itemView);
                 itemView.setOnClickListener(this);
                 this.themeBG = (TextView) itemView.findViewById(R.id.theme_bg);
                 this.themeName = (TextView) itemView.findViewById(R.id.theme_name);
+                this.themeSelected = (ImageView) itemView.findViewById(R.id.theme_selected);
             }
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Hi", Toast.LENGTH_SHORT).show();
+                int position = getAdapterPosition();
+                KeyThemeInfo info = themes.get(position);
+                if(!info.isSelected()) {
+                    themes.get(lastSelectedPosition).setSelected(false);
+                    info.setSelected(true);
+                    notifyDataSetChanged();
+                    lastSelectedPosition = position;
+                    if(listener != null) {
+                        listener.onThemeSelect(position);
+                    }
+                }
             }
         }
+    }
+
+    public interface OnThemeSelectListener {
+
+        void onThemeSelect(int position);
     }
 }

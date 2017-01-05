@@ -18,21 +18,23 @@ package org.dalol.bestamharickeyboard.modules.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ImageView;
 
 import org.dalol.bestamharickeyboard.R;
 import org.dalol.bestamharickeyboard.base.BaseActivity;
+import org.dalol.bestamharickeyboard.modules.dialog.ThemeSelectorDialog;
 import org.dalol.bestamharickeyboard.modules.theme.KeyThemeInfo;
 import org.dalol.bestamharickeyboard.modules.theme.ThemesInfo;
+import org.dalol.bestamharickeyboard.uitilities.Constant;
+import org.dalol.bestamharickeyboard.uitilities.Storage;
 
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+
+import static org.dalol.bestamharickeyboard.uitilities.Constant.SELECTED_THEME_ID;
+import static org.dalol.bestamharickeyboard.uitilities.Constant.UNSELECTED_THEME_ID;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
@@ -41,17 +43,28 @@ import butterknife.BindView;
  */
 public class ThemeSelectionActivity extends BaseActivity {
 
-    @BindView(R.id.themesList) protected RecyclerView mThemeList;
+    @BindView(R.id.previewPressedKeyBG) protected ImageView pressedKeyBG;
+    @BindView(R.id.previewUnpressedKeyBG) protected ImageView unpressedKeyBG;
+
+    private Storage mStorage;
+    private ThemesInfo themesInfo;
+    private List<KeyThemeInfo> themes;
 
     @Override
     protected void onViewReady(Bundle savedInstanceState, Intent intent) {
         super.onViewReady(savedInstanceState, intent);
         showHome();
         changeStatusBarColor(R.color.colorPrimaryDark);
+        mStorage = new Storage(getSharedPreferences(Constant.PREFERENCE_NAME, MODE_PRIVATE));
 
-        mThemeList.setLayoutManager(new LinearLayoutManager(this));
-        mThemeList.setHasFixedSize(true);
-        mThemeList.setAdapter(new ThemeListAdapter(new ThemesInfo()));
+        int selectedThemeId = mStorage.getInt(SELECTED_THEME_ID, 25);
+        int unselectedThemeId = mStorage.getInt(UNSELECTED_THEME_ID, 48);
+
+        themesInfo = new ThemesInfo();
+        themes = themesInfo.getThemes();
+
+        pressedKeyBG.setBackgroundDrawable(themesInfo.getGradient(themes.get(selectedThemeId)));
+        unpressedKeyBG.setBackgroundDrawable(themesInfo.getGradient(themes.get(unselectedThemeId)));
     }
 
     @Override
@@ -59,52 +72,29 @@ public class ThemeSelectionActivity extends BaseActivity {
         return R.layout.activity_theme_selection;
     }
 
-
-    public class ThemeListAdapter extends RecyclerView.Adapter<ThemeListAdapter.Holder> {
-
-        private final ThemesInfo themesInfo;
-        private final List<KeyThemeInfo> themes;
-
-        public ThemeListAdapter(ThemesInfo themesInfo) {
-            this.themesInfo = themesInfo;
-            this.themes = themesInfo.getThemes();
-        }
-
-        @Override
-        public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new Holder(getLayoutInflater().inflate(R.layout.item_theme_layout, parent, false));
-        }
-
-        @Override
-        public void onBindViewHolder(Holder holder, int position) {
-            View itemView = holder.itemView;
-            KeyThemeInfo themeInfo = themes.get(position);
-            itemView.setBackgroundDrawable(themesInfo.getGradient(themeInfo));
-            holder.themeName.setText(themeInfo.getColorName());
-            holder.themeBG.setText(Integer.toString(position+1));
-        }
-
-        @Override
-        public int getItemCount() {
-            return themes.size();
-        }
-
-        public class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-            private TextView themeBG;
-            private TextView themeName;
-
-            public Holder(View itemView) {
-                super(itemView);
-                itemView.setOnClickListener(this);
-                this.themeBG = (TextView) itemView.findViewById(R.id.theme_bg);
-                this.themeName = (TextView) itemView.findViewById(R.id.theme_name);
-            }
-
+    @OnClick(R.id.selectKeyUnpressedState)
+    void onSelectUnpressedKeyStateBg() {
+        ThemeSelectorDialog dialog = new ThemeSelectorDialog(ThemeSelectionActivity.this);
+        dialog.setOnThemeSelectListener(new ThemeSelectorDialog.OnThemeSelectListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(ThemeSelectionActivity.this, "Hi", Toast.LENGTH_SHORT).show();
+            public void onThemeSelect(int position) {
+                unpressedKeyBG.setBackgroundDrawable(themesInfo.getGradient(themes.get(position)));
+                mStorage.putInt(UNSELECTED_THEME_ID, position);
             }
-        }
+        });
+        dialog.show();
+    }
+
+    @OnClick(R.id.selectKeyPressedState)
+    void onSelectPressedKeyStateBg() {
+        ThemeSelectorDialog dialog = new ThemeSelectorDialog(ThemeSelectionActivity.this);
+        dialog.setOnThemeSelectListener(new ThemeSelectorDialog.OnThemeSelectListener() {
+            @Override
+            public void onThemeSelect(int position) {
+                pressedKeyBG.setBackgroundDrawable(themesInfo.getGradient(themes.get(position)));
+                mStorage.putInt(SELECTED_THEME_ID, position);
+            }
+        });
+        dialog.show();
     }
 }

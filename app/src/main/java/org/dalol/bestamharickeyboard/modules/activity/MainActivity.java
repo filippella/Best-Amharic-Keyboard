@@ -186,9 +186,7 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.optionChangeTheme)
     void onChangeThemeOptionClicked() {
-        ThemeSelectorDialog dialog = new ThemeSelectorDialog(MainActivity.this);
-        dialog.show();
-        //startActivity(new Intent(this, ThemeSelectionActivity.class));
+        startActivity(new Intent(this, ThemeSelectionActivity.class));
     }
 
     @OnClick(R.id.optionOpenEditor)

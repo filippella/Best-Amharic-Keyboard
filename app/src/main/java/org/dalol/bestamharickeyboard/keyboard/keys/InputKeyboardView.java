@@ -45,11 +45,11 @@ import org.dalol.bestamharickeyboard.modules.theme.ThemesInfo;
 import org.dalol.bestamharickeyboard.uitilities.Constant;
 import org.dalol.bestamharickeyboard.uitilities.Storage;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
+import static org.dalol.bestamharickeyboard.uitilities.Constant.SELECTED_THEME_ID;
+import static org.dalol.bestamharickeyboard.uitilities.Constant.UNSELECTED_THEME_ID;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
@@ -60,43 +60,9 @@ public class InputKeyboardView extends LinearLayout {
 
     public static final int DEFAULT_NORMAL_CALLBACK_INTERVAL_DELAY = 50;
 
-    private Map<String, Integer> themesMap = new HashMap<>();
     private List<KeyThemeInfo> themes;
     private ThemesInfo themesInfo;
-
-    {
-        if (themesMap == null) {
-            themesMap = new HashMap<>();
-        }
-        themesMap.put("1Amber", R.drawable.theme_amber_bg);
-        themesMap.put("2Aquamarine", R.drawable.theme_aquamarine_bg);
-        themesMap.put("3Army", R.drawable.theme_army_bg);
-        themesMap.put("4Azure", R.drawable.theme_azure_bg);
-        themesMap.put("5Blue Marble", R.drawable.theme_blue_marble_bg);
-        themesMap.put("6Brick Red", R.drawable.theme_brick_red_bg);
-        themesMap.put("7Bronze", R.drawable.theme_bronze_bg);
-        themesMap.put("8Brown", R.drawable.theme_brown_bg);
-        themesMap.put("9Burgundy", R.drawable.theme_burgundy_bg);
-        themesMap.put("10Carmine", R.drawable.theme_carmine_bg);
-        themesMap.put("11CarnationPink", R.drawable.theme_carnation_pink_bg);
-        themesMap.put("12Cerise", R.drawable.theme_cerise_bg);
-        themesMap.put("13Chlorophyle", R.drawable.theme_chlorophyle_bg);
-        themesMap.put("14ColdBlue", R.drawable.theme_cold_blue_bg);
-        themesMap.put("15Coral", R.drawable.theme_coral_bg);
-        themesMap.put("16Cyan", R.drawable.theme_cyaan_bg);
-        themesMap.put("17DarkCoffee", R.drawable.theme_dark_coffee_bg);
-        themesMap.put("18DarkOrange", R.drawable.theme_dark_orange_bg);
-        themesMap.put("19Denim", R.drawable.theme_denim_bg);
-        themesMap.put("20Emerald", R.drawable.theme_emerald_bg);
-        themesMap.put("21Ethio", R.drawable.theme_ethio_bg);
-        themesMap.put("22FireEngine", R.drawable.theme_fire_engine_bg);
-        themesMap.put("23Folliage", R.drawable.theme_foliage_bg);
-        themesMap.put("24Forest", R.drawable.theme_forest_bg);
-        themesMap.put("25FrenchRose", R.drawable.theme_french_rose_bg);
-        themesMap.put("26Fuschia", R.drawable.theme_fuschia_bg);
-        themesMap.put("27Gold", R.drawable.theme_gold_bg);
-    }
-
+    private KeyThemeInfo defaultKeyTheme, pressedKeyTheme;
     private OnInputKeyListener onInputKeyListener;
     private InputKeysInfo mInputKeysInfo;
     private int mKeyHeight;
@@ -143,6 +109,17 @@ public class InputKeyboardView extends LinearLayout {
 
         themesInfo = new ThemesInfo();
         themes = themesInfo.getThemes();
+        prepareKeyBackground();
+    }
+
+    private void prepareKeyBackground() {
+        if (mStorage != null) {
+            int selectedThemeId = mStorage.getInt(SELECTED_THEME_ID, 25);
+            int unselectedThemeId = mStorage.getInt(UNSELECTED_THEME_ID, 48);
+
+            defaultKeyTheme = themes.get(unselectedThemeId);
+            pressedKeyTheme = themes.get(selectedThemeId);
+        }
     }
 
     private void verifyEditMode() {
@@ -191,7 +168,7 @@ public class InputKeyboardView extends LinearLayout {
                     keyText.setIncludeFontPadding(false);
                     keyText.setTag(keyInfo);
                     applyBackground(keyText);
-                    int textColorA = themes.get(0).getTextColor();
+                    int textColorA = defaultKeyTheme.getTextColor();
                     keyText.setTextColor(new ColorStateList(
                             new int[][]{
                                     new int[]{android.R.attr.state_pressed},
@@ -199,8 +176,8 @@ public class InputKeyboardView extends LinearLayout {
                                     new int[]{}
                             },
                             new int[]{
-                                    Color.WHITE,
-                                    Color.WHITE,
+                                    pressedKeyTheme.getTextColor(),
+                                    pressedKeyTheme.getTextColor(),
                                     textColorA
                             }
                     ));
@@ -212,21 +189,19 @@ public class InputKeyboardView extends LinearLayout {
                     keyImage.setPadding(padding, padding, padding, padding);
                     keyImage.setTag(keyInfo);
                     if (keyInfo.isSelected()) {
-                        keyImage.setBackgroundColor(getComplimentColor(themes.get(0).getColorB()));
+                        keyImage.setBackgroundColor(getComplimentColor(defaultKeyTheme.getColorB()));
                     } else {
                         Drawable drawable = keyImage.getDrawable();
-                        drawable = drawable.mutate();
-                        drawable = DrawableCompat.wrap(drawable);
-                        DrawableCompat.setTintList(drawable, new ColorStateList(
+                        DrawableCompat.setTintList(DrawableCompat.wrap(drawable).mutate(), new ColorStateList(
                                 new int[][]{
                                         new int[]{android.R.attr.state_pressed},
                                         new int[]{android.R.attr.state_focused},
                                         new int[]{}
                                 },
                                 new int[]{
-                                        Color.WHITE,
-                                        Color.WHITE,
-                                        themes.get(0).getTextColor()
+                                        pressedKeyTheme.getTextColor(),
+                                        pressedKeyTheme.getTextColor(),
+                                        defaultKeyTheme.getTextColor()
                                 }
                         ));
 
@@ -245,8 +220,8 @@ public class InputKeyboardView extends LinearLayout {
 //        key.setBackgroundDrawable(ContextCompat.getDrawable(getContext(),  themeId));
 
 
-        GradientDrawable drawableGreen = themesInfo.getGradient(themes.get(0));
-        GradientDrawable drawableAmber = themesInfo.getGradient(themes.get(23));
+        GradientDrawable drawableGreen = themesInfo.getGradient(defaultKeyTheme);
+        GradientDrawable drawableAmber = themesInfo.getGradient(pressedKeyTheme);
 
         StateListDrawable stateListDrawable = new StateListDrawable();
         stateListDrawable.addState(new int[]{-android.R.attr.state_pressed,
@@ -294,6 +269,7 @@ public class InputKeyboardView extends LinearLayout {
         if (modifiersContainer != null) {
             modifiersContainer.removeAllViews();
         }
+        prepareKeyBackground();
     }
 
     private Runnable mKeyPressRunnable = new Runnable() {

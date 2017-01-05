@@ -28,6 +28,7 @@ public class KeyThemeInfo {
     private int colorB;
     private int colorC;
     private int textColor;
+    private boolean selected;
 
     public KeyThemeInfo(String colorName, int colorA, int colorB, int colorC, int textColor) {
         this.colorName = colorName;
@@ -75,5 +76,13 @@ public class KeyThemeInfo {
 
     public int getTextColor() {
         return textColor;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }
