@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.dalol.bestamharickeyboard.activity;
+package org.dalol.bestamharickeyboard.modules.activity;
 
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
@@ -44,12 +44,16 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.dalol.bestamharickeyboard.R;
+import org.dalol.bestamharickeyboard.base.BaseActivity;
 import org.dalol.bestamharickeyboard.keyboard.AmharicKeyboardService;
+import org.dalol.bestamharickeyboard.modules.dialog.ThemeSelectorDialog;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static org.dalol.bestamharickeyboard.uitilities.Constant.ENABLE_KEYBOARD_REQUEST_CODE;
 
 public class MainActivity extends BaseActivity {
 
@@ -102,6 +106,8 @@ public class MainActivity extends BaseActivity {
         mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
+        showDialog("Getting configurations...");
+        configureStatus();
     }
 
     @Override
@@ -115,8 +121,15 @@ public class MainActivity extends BaseActivity {
         IntentFilter filter = new IntentFilter(Intent.ACTION_INPUT_METHOD_CHANGED);
         registerReceiver(mReceiver, filter);
         keyboardEnabledImageView.setImageDrawable(getKeyboardStatusDrawable(isBestAmharicKeyboardEnabled()));
-        showDialog("Getting configurations...");
-        configureStatus();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == ENABLE_KEYBOARD_REQUEST_CODE) {
+            showDialog("Configuring Keyboard...");
+            configureStatus();
+        }
     }
 
     @Override
@@ -162,7 +175,7 @@ public class MainActivity extends BaseActivity {
     @OnClick(R.id.optionEnableKeyboardView)
     void onEnableKeyboardOptionClicked() {
         Intent intent = new Intent(android.provider.Settings.ACTION_INPUT_METHOD_SETTINGS);
-        startActivityForResult(intent, 0);
+        startActivityForResult(intent, ENABLE_KEYBOARD_REQUEST_CODE);
     }
 
     @OnClick(R.id.optionSelectKeyboardView)
@@ -173,7 +186,9 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.optionChangeTheme)
     void onChangeThemeOptionClicked() {
-        startActivity(new Intent(this, ThemeSelectionActivity.class));
+        ThemeSelectorDialog dialog = new ThemeSelectorDialog(MainActivity.this);
+        dialog.show();
+        //startActivity(new Intent(this, ThemeSelectionActivity.class));
     }
 
     @OnClick(R.id.optionOpenEditor)

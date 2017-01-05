@@ -18,11 +18,16 @@ package org.dalol.bestamharickeyboard.keyboard.keys;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -35,8 +40,8 @@ import android.widget.TextView;
 
 import org.dalol.bestamharickeyboard.R;
 import org.dalol.bestamharickeyboard.keyboard.keyinfo.InputKeysInfo;
-import org.dalol.bestamharickeyboard.theme.KeyThemeInfo;
-import org.dalol.bestamharickeyboard.theme.ThemesInfo;
+import org.dalol.bestamharickeyboard.modules.theme.KeyThemeInfo;
+import org.dalol.bestamharickeyboard.modules.theme.ThemesInfo;
 import org.dalol.bestamharickeyboard.uitilities.Constant;
 import org.dalol.bestamharickeyboard.uitilities.Storage;
 
@@ -184,9 +189,21 @@ public class InputKeyboardView extends LinearLayout {
                     keyText.setText(keyLabel);
                     keyText.setTextSize(18f);
                     keyText.setIncludeFontPadding(false);
-                    keyText.setTextColor(Color.WHITE);
                     keyText.setTag(keyInfo);
                     applyBackground(keyText);
+                    int textColorA = themes.get(0).getTextColor();
+                    keyText.setTextColor(new ColorStateList(
+                            new int[][]{
+                                    new int[]{android.R.attr.state_pressed},
+                                    new int[]{android.R.attr.state_focused},
+                                    new int[]{}
+                            },
+                            new int[]{
+                                    Color.WHITE,
+                                    Color.WHITE,
+                                    textColorA
+                            }
+                    ));
                     configureKey(keyText, keyWeight, keyRow);
                 } else {
                     ImageView keyImage = new ImageView(context);
@@ -194,9 +211,25 @@ public class InputKeyboardView extends LinearLayout {
                     int padding = getCustomSize(keyInfo.getPadding());
                     keyImage.setPadding(padding, padding, padding, padding);
                     keyImage.setTag(keyInfo);
-                    if(keyInfo.isSelected()) {
-                        keyImage.setBackgroundColor(0xFFff0000);
+                    if (keyInfo.isSelected()) {
+                        keyImage.setBackgroundColor(getComplimentColor(themes.get(0).getColorB()));
                     } else {
+                        Drawable drawable = keyImage.getDrawable();
+                        drawable = drawable.mutate();
+                        drawable = DrawableCompat.wrap(drawable);
+                        DrawableCompat.setTintList(drawable, new ColorStateList(
+                                new int[][]{
+                                        new int[]{android.R.attr.state_pressed},
+                                        new int[]{android.R.attr.state_focused},
+                                        new int[]{}
+                                },
+                                new int[]{
+                                        Color.WHITE,
+                                        Color.WHITE,
+                                        themes.get(0).getTextColor()
+                                }
+                        ));
+
                         applyBackground(keyImage);
                         //keyImage.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.theme_blue_marble_bg));
                     }
@@ -210,7 +243,17 @@ public class InputKeyboardView extends LinearLayout {
     private void applyBackground(View key) {
         //int themeId = mStorage.getInt(Constant.SELECTED_THEME_ID, themesMap.get("5Blue Marble"));
 //        key.setBackgroundDrawable(ContextCompat.getDrawable(getContext(),  themeId));
-        key.setBackgroundDrawable(themesInfo.getGradient(themes.get(34)));
+
+
+        GradientDrawable drawableGreen = themesInfo.getGradient(themes.get(0));
+        GradientDrawable drawableAmber = themesInfo.getGradient(themes.get(23));
+
+        StateListDrawable stateListDrawable = new StateListDrawable();
+        stateListDrawable.addState(new int[]{-android.R.attr.state_pressed,
+                -android.R.attr.state_focused, -android.R.attr.state_selected}, drawableGreen);
+        stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, drawableAmber);
+
+        key.setBackgroundDrawable(stateListDrawable);
     }
 
     private void configureKey(View child, float columnCount, LinearLayout keyContainer) {
@@ -332,4 +375,20 @@ public class InputKeyboardView extends LinearLayout {
             }
         }
     };
+
+
+    public int getComplimentColor(int color) {
+        // get existing colors
+        int alpha = Color.alpha(color);
+        int red = Color.red(color);
+        int blue = Color.blue(color);
+        int green = Color.green(color);
+
+        // find compliments
+        red = (~red) & 0xff;
+        blue = (~blue) & 0xff;
+        green = (~green) & 0xff;
+
+        return Color.argb(alpha, red, green, blue);
+    }
 }

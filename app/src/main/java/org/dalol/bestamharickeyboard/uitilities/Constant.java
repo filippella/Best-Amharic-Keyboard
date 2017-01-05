@@ -23,6 +23,8 @@ package org.dalol.bestamharickeyboard.uitilities;
  */
 public class Constant {
 
+    public static int ENABLE_KEYBOARD_REQUEST_CODE = 0;
+
     private final static String PACKAGE_NAME = "org.dalol.bestamharickeyboard";
     public static final String SELECTED_THEME_ID = PACKAGE_NAME + ":selected_theme";
     public static final String PREFERENCE_NAME = PACKAGE_NAME + ":storage_preference";

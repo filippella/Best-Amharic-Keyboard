@@ -9,7 +9,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="org.dalol.bestamharickeyboard.activity.MainActivity"
+        <activity android:name=".modules.activity.MainActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,7 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ThemeSelectionActivity"
+        <activity android:name=".modules.activity.ThemeSelectionActivity"
             android:label="@string/theme_settings_name"/>
         <service
             android:name="org.dalol.bestamharickeyboard.keyboard.AmharicKeyboardService"

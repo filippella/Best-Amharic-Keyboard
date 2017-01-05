@@ -9,4 +9,6 @@
     <dimen name="theme_row_height">56dip</dimen>
     <dimen name="candidate_font_height">16sp</dimen>
     <dimen name="candidate_vertical_padding">6sp</dimen>
+    <dimen name="max_dialog_width">320dp</dimen>
+    <dimen name="max_dialog_height">460dp</dimen>
 </resources>

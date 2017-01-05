@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.dalol.bestamharickeyboard.activity;
+package org.dalol.bestamharickeyboard.modules.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,14 +22,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.dalol.bestamharickeyboard.R;
-import org.dalol.bestamharickeyboard.activity.BaseActivity;
-import org.dalol.bestamharickeyboard.theme.KeyThemeInfo;
-import org.dalol.bestamharickeyboard.theme.ThemesInfo;
+import org.dalol.bestamharickeyboard.base.BaseActivity;
+import org.dalol.bestamharickeyboard.modules.theme.KeyThemeInfo;
+import org.dalol.bestamharickeyboard.modules.theme.ThemesInfo;
 
 import java.util.List;
 
@@ -81,7 +80,7 @@ public class ThemeSelectionActivity extends BaseActivity {
             View itemView = holder.itemView;
             KeyThemeInfo themeInfo = themes.get(position);
             itemView.setBackgroundDrawable(themesInfo.getGradient(themeInfo));
-            holder.themeName.setText(themeInfo.getName());
+            holder.themeName.setText(themeInfo.getColorName());
             holder.themeBG.setText(Integer.toString(position+1));
         }
 

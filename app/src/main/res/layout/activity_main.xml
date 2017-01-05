@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="org.dalol.bestamharickeyboard.activity.MainActivity">
+    tools:context=".modules.activity.MainActivity">
 
     <LinearLayout
         android:id="@+id/activity_main"
