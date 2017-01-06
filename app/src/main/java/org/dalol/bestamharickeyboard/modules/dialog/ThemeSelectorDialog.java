@@ -18,13 +18,13 @@ package org.dalol.bestamharickeyboard.modules.dialog;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.dalol.bestamharickeyboard.R;
 import org.dalol.bestamharickeyboard.base.BaseDialog;
@@ -34,6 +34,7 @@ import org.dalol.bestamharickeyboard.modules.theme.ThemesInfo;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
@@ -43,10 +44,13 @@ import butterknife.BindView;
 public class ThemeSelectorDialog extends BaseDialog {
 
     @BindView(R.id.themesList) protected RecyclerView mThemeList;
-    private OnThemeSelectListener listener;
 
-    public ThemeSelectorDialog(Context context) {
+    private OnThemeSelectListener listener;
+    private int keyBGPosition;
+
+    public ThemeSelectorDialog(Context context, int keyBGPosition) {
         super(context);
+        this.keyBGPosition = keyBGPosition;
     }
 
     @Override
@@ -70,6 +74,21 @@ public class ThemeSelectorDialog extends BaseDialog {
         mThemeList.setLayoutManager(new LinearLayoutManager(getContext()));
         mThemeList.setHasFixedSize(true);
         mThemeList.setAdapter(new ThemeListAdapter(new ThemesInfo()));
+        mThemeList.getLayoutManager().scrollToPosition(keyBGPosition);
+    }
+
+    @OnClick(R.id.donetOption)
+    void onDoneClicked() {
+        if (listener != null) {
+            listener.onThemeSelect(keyBGPosition);
+        }
+        dismiss();
+    }
+
+    @OnClick(R.id.resetDefaultOption)
+    void onResetToDefaultOptionClicked() {
+        this.listener.onResetToDefault();
+        dismiss();
     }
 
     public void setOnThemeSelectListener(OnThemeSelectListener listener) {
@@ -80,11 +99,11 @@ public class ThemeSelectorDialog extends BaseDialog {
 
         private final ThemesInfo themesInfo;
         private final List<KeyThemeInfo> themes;
-        private int lastSelectedPosition;
 
         public ThemeListAdapter(ThemesInfo themesInfo) {
             this.themesInfo = themesInfo;
             this.themes = themesInfo.getThemes();
+            this.themes.get(keyBGPosition).setSelected(true);
         }
 
         @Override
@@ -128,10 +147,10 @@ public class ThemeSelectorDialog extends BaseDialog {
                 int position = getAdapterPosition();
                 KeyThemeInfo info = themes.get(position);
                 if(!info.isSelected()) {
-                    themes.get(lastSelectedPosition).setSelected(false);
+                    themes.get(keyBGPosition).setSelected(false);
                     info.setSelected(true);
                     notifyDataSetChanged();
-                    lastSelectedPosition = position;
+                    keyBGPosition = position;
                     if(listener != null) {
                         listener.onThemeSelect(position);
                     }
@@ -143,5 +162,7 @@ public class ThemeSelectorDialog extends BaseDialog {
     public interface OnThemeSelectListener {
 
         void onThemeSelect(int position);
+
+        void onResetToDefault();
     }
 }

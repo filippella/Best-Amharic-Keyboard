@@ -43,9 +43,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdView;
+
 import org.dalol.bestamharickeyboard.R;
 import org.dalol.bestamharickeyboard.base.BaseActivity;
 import org.dalol.bestamharickeyboard.keyboard.AmharicKeyboardService;
+import org.dalol.bestamharickeyboard.modules.ads.AdsDelegate;
 import org.dalol.bestamharickeyboard.modules.dialog.ThemeSelectorDialog;
 
 import java.util.List;
@@ -63,8 +66,10 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.navigationViewKeyboardSetting) protected NavigationView mNavigationView;
     @BindView(R.id.imageViewKeyboardEnabled) protected ImageView keyboardEnabledImageView;
     @BindView(R.id.imageViewKeyboardSelected) protected ImageView keyboardSelectedImageView;
+    @BindView(R.id.adView) protected AdView mAdView;
 
     private ActionBarDrawerToggle mDrawerToggle;
+    private AdsDelegate adsDelegate;
 
     @Override
     protected void onViewReady(Bundle savedInstanceState, Intent intent) {
@@ -108,6 +113,9 @@ public class MainActivity extends BaseActivity {
         mDrawerToggle.syncState();
         showDialog("Getting configurations...");
         configureStatus();
+
+        adsDelegate = new AdsDelegate(mAdView);
+        adsDelegate.handleAdBanner();
     }
 
     @Override
@@ -191,25 +199,26 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.optionOpenEditor)
     void onOpenEditorOptionClicked() {
-        AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
-                .setView(R.layout.editor_layout)
-                .setCancelable(true)
-                .create();
-//        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-//            @Override
-//            public void onShow(DialogInterface dialog) {
-//                AlertDialog d = (AlertDialog) dialog;
-//                EditText editorView = (EditText) d.findViewById(R.id.editorEditText);
-//                editorView.requestFocus();
-//            }
-//        });
-
-
-
-        dialog.show();
-        Window window = dialog.getWindow();
-        window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE  | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        startActivity(new Intent(this, TypingActivity.class));
+//        AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
+//                .setView(R.layout.editor_layout)
+//                .setCancelable(true)
+//                .create();
+////        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+////            @Override
+////            public void onShow(DialogInterface dialog) {
+////                AlertDialog d = (AlertDialog) dialog;
+////                EditText editorView = (EditText) d.findViewById(R.id.editorEditText);
+////                editorView.requestFocus();
+////            }
+////        });
+//
+//
+//
+//        dialog.show();
+//        Window window = dialog.getWindow();
+//        window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE  | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+//        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
 //        EditText editorView = (EditText) dialog.findViewById(R.id.editorEditText);
 //        editorView.addTextChangedListener(new TextWatcher() {

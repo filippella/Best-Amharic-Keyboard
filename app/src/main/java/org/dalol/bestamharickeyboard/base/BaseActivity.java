@@ -24,6 +24,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -45,7 +46,7 @@ import butterknife.Unbinder;
  */
 public abstract class BaseActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolbar) protected Toolbar mToolbar;
+    @Nullable @BindView(R.id.toolbar) protected Toolbar mToolbar;
 
     private ProgressDialog mProgressDialog;
     private Unbinder bind;

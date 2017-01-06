@@ -3,4 +3,6 @@
     <string name="openDrawer">Open</string>
     <string name="closeDrawer">Close</string>
     <string name="theme_settings_name">Theme Settings</string>
+    <string name="typing_name">Typing Test</string>
+    <string name="banner_ad_unit_id">ca-app-pub-5489846298805329/7641854297</string>
 </resources>

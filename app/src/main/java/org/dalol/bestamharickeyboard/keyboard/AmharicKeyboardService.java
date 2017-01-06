@@ -89,7 +89,7 @@ public class AmharicKeyboardService extends InputMethodService implements OnInpu
         if (parent != null) {
             parent.removeAllViews();
         }
-        inputKeyboardView.resetModifiersRow();
+        inputKeyboardView.applyKeyboardChanges();
         return inputKeyboardView;
     }
 

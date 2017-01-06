@@ -49,6 +49,7 @@ import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 import static org.dalol.bestamharickeyboard.uitilities.Constant.SELECTED_THEME_ID;
+import static org.dalol.bestamharickeyboard.uitilities.Constant.THEME_CHANGED_ID;
 import static org.dalol.bestamharickeyboard.uitilities.Constant.UNSELECTED_THEME_ID;
 
 /**
@@ -216,10 +217,6 @@ public class InputKeyboardView extends LinearLayout {
     }
 
     private void applyBackground(View key) {
-        //int themeId = mStorage.getInt(Constant.SELECTED_THEME_ID, themesMap.get("5Blue Marble"));
-//        key.setBackgroundDrawable(ContextCompat.getDrawable(getContext(),  themeId));
-
-
         GradientDrawable drawableGreen = themesInfo.getGradient(defaultKeyTheme);
         GradientDrawable drawableAmber = themesInfo.getGradient(pressedKeyTheme);
 
@@ -265,11 +262,16 @@ public class InputKeyboardView extends LinearLayout {
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, size, getResources().getDisplayMetrics()));
     }
 
-    public void resetModifiersRow() {
+    public void applyKeyboardChanges() {
         if (modifiersContainer != null) {
             modifiersContainer.removeAllViews();
         }
-        prepareKeyBackground();
+
+        if(mStorage.getBoolean(THEME_CHANGED_ID, false)) {
+            prepareKeyBackground();
+            setInputKeyboard(mInputKeysInfo);
+        }
+        mStorage.putBoolean(THEME_CHANGED_ID, false);
     }
 
     private Runnable mKeyPressRunnable = new Runnable() {
@@ -295,7 +297,7 @@ public class InputKeyboardView extends LinearLayout {
                         String[] keyModifiers = mInputKeysInfo.getModifiers(label);
                         onInputKeyListener.onClick(label);
                         if (keyModifiers != null) {
-                            resetModifiersRow();
+                            applyKeyboardChanges();
                             for (int i = 0; i < keyModifiers.length; i++) {
                                 String keyModifier = keyModifiers[i];
                                 TextView modifierKey = new TextView(getContext());

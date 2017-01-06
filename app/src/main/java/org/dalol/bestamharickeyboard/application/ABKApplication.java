@@ -14,20 +14,22 @@
  * limitations under the License.
  */
 
-package org.dalol.bestamharickeyboard.uitilities;
+package org.dalol.bestamharickeyboard.application;
+
+import android.app.Application;
+
+import com.google.android.gms.ads.MobileAds;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
  * @version 1.0.0
- * @since 1/4/2017
+ * @since 1/6/2017
  */
-public class Constant {
+public class ABKApplication extends Application {
 
-    public static int ENABLE_KEYBOARD_REQUEST_CODE = 0;
-
-    private final static String PACKAGE_NAME = "org.dalol.bestamharickeyboard";
-    public static final String PREFERENCE_NAME = PACKAGE_NAME + ":storage_preference";
-    public static final String SELECTED_THEME_ID = PACKAGE_NAME + ":selected_theme";
-    public static final String UNSELECTED_THEME_ID = PACKAGE_NAME + ":unselected_theme";
-    public static final String THEME_CHANGED_ID = PACKAGE_NAME + ":theme_changed";
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-5489846298805329~6165121097");
+    }
 }
