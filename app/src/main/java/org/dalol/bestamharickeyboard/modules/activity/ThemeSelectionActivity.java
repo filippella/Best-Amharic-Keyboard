@@ -24,7 +24,7 @@ import com.google.android.gms.ads.AdView;
 
 import org.dalol.bestamharickeyboard.R;
 import org.dalol.bestamharickeyboard.base.BaseActivity;
-import org.dalol.bestamharickeyboard.modules.ads.AdsDelegate;
+import org.dalol.bestamharickeyboard.delegate.AdsDelegate;
 import org.dalol.bestamharickeyboard.modules.dialog.ThemeSelectorDialog;
 import org.dalol.bestamharickeyboard.modules.theme.KeyThemeInfo;
 import org.dalol.bestamharickeyboard.modules.theme.ThemesInfo;

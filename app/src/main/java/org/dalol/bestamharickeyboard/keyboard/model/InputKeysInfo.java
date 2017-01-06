@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package org.dalol.bestamharickeyboard.keyboard.keys;
+package org.dalol.bestamharickeyboard.keyboard.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,21 +23,13 @@ import java.util.List;
  * @version 1.0.0
  * @since 12/18/2016
  */
-public class InputKeysRow {
+public interface InputKeysInfo {
 
-    private List<KeyInfo> keyInfoList = new ArrayList<>();
+    List<InputKeysRow> getKeysRowList();
 
-    public InputKeysRow() {}
+    String[] getModifiers(String keyLabel);
 
-    public InputKeysRow(List<KeyInfo> keyInfoList) {
-        this.keyInfoList.addAll(keyInfoList);
-    }
+    boolean isModifiersEnabled();
 
-    public void addKeyInfo(KeyInfo keyInfo) {
-        this.keyInfoList.add(keyInfo);
-    }
-
-    public List<KeyInfo> getKeyInfoList() {
-        return keyInfoList;
-    }
+    void clean();
 }

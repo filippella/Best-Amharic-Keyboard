@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package org.dalol.bestamharickeyboard.keyboard.keyinfo;
+package org.dalol.bestamharickeyboard.keyboard.model;
 
 import org.dalol.bestamharickeyboard.R;
-import org.dalol.bestamharickeyboard.keyboard.keys.InputKeysRow;
-import org.dalol.bestamharickeyboard.keyboard.keys.KeyInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +26,14 @@ import java.util.List;
  * @version 1.0.0
  * @since 12/29/2016
  */
-public class SymbolsTwoInputKeysInfo extends BaseInputKeysInfo {
+public class EnglishInputKeysInfo extends BaseInputKeysInfo {
+
+    private boolean lowercase;
+
+    public EnglishInputKeysInfo(boolean lowercase) {
+        this.lowercase = lowercase;
+        populateKeys();
+    }
 
     @Override
     public List<InputKeysRow> getKeysRowList() {
@@ -55,11 +60,8 @@ public class SymbolsTwoInputKeysInfo extends BaseInputKeysInfo {
 
     private List<InputKeysRow> inputKeysRows;
 
-    {
-        populateKeys();
-    }
-
     private void populateKeys() {
+
         inputKeysRows = new ArrayList<>();
 
         InputKeysRow keysRow1 = new InputKeysRow();
@@ -75,46 +77,45 @@ public class SymbolsTwoInputKeysInfo extends BaseInputKeysInfo {
         keysRow1.addKeyInfo(new KeyInfo("0", 1, true, KeyInfo.KEY_EVENT_NORMAL));
 
         InputKeysRow keysRow2 = new InputKeysRow();
-        keysRow2.addKeyInfo(new KeyInfo("~", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow2.addKeyInfo(new KeyInfo("±", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow2.addKeyInfo(new KeyInfo("♤", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow2.addKeyInfo(new KeyInfo("♡", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow2.addKeyInfo(new KeyInfo("•", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow2.addKeyInfo(new KeyInfo("°", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow2.addKeyInfo(new KeyInfo("`", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow2.addKeyInfo(new KeyInfo("´", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow2.addKeyInfo(new KeyInfo("《", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow2.addKeyInfo(new KeyInfo("》", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo(lowercase ? "q" : "Q", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo(lowercase ? "w" : "W", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo(lowercase ? "e" : "E", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo(lowercase ? "r" : "R", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo(lowercase ? "t" : "T", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo(lowercase ? "y" : "Y", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo(lowercase ? "u" : "U", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo(lowercase ? "i" : "I", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo(lowercase ? "o" : "O", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow2.addKeyInfo(new KeyInfo(lowercase ? "p" : "P", 1, true, KeyInfo.KEY_EVENT_NORMAL));
 
         InputKeysRow keysRow3 = new InputKeysRow();
-        keysRow3.addKeyInfo(new KeyInfo("©", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow3.addKeyInfo(new KeyInfo("£", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow3.addKeyInfo(new KeyInfo("€", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow3.addKeyInfo(new KeyInfo("^", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow3.addKeyInfo(new KeyInfo("®", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow3.addKeyInfo(new KeyInfo("¥", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow3.addKeyInfo(new KeyInfo("₩", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow3.addKeyInfo(new KeyInfo("☆", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow3.addKeyInfo(new KeyInfo("♢", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow3.addKeyInfo(new KeyInfo("♧", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo(lowercase ? "a" : "A", 1.5f, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo(lowercase ? "s" : "S", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo(lowercase ? "d" : "D", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo(lowercase ? "f" : "F", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo(lowercase ? "g" : "G", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo(lowercase ? "h" : "H", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo(lowercase ? "j" : "J", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo(lowercase ? "k" : "K", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow3.addKeyInfo(new KeyInfo(lowercase ? "l" : "L", 1.5f, true, KeyInfo.KEY_EVENT_NORMAL));
 
         InputKeysRow keysRow4 = new InputKeysRow();
-
-        keysRow4.addKeyInfo(new KeyInfo(R.mipmap.ic_keyboard_capslock_white_24dp, 1, false, KeyInfo.KEY_EVENT_SYMBOLS_ONE).setPadding(8).selected());
-        keysRow4.addKeyInfo(new KeyInfo("¡", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow4.addKeyInfo(new KeyInfo("□", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow4.addKeyInfo(new KeyInfo("■", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow4.addKeyInfo(new KeyInfo("¢", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow4.addKeyInfo(new KeyInfo("|", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow4.addKeyInfo(new KeyInfo("\\", 1, true, KeyInfo.KEY_EVENT_NORMAL));
-        keysRow4.addKeyInfo(new KeyInfo("¿", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        KeyInfo keyInfo = new KeyInfo(R.mipmap.ic_keyboard_capslock_white_24dp, 1, false, KeyInfo.KEY_EVENT_SHIFT).setPadding(8);
+        keysRow4.addKeyInfo(lowercase ? keyInfo : keyInfo.selected());
+        keysRow4.addKeyInfo(new KeyInfo(lowercase ? "z" : "Z", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo(lowercase ? "x" : "X", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo(lowercase ? "c" : "C", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo(lowercase ? "v" : "V", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo(lowercase ? "b" : "B", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo(lowercase ? "n" : "N", 1, true, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow4.addKeyInfo(new KeyInfo(lowercase ? "m" : "M", 1, true, KeyInfo.KEY_EVENT_NORMAL));
         keysRow4.addKeyInfo(new KeyInfo(R.mipmap.ic_backspace_white_24dp, 2, false, KeyInfo.KEY_EVENT_BACKSPACE).setPadding(12));
 
         InputKeysRow keysRow5 = new InputKeysRow();
         keysRow5.addKeyInfo(new KeyInfo("\u1200\u1201", 2, false, KeyInfo.KEY_EVENT_HAHU));
-        keysRow5.addKeyInfo(new KeyInfo(ENGLISH_KEY_LABEL, 2, false, KeyInfo.KEY_EVENT_ENGLISH));
+        keysRow5.addKeyInfo(new KeyInfo("?123", 2, false, KeyInfo.KEY_EVENT_SYMBOLS_ONE));
         keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_space_bar_white_24dp, 3, false, KeyInfo.KEY_EVENT_SPACE).setPadding(9));
-        keysRow5.addKeyInfo(new KeyInfo(",", 1, false, KeyInfo.KEY_EVENT_NORMAL));
+        keysRow5.addKeyInfo(new KeyInfo(".", 1, false, KeyInfo.KEY_EVENT_NORMAL));
         keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_subdirectory_arrow_left_white_24dp, 1, false, KeyInfo.KEY_EVENT_NORMAL).setPadding(8));
         keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_send_white_24dp, 1, false, KeyInfo.KEY_EVENT_ENTER).setPadding(8));
 

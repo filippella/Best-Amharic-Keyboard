@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Filippo Engidashet
+ * Copyright (c) 2017 Filippo Engidashet
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.dalol.bestamharickeyboard.keyboard.keys;
+package org.dalol.bestamharickeyboard.keyboard.model;
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
  * @version 1.0.0
@@ -92,4 +92,5 @@ public class KeyInfo {
     public static final int KEY_EVENT_SYMBOLS_ONE = 7;
     public static final int KEY_EVENT_SYMBOLS_TWO = 8;
     public static final int KEY_EVENT_ENGLISH = 9;
+    public static final int KEY_EVENT_NEW_LINE = 10;
 }

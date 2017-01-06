@@ -14,22 +14,31 @@
  * limitations under the License.
  */
 
-package org.dalol.bestamharickeyboard.keyboard.keyinfo;
+package org.dalol.bestamharickeyboard.keyboard.model;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
  * @version 1.0.0
- * @since 1/4/2017
+ * @since 12/18/2016
  */
-public abstract class BaseInputKeysInfo implements InputKeysInfo {
+public class InputKeysRow {
 
-    public static final String ENGLISH_KEY_LABEL = "Eng";
+    private List<KeyInfo> keyInfoList = new ArrayList<>();
 
-//    protected Drawable getKeyDrawable(int resId) {
-//        return AmharicKeyboardApplication.getKeyboardContext().getResources().getDrawable(resId);
-//    }
-//
-//    protected void setKeyColorFilter(Drawable keyIconDrawable, int colorRes) {
-//        keyIconDrawable.setColorFilter(AmharicKeyboardApplication.getKeyboardContext().getResources().getColor(colorRes), PorterDuff.Mode.MULTIPLY);
-//    }
+    public InputKeysRow() {}
+
+    public InputKeysRow(List<KeyInfo> keyInfoList) {
+        this.keyInfoList.addAll(keyInfoList);
+    }
+
+    public void addKeyInfo(KeyInfo keyInfo) {
+        this.keyInfoList.add(keyInfo);
+    }
+
+    public List<KeyInfo> getKeyInfoList() {
+        return keyInfoList;
+    }
 }

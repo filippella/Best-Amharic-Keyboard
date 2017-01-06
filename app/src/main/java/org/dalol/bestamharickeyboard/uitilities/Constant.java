@@ -23,9 +23,15 @@ package org.dalol.bestamharickeyboard.uitilities;
  */
 public class Constant {
 
+    public static final int SHARE_APP_INDEX = 0;
+    public static final int RATE_APP_INDEX = 1;
+    public static final int ABOUT_APP_INDEX = 2;
+
     public static int ENABLE_KEYBOARD_REQUEST_CODE = 0;
 
-    private final static String PACKAGE_NAME = "org.dalol.bestamharickeyboard";
+    public final static String PACKAGE_NAME = "org.dalol.bestamharickeyboard";
+    public static final String LINK_TO_APP = "https://play.google.com/store/apps/details?id=" + PACKAGE_NAME;
+
     public static final String PREFERENCE_NAME = PACKAGE_NAME + ":storage_preference";
     public static final String SELECTED_THEME_ID = PACKAGE_NAME + ":selected_theme";
     public static final String UNSELECTED_THEME_ID = PACKAGE_NAME + ":unselected_theme";

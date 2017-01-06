@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.dalol.bestamharickeyboard.modules.ads;
+package org.dalol.bestamharickeyboard.delegate;
 
 import android.view.View;
 

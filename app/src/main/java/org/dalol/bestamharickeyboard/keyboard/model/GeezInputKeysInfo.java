@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package org.dalol.bestamharickeyboard.keyboard.keyinfo;
+package org.dalol.bestamharickeyboard.keyboard.model;
 
 import org.dalol.bestamharickeyboard.R;
-import org.dalol.bestamharickeyboard.keyboard.keys.InputKeysRow;
-import org.dalol.bestamharickeyboard.keyboard.keys.KeyInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -98,7 +96,7 @@ public class GeezInputKeysInfo extends BaseInputKeysInfo {
         keysRow5.addKeyInfo(new KeyInfo(ENGLISH_KEY_LABEL, 2, false, KeyInfo.KEY_EVENT_ENGLISH));
         keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_space_bar_white_24dp, 3, false, KeyInfo.KEY_EVENT_SPACE).setPadding(9));
         keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_settings_white_24dp, 1, false, KeyInfo.KEY_EVENT_SETTINGS).setPadding(8));
-        keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_subdirectory_arrow_left_white_24dp, 1, false, KeyInfo.KEY_EVENT_NORMAL).setPadding(8));
+        keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_subdirectory_arrow_left_white_24dp, 1, false, KeyInfo.KEY_EVENT_NEW_LINE).setPadding(8));
         keysRow5.addKeyInfo(new KeyInfo(R.mipmap.ic_send_white_24dp, 1, false, KeyInfo.KEY_EVENT_ENTER).setPadding(8));
 
         inputKeysRows.add(keysRow1);
@@ -110,6 +108,10 @@ public class GeezInputKeysInfo extends BaseInputKeysInfo {
 
     @Override
     public String[] getModifiers(String keyLabel) {
+
+        if (keyLabel == null) {
+            return null;
+        }
 
         if (modifiersMap == null) {
             populateModifiers();

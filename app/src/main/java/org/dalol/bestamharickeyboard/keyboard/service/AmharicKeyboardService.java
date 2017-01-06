@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Filippo Engidashet
+ * Copyright (c) 2017 Filippo Engidashet
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.dalol.bestamharickeyboard.keyboard;
+package org.dalol.bestamharickeyboard.keyboard.service;
 
 import android.inputmethodservice.InputMethodService;
 import android.view.KeyEvent;
@@ -26,13 +26,13 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 
-import org.dalol.bestamharickeyboard.keyboard.keyinfo.EnglishInputKeysInfo;
-import org.dalol.bestamharickeyboard.keyboard.keyinfo.GeezInputKeysInfo;
-import org.dalol.bestamharickeyboard.keyboard.keyinfo.InputKeysInfo;
-import org.dalol.bestamharickeyboard.keyboard.keyinfo.SymbolsOneInputKeysInfo;
-import org.dalol.bestamharickeyboard.keyboard.keyinfo.SymbolsTwoInputKeysInfo;
-import org.dalol.bestamharickeyboard.keyboard.keys.InputKeyboardView;
-import org.dalol.bestamharickeyboard.keyboard.keys.OnInputKeyListener;
+import org.dalol.bestamharickeyboard.keyboard.model.EnglishInputKeysInfo;
+import org.dalol.bestamharickeyboard.keyboard.model.GeezInputKeysInfo;
+import org.dalol.bestamharickeyboard.keyboard.model.InputKeysInfo;
+import org.dalol.bestamharickeyboard.keyboard.model.SymbolsOneInputKeysInfo;
+import org.dalol.bestamharickeyboard.keyboard.model.SymbolsTwoInputKeysInfo;
+import org.dalol.bestamharickeyboard.keyboard.view.InputKeyboardView;
+import org.dalol.bestamharickeyboard.keyboard.callback.OnInputKeyListener;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>

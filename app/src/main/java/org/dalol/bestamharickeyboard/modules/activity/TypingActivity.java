@@ -26,7 +26,7 @@ import com.google.android.gms.ads.AdView;
 
 import org.dalol.bestamharickeyboard.R;
 import org.dalol.bestamharickeyboard.base.BaseActivity;
-import org.dalol.bestamharickeyboard.modules.ads.AdsDelegate;
+import org.dalol.bestamharickeyboard.delegate.AdsDelegate;
 
 import butterknife.BindView;
 
@@ -68,10 +68,17 @@ public class TypingActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.actionClear:
                 mEditorView.setText("");
+                showToast("Text Cleared!");
                 return true;
             case R.id.actionCopy:
                 String writtenValue = mEditorView.getText().toString();
-                copyText(writtenValue);
+                if(!writtenValue.isEmpty()) {
+                    copyText(writtenValue);
+                    showToast("Text Copied on the Clipboard!");
+                } else {
+                    showToast("Text cannot be copied! TextField is empty.");
+                }
+
                 return true;
         }
         return super.onOptionsItemSelected(item);

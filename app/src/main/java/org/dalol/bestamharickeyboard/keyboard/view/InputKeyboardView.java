@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package org.dalol.bestamharickeyboard.keyboard.keys;
+package org.dalol.bestamharickeyboard.keyboard.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
@@ -39,7 +40,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.dalol.bestamharickeyboard.R;
-import org.dalol.bestamharickeyboard.keyboard.keyinfo.InputKeysInfo;
+import org.dalol.bestamharickeyboard.keyboard.callback.OnInputKeyListener;
+import org.dalol.bestamharickeyboard.keyboard.model.InputKeysInfo;
+import org.dalol.bestamharickeyboard.keyboard.model.InputKeysRow;
+import org.dalol.bestamharickeyboard.keyboard.model.KeyInfo;
 import org.dalol.bestamharickeyboard.modules.theme.KeyThemeInfo;
 import org.dalol.bestamharickeyboard.modules.theme.ThemesInfo;
 import org.dalol.bestamharickeyboard.uitilities.Constant;
@@ -192,20 +196,19 @@ public class InputKeyboardView extends LinearLayout {
                     if (keyInfo.isSelected()) {
                         keyImage.setBackgroundColor(getComplimentColor(defaultKeyTheme.getColorB()));
                     } else {
-                        Drawable drawable = keyImage.getDrawable();
-                        DrawableCompat.setTintList(DrawableCompat.wrap(drawable).mutate(), new ColorStateList(
+                        Drawable drawable = DrawableCompat.wrap(keyImage.getDrawable());
+                        DrawableCompat.setTintList(drawable, new ColorStateList(
                                 new int[][]{
                                         new int[]{android.R.attr.state_pressed},
-                                        new int[]{android.R.attr.state_focused},
-                                        new int[]{}
+                                        new int[]{-android.R.attr.state_pressed,
+                                                -android.R.attr.state_focused, -android.R.attr.state_selected}
                                 },
                                 new int[]{
-                                        pressedKeyTheme.getTextColor(),
                                         pressedKeyTheme.getTextColor(),
                                         defaultKeyTheme.getTextColor()
                                 }
                         ));
-
+                        DrawableCompat.setTintMode(drawable, PorterDuff.Mode.SRC_IN);
                         applyBackground(keyImage);
                         //keyImage.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.theme_blue_marble_bg));
                     }
@@ -267,7 +270,7 @@ public class InputKeyboardView extends LinearLayout {
             modifiersContainer.removeAllViews();
         }
 
-        if(mStorage.getBoolean(THEME_CHANGED_ID, false)) {
+        if (mStorage.getBoolean(THEME_CHANGED_ID, false)) {
             prepareKeyBackground();
             setInputKeyboard(mInputKeysInfo);
         }
@@ -296,7 +299,7 @@ public class InputKeyboardView extends LinearLayout {
                         String label = info.getKeyLabel();
                         String[] keyModifiers = mInputKeysInfo.getModifiers(label);
                         onInputKeyListener.onClick(label);
-                        if (keyModifiers != null) {
+                        if (keyModifiers != null && keyModifiers.length > 0) {
                             applyKeyboardChanges();
                             for (int i = 0; i < keyModifiers.length; i++) {
                                 String keyModifier = keyModifiers[i];
@@ -348,6 +351,9 @@ public class InputKeyboardView extends LinearLayout {
                         break;
                     case KeyInfo.KEY_EVENT_SHIFT:
                         onInputKeyListener.onChangeEnglishCharactersCase();
+                        break;
+                    case KeyInfo.KEY_EVENT_NEW_LINE:
+                        onInputKeyListener.onClick("\n");
                         break;
                 }
             }

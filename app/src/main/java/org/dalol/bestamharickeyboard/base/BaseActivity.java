@@ -19,19 +19,20 @@ package org.dalol.bestamharickeyboard.base;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import org.dalol.bestamharickeyboard.R;
 
@@ -82,6 +83,10 @@ public abstract class BaseActivity extends AppCompatActivity {
             bind = null;
         }
         super.onDestroy();
+    }
+
+    protected void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     protected void showDialog(String message) {
@@ -135,8 +140,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void tintDrawable(Drawable drawable, int colorTint) {
-        drawable.setColorFilter(new
-                PorterDuffColorFilter(ContextCompat.getColor(this, colorTint), PorterDuff.Mode.SRC_ATOP));
+        int color = ContextCompat.getColor(this, colorTint);
+        Drawable wrappedDrawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTint(wrappedDrawable, color);
+        DrawableCompat.setTintMode(wrappedDrawable, PorterDuff.Mode.SRC_IN);
     }
 
     protected void showHome(Drawable drawable) {

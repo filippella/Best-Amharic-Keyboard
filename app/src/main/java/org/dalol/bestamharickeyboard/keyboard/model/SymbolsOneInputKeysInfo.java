@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package org.dalol.bestamharickeyboard.keyboard.keyinfo;
+package org.dalol.bestamharickeyboard.keyboard.model;
 
 import org.dalol.bestamharickeyboard.R;
-import org.dalol.bestamharickeyboard.keyboard.keys.InputKeysRow;
-import org.dalol.bestamharickeyboard.keyboard.keys.KeyInfo;
 
 import java.util.ArrayList;
 import java.util.List;

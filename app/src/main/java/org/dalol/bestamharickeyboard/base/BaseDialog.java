@@ -89,6 +89,7 @@ public abstract class BaseDialog extends Dialog {
         params.width = getWidth();
         params.gravity = Gravity.CENTER;
         getWindow().setAttributes(params);
+        params.windowAnimations = R.style.AboutDialogAnimation;
         onDialogReady(savedInstanceState);
     }
 

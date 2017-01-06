@@ -26,7 +26,7 @@
         <activity android:name=".modules.activity.TypingActivity"
             android:label="@string/typing_name"/>
         <service
-            android:name="org.dalol.bestamharickeyboard.keyboard.AmharicKeyboardService"
+            android:name="org.dalol.bestamharickeyboard.keyboard.service.AmharicKeyboardService"
             android:icon="@mipmap/ic_launcher"
             android:permission="android.permission.BIND_INPUT_METHOD">
             <intent-filter>

@@ -25,31 +25,29 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.android.gms.ads.AdView;
 
 import org.dalol.bestamharickeyboard.R;
 import org.dalol.bestamharickeyboard.base.BaseActivity;
-import org.dalol.bestamharickeyboard.keyboard.AmharicKeyboardService;
-import org.dalol.bestamharickeyboard.modules.ads.AdsDelegate;
-import org.dalol.bestamharickeyboard.modules.dialog.ThemeSelectorDialog;
+import org.dalol.bestamharickeyboard.delegate.AdsDelegate;
+import org.dalol.bestamharickeyboard.delegate.MenusDelegate;
+import org.dalol.bestamharickeyboard.keyboard.service.AmharicKeyboardService;
+import org.dalol.bestamharickeyboard.uitilities.Constant;
 
 import java.util.List;
 
@@ -70,6 +68,7 @@ public class MainActivity extends BaseActivity {
 
     private ActionBarDrawerToggle mDrawerToggle;
     private AdsDelegate adsDelegate;
+    private MenusDelegate menusDelegate;
 
     @Override
     protected void onViewReady(Bundle savedInstanceState, Intent intent) {
@@ -85,7 +84,17 @@ public class MainActivity extends BaseActivity {
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Toast.makeText(MainActivity.this, "Clicked on " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                switch (item.getItemId()) {
+                    case R.id.nav_share:
+                        handler.sendEmptyMessageDelayed(Constant.SHARE_APP_INDEX, 150L);
+                        break;
+                    case R.id.nav_rate_app:
+                        handler.sendEmptyMessageDelayed(Constant.RATE_APP_INDEX, 150L);
+                        break;
+                    case R.id.nav_about:
+                        handler.sendEmptyMessageDelayed(Constant.ABOUT_APP_INDEX, 150L);
+                        break;
+                }
                 mDrawerLayout.closeDrawer(Gravity.LEFT);
                 return true;
             }
@@ -114,6 +123,8 @@ public class MainActivity extends BaseActivity {
         showDialog("Getting configurations...");
         configureStatus();
 
+        menusDelegate = new MenusDelegate();
+
         adsDelegate = new AdsDelegate(mAdView);
         adsDelegate.handleAdBanner();
     }
@@ -128,7 +139,7 @@ public class MainActivity extends BaseActivity {
         super.onResume();
         IntentFilter filter = new IntentFilter(Intent.ACTION_INPUT_METHOD_CHANGED);
         registerReceiver(mReceiver, filter);
-        keyboardEnabledImageView.setImageDrawable(getKeyboardStatusDrawable(isBestAmharicKeyboardEnabled()));
+        applyStatusDrawable(keyboardEnabledImageView, isBestAmharicKeyboardEnabled());
     }
 
     @Override
@@ -146,16 +157,18 @@ public class MainActivity extends BaseActivity {
         super.onPause();
     }
 
-    private Drawable getKeyboardStatusDrawable(boolean enabled) {
+    private void applyStatusDrawable(ImageView imageView, boolean enabled) {
         Drawable drawable;
+        int color;
         if(enabled) {
             drawable = ContextCompat.getDrawable(this, R.mipmap.ic_done_all_white_24dp);
-            tintDrawable(drawable, R.color.green);
+            color = R.color.green;
         } else {
             drawable = ContextCompat.getDrawable(this, R.mipmap.ic_clear_white_24dp);
-            tintDrawable(drawable, R.color.red);
+            color = R.color.red;
         }
-        return drawable;
+        imageView.setImageDrawable(drawable);
+        tintDrawable(drawable, color);
     }
 
     @Override
@@ -200,43 +213,6 @@ public class MainActivity extends BaseActivity {
     @OnClick(R.id.optionOpenEditor)
     void onOpenEditorOptionClicked() {
         startActivity(new Intent(this, TypingActivity.class));
-//        AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
-//                .setView(R.layout.editor_layout)
-//                .setCancelable(true)
-//                .create();
-////        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-////            @Override
-////            public void onShow(DialogInterface dialog) {
-////                AlertDialog d = (AlertDialog) dialog;
-////                EditText editorView = (EditText) d.findViewById(R.id.editorEditText);
-////                editorView.requestFocus();
-////            }
-////        });
-//
-//
-//
-//        dialog.show();
-//        Window window = dialog.getWindow();
-//        window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE  | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-//        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-
-//        EditText editorView = (EditText) dialog.findViewById(R.id.editorEditText);
-//        editorView.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                Log.d(TAG, "Input is -> " + s);
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
     }
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
@@ -261,12 +237,30 @@ public class MainActivity extends BaseActivity {
     }
 
     private void configureStatus() {
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                keyboardSelectedImageView.setImageDrawable(getKeyboardStatusDrawable(isMyServiceRunning(AmharicKeyboardService.class)));
+                applyStatusDrawable(keyboardSelectedImageView, isMyServiceRunning(AmharicKeyboardService.class));
                 hideDialog();
             }
         }, 250L);
     }
+
+    Handler handler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case Constant.SHARE_APP_INDEX:
+                    menusDelegate.share(getApplicationContext());
+                    break;
+                case Constant.RATE_APP_INDEX:
+                    menusDelegate.rate(getApplicationContext());
+                    break;
+                case Constant.ABOUT_APP_INDEX:
+                    menusDelegate.aboutApp(MainActivity.this);
+                    break;
+            }
+        }
+    };
 }
