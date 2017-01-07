@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2017 Filippo Engidashet
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,19 +14,14 @@
   ~ limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/actionClear"
-        android:icon="@mipmap/ic_clear_white_24dp"
-        android:orderInCategory="100"
-        android:title="Clear Text"
-        app:showAsAction="always" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <item
-        android:id="@+id/actionCopy"
-        android:icon="@mipmap/ic_content_copy_white_24dp"
-        android:orderInCategory="200"
-        android:title="Copy Text"
-        app:showAsAction="always" />
-</menu>
+    <VideoView
+        android:id="@+id/videoPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

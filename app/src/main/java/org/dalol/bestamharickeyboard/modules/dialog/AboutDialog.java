@@ -41,11 +41,6 @@ public class AboutDialog extends BaseDialog {
     }
 
     @Override
-    public int getMaxHeight() {
-        return Math.round(getContext().getResources().getDimensionPixelSize(R.dimen.max_dialog_height));
-    }
-
-    @Override
     public boolean isCancelable() {
         return true;
     }

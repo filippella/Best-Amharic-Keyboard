@@ -44,27 +44,40 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="hello world"
+            android:text="@string/app_description"
             android:textColor="@android:color/primary_text_light"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical">-->
+
+            <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_gravity="center"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_margin="10dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:src="@mipmap/ic_mail_white_24dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:tint="@color/gray" />&ndash;&gt;-->
+
+        <!--</LinearLayout>-->
+
+
     </FrameLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
-        android:layout_marginTop="24dp"
         android:background="@color/gray" />
 
     <Button
         android:id="@+id/closeDialog"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:layout_marginBottom="8dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
-        android:background="@null"
-        android:foreground="?android:attr/selectableItemBackground"
+        android:background="?android:attr/selectableItemBackground"
         android:text="CLOSE"
         android:textColor="@color/colorAccent" />
 </LinearLayout>

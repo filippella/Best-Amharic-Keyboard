@@ -50,6 +50,7 @@ public class MenusDelegate {
         String shareBody = "Hey check out Best Amharic/Geez Keyboard at: https://play.google.com/store/apps/details?id=" + Constant.PACKAGE_NAME;
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Best Amharic Keyboard");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        sharingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         context.startActivity(sharingIntent);
     }
 
