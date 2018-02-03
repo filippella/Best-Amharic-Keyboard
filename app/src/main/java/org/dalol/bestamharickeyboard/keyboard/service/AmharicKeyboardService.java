@@ -26,13 +26,13 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 
+import org.dalol.bestamharickeyboard.keyboard.callback.OnInputKeyListener;
 import org.dalol.bestamharickeyboard.keyboard.model.EnglishInputKeysInfo;
 import org.dalol.bestamharickeyboard.keyboard.model.GeezInputKeysInfo;
 import org.dalol.bestamharickeyboard.keyboard.model.InputKeysInfo;
 import org.dalol.bestamharickeyboard.keyboard.model.SymbolsOneInputKeysInfo;
 import org.dalol.bestamharickeyboard.keyboard.model.SymbolsTwoInputKeysInfo;
 import org.dalol.bestamharickeyboard.keyboard.view.InputKeyboardView;
-import org.dalol.bestamharickeyboard.keyboard.callback.OnInputKeyListener;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
@@ -87,6 +87,7 @@ public class AmharicKeyboardService extends InputMethodService implements OnInpu
     public View onCreateInputView() {
         FrameLayout parent = (FrameLayout) inputKeyboardView.getParent();
         if (parent != null) {
+            parent.clearDisappearingChildren();
             parent.removeAllViews();
         }
         inputKeyboardView.applyKeyboardChanges();
@@ -110,16 +111,24 @@ public class AmharicKeyboardService extends InputMethodService implements OnInpu
     @Override
     public void onClick(String keyLabel) {
         InputConnection inputConnection = getCurrentInputConnection();
+        if (inputConnection == null) {
+            return;
+        }
         inputConnection.commitText(keyLabel, 1);
         modifierReady = true;
 
         ExtractedText et = inputConnection.getExtractedText(new ExtractedTextRequest(), 0);
-        selectionStart = et.selectionStart;
+        if (et != null) {
+            selectionStart = et.selectionStart;
+        }
     }
 
     @Override
     public void onBackSpace() {
         InputConnection inputConnection = getCurrentInputConnection();
+        if (inputConnection == null) {
+            return;
+        }
         inputConnection.sendKeyEvent(new KeyEvent(0, 67));
         inputConnection.sendKeyEvent(new KeyEvent(1, 67));
     }
@@ -127,6 +136,9 @@ public class AmharicKeyboardService extends InputMethodService implements OnInpu
     @Override
     public void onSpace() {
         InputConnection inputConnection = getCurrentInputConnection();
+        if (inputConnection == null) {
+            return;
+        }
         inputConnection.sendKeyEvent(new KeyEvent(0, 62));
         inputConnection.sendKeyEvent(new KeyEvent(1, 62));
     }
@@ -134,6 +146,9 @@ public class AmharicKeyboardService extends InputMethodService implements OnInpu
     @Override
     public void onEnter() {
         InputConnection inputConnection = getCurrentInputConnection();
+        if (inputConnection == null) {
+            return;
+        }
         inputConnection.sendKeyEvent(new KeyEvent(0, 66));
         inputConnection.sendKeyEvent(new KeyEvent(1, 66));
     }
@@ -174,19 +189,31 @@ public class AmharicKeyboardService extends InputMethodService implements OnInpu
     @Override
     public void onModifierClick(String keyLabel) {
         InputConnection inputConnection = getCurrentInputConnection();
+        if (inputConnection == null) {
+            return;
+        }
 
         ExtractedText et = inputConnection.getExtractedText(new ExtractedTextRequest(), 0);
-        int ss = et.selectionStart;
-        int se = et.selectionEnd;
+        if (et != null) {
+            int ss = et.selectionStart;
+            int se = et.selectionEnd;
 
-        if(modifierReady && se == ss && ss == selectionStart) inputConnection.deleteSurroundingText(1, 0);
+            if (modifierReady && se == ss && ss == selectionStart) {
+                inputConnection.deleteSurroundingText(1, 0);
+            }
+        }
         inputConnection.commitText(keyLabel, 1);
         modifierReady = false;
     }
 
     @Override
     public void onChangeEnglishCharactersCase() {
-        if(!uppercase) {uppercase = true;inputKeyboardView.setInputKeyboard(englishUpperCaseKeyInfo);}
-        else {uppercase = false;inputKeyboardView.setInputKeyboard(englishLowerCaseKeyInfo);}
+        if (!uppercase) {
+            uppercase = true;
+            inputKeyboardView.setInputKeyboard(englishUpperCaseKeyInfo);
+        } else {
+            uppercase = false;
+            inputKeyboardView.setInputKeyboard(englishLowerCaseKeyInfo);
+        }
     }
 }

@@ -16,12 +16,10 @@
 
 package org.dalol.bestamharickeyboard.widgets;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Build;
+import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
-import android.widget.Button;
 
 import org.dalol.bestamharickeyboard.R;
 import org.dalol.bestamharickeyboard.uitilities.FontType;
@@ -31,7 +29,7 @@ import org.dalol.bestamharickeyboard.uitilities.FontType;
  * @version 1.0.0
  * @since 12/4/2016
  */
-public class AmharicButtonView extends Button {
+public class AmharicButtonView extends AppCompatButton {
 
     private static final String FONTS_NYALA_TTF = "fonts/nyala.ttf";
     private int mTextFontType;
@@ -48,12 +46,6 @@ public class AmharicButtonView extends Button {
 
     public AmharicButtonView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initialize(context, attrs);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public AmharicButtonView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         initialize(context, attrs);
     }
 

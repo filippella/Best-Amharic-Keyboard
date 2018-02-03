@@ -16,12 +16,10 @@
 
 package org.dalol.bestamharickeyboard.widgets;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Typeface;
-import android.os.Build;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 import org.dalol.bestamharickeyboard.uitilities.FontType;
 
@@ -30,7 +28,7 @@ import org.dalol.bestamharickeyboard.uitilities.FontType;
  * @version 1.0.0
  * @since 12/4/2016
  */
-public class AmharicTextView extends TextView {
+public class AmharicTextView extends AppCompatTextView {
 
     public AmharicTextView(Context context) {
         super(context);
@@ -44,12 +42,6 @@ public class AmharicTextView extends TextView {
 
     public AmharicTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initialize(context, attrs);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public AmharicTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         initialize(context, attrs);
     }
 

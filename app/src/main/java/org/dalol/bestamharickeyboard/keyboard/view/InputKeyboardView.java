@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
@@ -47,6 +48,7 @@ import org.dalol.bestamharickeyboard.keyboard.model.KeyInfo;
 import org.dalol.bestamharickeyboard.modules.theme.KeyThemeInfo;
 import org.dalol.bestamharickeyboard.modules.theme.ThemesInfo;
 import org.dalol.bestamharickeyboard.uitilities.Constant;
+import org.dalol.bestamharickeyboard.uitilities.FontType;
 import org.dalol.bestamharickeyboard.uitilities.Storage;
 
 import java.util.List;
@@ -78,6 +80,7 @@ public class InputKeyboardView extends LinearLayout {
     private Handler mHandler = new Handler();
     private LinearLayout modifiersContainer;
     private Storage mStorage;
+    private Typeface mTypeface;
 
     public InputKeyboardView(Context context) {
         this(context, null, 0);
@@ -99,7 +102,7 @@ public class InputKeyboardView extends LinearLayout {
     }
 
     private void initializeKeyboardView(Context context, AttributeSet attrs) {
-        verifyEditMode();
+        if(isInEditMode()) return;
         setWillNotDraw(true);
         setOrientation(VERTICAL);
         mKeyHeight = getResources().getDimensionPixelOffset(R.dimen.key_height);
@@ -114,6 +117,8 @@ public class InputKeyboardView extends LinearLayout {
 
         themesInfo = new ThemesInfo();
         themes = themesInfo.getThemes();
+
+        //mTypeface = FontType.NYALA.getTypeface(getContext());
         prepareKeyBackground();
     }
 
@@ -124,12 +129,6 @@ public class InputKeyboardView extends LinearLayout {
 
             defaultKeyTheme = themes.get(unselectedThemeId);
             pressedKeyTheme = themes.get(selectedThemeId);
-        }
-    }
-
-    private void verifyEditMode() {
-        if (isInEditMode()) {
-            return;
         }
     }
 
@@ -165,6 +164,7 @@ public class InputKeyboardView extends LinearLayout {
                 float keyWeight = keyInfo.getKeyWeight();
                 if (keyLabel != null) {
                     TextView keyText = new TextView(context);
+//                    keyText.setTypeface(mTypeface);
 //                    key.setTypeface(FontType.NYALA.getTypeface(context), Typeface.BOLD);
 //                        AmharicTextView key = new AmharicTextView(context);
                     keyText.setGravity(Gravity.CENTER);

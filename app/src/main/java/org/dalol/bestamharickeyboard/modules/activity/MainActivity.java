@@ -33,6 +33,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -166,6 +167,7 @@ public class MainActivity extends BaseActivity {
         IntentFilter filter = new IntentFilter(Intent.ACTION_INPUT_METHOD_CHANGED);
         registerReceiver(mReceiver, filter);
         applyStatusDrawable(keyboardEnabledImageView, isBestAmharicKeyboardEnabled());
+        applyStatusDrawable(keyboardSelectedImageView, isMyServiceRunning(AmharicKeyboardService.class));
     }
 
     @Override
@@ -262,9 +264,12 @@ public class MainActivity extends BaseActivity {
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                return true;
+        if (manager != null) {
+            List<ActivityManager.RunningServiceInfo> runningServices = manager.getRunningServices(Integer.MAX_VALUE);
+            for (ActivityManager.RunningServiceInfo service : runningServices) {
+                if (serviceClass.getName().equals(service.service.getClassName())) {
+                    return true;
+                }
             }
         }
         return false;
@@ -274,7 +279,7 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action.equals(Intent.ACTION_INPUT_METHOD_CHANGED)) {
+            if (!TextUtils.isEmpty(action) && action.equals(Intent.ACTION_INPUT_METHOD_CHANGED)) {
                 showDialog("Configuring Keyboard...");
                 configureStatus();
             }
@@ -291,7 +296,7 @@ public class MainActivity extends BaseActivity {
         }, 250L);
     }
 
-    Handler handler = new Handler(Looper.getMainLooper()) {
+    private final Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
