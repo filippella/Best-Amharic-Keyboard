@@ -20,6 +20,8 @@ import android.app.Application;
 
 import com.google.android.gms.ads.MobileAds;
 
+import org.dalol.bestamharickeyboard.R;
+
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
  * @version 1.0.0
@@ -30,6 +32,6 @@ public class ABKApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        MobileAds.initialize(getApplicationContext(), "ca-app-pub-5489846298805329~6165121097");
+        MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
     }
 }

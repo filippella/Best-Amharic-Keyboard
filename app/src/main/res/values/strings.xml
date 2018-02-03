@@ -4,7 +4,11 @@
     <string name="closeDrawer">Close</string>
     <string name="theme_settings_name">Theme Settings</string>
     <string name="typing_name">Typing Test</string>
-    <string name="banner_ad_unit_id">ca-app-pub-5489846298805329/7641854297</string>
+
     <string name="app_description">Best Amharic Keyboard is developed by Filippo Engidashet to help users type amharic characters.
     </string>
+
+    <string name="admob_app_id">ca-app-pub-5489846298805329~6165121097</string>
+    <string name="banner_ad_unit_id">ca-app-pub-5489846298805329/7641854297</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-5489846298805329/2810382827</string>
 </resources>

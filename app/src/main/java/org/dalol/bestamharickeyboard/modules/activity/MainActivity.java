@@ -44,7 +44,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 
 import org.dalol.bestamharickeyboard.R;
 import org.dalol.bestamharickeyboard.base.BaseActivity;
@@ -73,14 +76,27 @@ public class MainActivity extends BaseActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private AdsDelegate adsDelegate;
     private MenusDelegate menusDelegate;
+    private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onViewReady(Bundle savedInstanceState, Intent intent) {
         super.onViewReady(savedInstanceState, intent);
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        mInterstitialAd.setAdListener(new AdListener(){
+
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            }
+        });
+
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
 
-        DisplayMetrics metrics = displayMetrics;
-        float screenWidth = metrics.widthPixels / metrics.density;
+        float screenWidth = displayMetrics.widthPixels / displayMetrics.density;
 
         if (screenWidth <= 360) {
             mNavigationView.getLayoutParams().width = displayMetrics.widthPixels - Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 56, displayMetrics));
@@ -228,12 +244,20 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.optionChangeTheme)
     void onChangeThemeOptionClicked() {
+        showAd();
         startActivity(new Intent(this, ThemeSelectionActivity.class));
     }
 
     @OnClick(R.id.optionOpenEditor)
     void onOpenEditorOptionClicked() {
+        showAd();
         startActivity(new Intent(this, TypingActivity.class));
+    }
+
+    private void showAd() {
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
     }
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
