@@ -33,7 +33,7 @@ public class ThemesInfo {
 
         List<KeyThemeInfo> themeInfos = new ArrayList<>();
 
-        themeInfos.add(new KeyThemeInfo("Ethio Flag", 0xFFff0000, 0xFFffff00, 0xFF006633, 0xFF000000));
+        themeInfos.add(new KeyThemeInfo("Ethio Flag", 0xFF006633, 0xFFffff00, 0xFFff0000, 0xFF1777A5));
         themeInfos.add(new KeyThemeInfo("Ruby", 0xFF7a0222, 0xFF9e032e, 0xFFcc1c4d, 0xFFffffff));
         themeInfos.add(new KeyThemeInfo("Fire engine", 0xFF73040b, 0xFF9e030b, 0xFFce2029, 0xFFffffff));
         themeInfos.add(new KeyThemeInfo("Burgundy", 0xFF4a090e, 0xFF6e060d, 0xFF94121c, 0xFFffffff));

@@ -1,8 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion project.androidCompileSdkVersion.toInteger()
-    buildToolsVersion project.androidBuildToolsVersion
+    compileSdkVersion 28
     defaultConfig {
         applicationId "org.dalol.bestamharickeyboard"
         minSdkVersion project.androidMinSDKVersion.toInteger()
@@ -26,19 +25,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    buildToolsVersion '28.0.0 rc2'
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile "com.android.support:appcompat-v7:${androidSupportVersion}"
-    compile "com.android.support:design:${androidSupportVersion}"
-    compile "com.android.support:cardview-v7:${androidSupportVersion}"
-    compile "com.android.support:recyclerview-v7:${androidSupportVersion}"
-
-    compile "com.jakewharton:butterknife:${butterknifeVersion}"
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+    implementation "com.android.support:appcompat-v7:${androidSupportVersion}"
+    implementation "com.android.support:design:${androidSupportVersion}"
+    implementation "com.android.support:cardview-v7:${androidSupportVersion}"
+    implementation "com.android.support:recyclerview-v7:${androidSupportVersion}"
+    implementation "com.jakewharton:butterknife:${butterknifeVersion}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${butterknifeCompilerVersion}"
-
     //FIREBASE AD and GCM
-    compile 'com.google.android.gms:play-services-ads:11.8.0'
+    implementation 'com.google.android.gms:play-services-ads:15.0.1'
 }

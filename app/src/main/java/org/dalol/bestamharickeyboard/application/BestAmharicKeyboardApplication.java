@@ -27,7 +27,7 @@ import org.dalol.bestamharickeyboard.R;
  * @version 1.0.0
  * @since 1/6/2017
  */
-public class ABKApplication extends Application {
+public class BestAmharicKeyboardApplication extends Application {
 
     @Override
     public void onCreate() {
