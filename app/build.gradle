@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
+    buildToolsVersion '28.0.0 rc2'
     defaultConfig {
         applicationId "org.dalol.bestamharickeyboard"
         minSdkVersion project.androidMinSDKVersion.toInteger()
@@ -25,7 +26,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    buildToolsVersion '28.0.0 rc2'
 }
 
 dependencies {
