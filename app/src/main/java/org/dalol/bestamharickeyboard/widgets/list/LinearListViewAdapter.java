@@ -19,37 +19,34 @@ package org.dalol.bestamharickeyboard.widgets.list;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
  * @version 1.0.0
  * @since 1/5/2017
  */
-public interface LinearListViewAdapter<T extends LinearListViewAdapter.ViewHolder> {
+public interface LinearListViewAdapter<VH extends LinearListViewAdapter.ViewHolder> {
 
-    T onCreateViewHolder(ViewGroup parent);
+    VH onCreateViewHolder(ViewGroup parent, int viewType);
 
     int getItemCount();
 
-    void onBindViewHolder(T viewHolder, int position);
+    void onBindViewHolder(VH viewHolder, int position);
+
+    int getViewType(int position);
 
     abstract class ViewHolder {
-        private View itemView;
-        private int position;
 
-        public ViewHolder(View itemView) {
+        @NonNull public final  View itemView;
+        int position;
+
+        public ViewHolder(@NonNull View itemView) {
             this.itemView = itemView;
-        }
-
-        public View getItemView() {
-            return itemView;
         }
 
         public int getItemPosition() {
             return position;
-        }
-
-        public void setPosition(int position) {
-            this.position = position;
         }
     }
 }

@@ -18,9 +18,9 @@ package org.dalol.bestamharickeyboard.modules.dialog;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -33,17 +33,12 @@ import org.dalol.bestamharickeyboard.modules.theme.ThemesInfo;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
  * @version 1.0.0
  * @since 1/5/2017
  */
-public class ThemeSelectorDialog extends BaseDialog {
-
-    @BindView(R.id.themesList) protected RecyclerView mThemeList;
+public class ThemeSelectorDialog extends BaseDialog implements View.OnClickListener {
 
     private OnThemeSelectListener listener;
     private int keyBGPosition;
@@ -71,13 +66,16 @@ public class ThemeSelectorDialog extends BaseDialog {
     @Override
     protected void onDialogReady(Bundle savedInstanceState) {
         super.onDialogReady(savedInstanceState);
-        mThemeList.setLayoutManager(new LinearLayoutManager(getContext()));
-        mThemeList.setHasFixedSize(true);
-        mThemeList.setAdapter(new ThemeListAdapter(new ThemesInfo()));
-        mThemeList.getLayoutManager().scrollToPosition(keyBGPosition);
+        RecyclerView themes = findViewById(R.id.themesList);
+        themes.setLayoutManager(new LinearLayoutManager(getContext()));
+        themes.setHasFixedSize(true);
+        themes.setAdapter(new ThemeListAdapter(new ThemesInfo()));
+        themes.getLayoutManager().scrollToPosition(keyBGPosition);
+
+        findViewById(R.id.donetOption).setOnClickListener(this);
+        findViewById(R.id.resetDefaultOption).setOnClickListener(this);
     }
 
-    @OnClick(R.id.donetOption)
     void onDoneClicked() {
         if (listener != null) {
             listener.onThemeSelect(keyBGPosition);
@@ -85,7 +83,6 @@ public class ThemeSelectorDialog extends BaseDialog {
         dismiss();
     }
 
-    @OnClick(R.id.resetDefaultOption)
     void onResetToDefaultOptionClicked() {
         this.listener.onResetToDefault();
         dismiss();
@@ -93,6 +90,18 @@ public class ThemeSelectorDialog extends BaseDialog {
 
     public void setOnThemeSelectListener(OnThemeSelectListener listener) {
         this.listener = listener;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.donetOption:
+                onDoneClicked();
+                break;
+            case R.id.resetDefaultOption:
+                onResetToDefaultOptionClicked();
+                break;
+        }
     }
 
     public class ThemeListAdapter extends RecyclerView.Adapter<ThemeListAdapter.Holder> {
@@ -137,9 +146,9 @@ public class ThemeSelectorDialog extends BaseDialog {
             public Holder(View itemView) {
                 super(itemView);
                 itemView.setOnClickListener(this);
-                this.themeBG = (TextView) itemView.findViewById(R.id.theme_bg);
-                this.themeName = (TextView) itemView.findViewById(R.id.theme_name);
-                this.themeSelected = (ImageView) itemView.findViewById(R.id.theme_selected);
+                themeBG = (TextView) itemView.findViewById(R.id.theme_bg);
+                themeName = (TextView) itemView.findViewById(R.id.theme_name);
+                themeSelected = (ImageView) itemView.findViewById(R.id.theme_selected);
             }
 
             @Override

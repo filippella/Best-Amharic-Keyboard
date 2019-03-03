@@ -17,11 +17,11 @@
 package org.dalol.bestamharickeyboard.modules.dialog;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.view.View;
 
 import org.dalol.bestamharickeyboard.R;
 import org.dalol.bestamharickeyboard.base.BaseDialog;
-
-import butterknife.OnClick;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
@@ -45,8 +45,15 @@ public class AboutDialog extends BaseDialog {
         return true;
     }
 
-    @OnClick(R.id.closeDialog)
-    void closeDialog() {
-        dismiss();
+    @Override
+    protected void onDialogReady(Bundle savedInstanceState) {
+        super.onDialogReady(savedInstanceState);
+        findViewById(R.id.closeDialog)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dismiss();
+                    }
+                });
     }
 }

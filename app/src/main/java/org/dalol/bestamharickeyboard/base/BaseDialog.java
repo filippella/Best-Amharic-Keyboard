@@ -20,8 +20,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.v7.view.ContextThemeWrapper;
+import androidx.annotation.CallSuper;
+import androidx.appcompat.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -29,8 +29,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import org.dalol.bestamharickeyboard.R;
-
-import butterknife.ButterKnife;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
@@ -72,7 +70,6 @@ public abstract class BaseDialog extends Dialog {
                 window.setAttributes(params);
             }
         });
-        ButterKnife.bind(this);
         setOnShowListener(new OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {

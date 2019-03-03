@@ -17,6 +17,7 @@
 package org.dalol.bestamharickeyboard.modules.activity;
 
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,12 +28,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.material.navigation.NavigationView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -43,12 +48,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
 
 import org.dalol.bestamharickeyboard.R;
 import org.dalol.bestamharickeyboard.base.BaseActivity;
@@ -59,20 +58,17 @@ import org.dalol.bestamharickeyboard.uitilities.Constant;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-
 import static org.dalol.bestamharickeyboard.uitilities.Constant.ENABLE_KEYBOARD_REQUEST_CODE;
 
 public class MainActivity extends BaseActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    @BindView(R.id.navigationDrawerKeyboardSetting) protected DrawerLayout mDrawerLayout;
-    @BindView(R.id.navigationViewKeyboardSetting) protected NavigationView mNavigationView;
-    @BindView(R.id.imageViewKeyboardEnabled) protected ImageView keyboardEnabledImageView;
-    @BindView(R.id.imageViewKeyboardSelected) protected ImageView keyboardSelectedImageView;
-    @BindView(R.id.adView) protected AdView mAdView;
+    private DrawerLayout mDrawerLayout;
+    private NavigationView mNavigationView;
+    private ImageView keyboardEnabledImageView;
+    private ImageView keyboardSelectedImageView;
+    private AdView mAdView;
 
     private ActionBarDrawerToggle mDrawerToggle;
     private AdsDelegate adsDelegate;
@@ -82,6 +78,46 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onViewReady(Bundle savedInstanceState, Intent intent) {
         super.onViewReady(savedInstanceState, intent);
+
+        mDrawerLayout = findViewById(R.id.navigationDrawerKeyboardSetting);
+        mNavigationView = findViewById(R.id.navigationViewKeyboardSetting);
+        keyboardEnabledImageView = findViewById(R.id.imageViewKeyboardEnabled);
+        keyboardSelectedImageView = findViewById(R.id.imageViewKeyboardSelected);
+        mAdView = findViewById(R.id.adView);
+
+        findViewById(R.id.optionEnableKeyboardView)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(android.provider.Settings.ACTION_INPUT_METHOD_SETTINGS);
+                        startActivityForResult(intent, ENABLE_KEYBOARD_REQUEST_CODE);
+                    }
+                });
+        findViewById(R.id.optionSelectKeyboardView)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        InputMethodManager imeManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                        imeManager.showInputMethodPicker();
+                    }
+                });
+        findViewById(R.id.optionChangeTheme)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showAd();
+                        startActivity(new Intent(MainActivity.this, ThemeSelectionActivity.class));
+                    }
+                });
+        findViewById(R.id.optionOpenEditor)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showAd();
+                        startActivity(new Intent(MainActivity.this, TypingActivity.class));
+                    }
+                });
+
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
@@ -230,30 +266,6 @@ public class MainActivity extends BaseActivity {
             }
         }
         return isInputDeviceEnabled;
-    }
-
-    @OnClick(R.id.optionEnableKeyboardView)
-    void onEnableKeyboardOptionClicked() {
-        Intent intent = new Intent(android.provider.Settings.ACTION_INPUT_METHOD_SETTINGS);
-        startActivityForResult(intent, ENABLE_KEYBOARD_REQUEST_CODE);
-    }
-
-    @OnClick(R.id.optionSelectKeyboardView)
-    void onSelectKeyboardOptionClicked() {
-        InputMethodManager imeManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        imeManager.showInputMethodPicker();
-    }
-
-    @OnClick(R.id.optionChangeTheme)
-    void onChangeThemeOptionClicked() {
-        showAd();
-        startActivity(new Intent(this, ThemeSelectionActivity.class));
-    }
-
-    @OnClick(R.id.optionOpenEditor)
-    void onOpenEditorOptionClicked() {
-        showAd();
-        startActivity(new Intent(this, TypingActivity.class));
     }
 
     private void showAd() {

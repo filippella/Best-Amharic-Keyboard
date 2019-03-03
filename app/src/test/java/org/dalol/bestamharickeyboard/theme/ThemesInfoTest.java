@@ -16,6 +16,8 @@
 
 package org.dalol.bestamharickeyboard.theme;
 
+import org.dalol.bestamharickeyboard.modules.theme.KeyThemeInfo;
+import org.dalol.bestamharickeyboard.modules.theme.ThemesInfo;
 import org.junit.Before;
 import org.junit.Test;
 

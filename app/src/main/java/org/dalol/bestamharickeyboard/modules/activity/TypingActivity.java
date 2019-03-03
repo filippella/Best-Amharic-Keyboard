@@ -28,8 +28,6 @@ import org.dalol.bestamharickeyboard.R;
 import org.dalol.bestamharickeyboard.base.BaseActivity;
 import org.dalol.bestamharickeyboard.delegate.AdsDelegate;
 
-import butterknife.BindView;
-
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
  * @version 1.0.0
@@ -37,8 +35,8 @@ import butterknife.BindView;
  */
 public class TypingActivity extends BaseActivity {
 
-    @BindView(R.id.editorEditText) protected EditText mEditorView;
-    @BindView(R.id.adView) protected AdView mAdView;
+    private EditText mEditorView;
+    private AdView mAdView;
     private AdsDelegate adsDelegate;
 
     @Override
@@ -47,6 +45,9 @@ public class TypingActivity extends BaseActivity {
 
         showHome();
         changeStatusBarColor(R.color.colorPrimaryDark);
+
+        mEditorView = findViewById(R.id.editorEditText);
+        mAdView = findViewById(R.id.adView);
 
         adsDelegate = new AdsDelegate(mAdView);
         adsDelegate.handleAdBanner();

@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
-    buildToolsVersion '28.0.0 rc2'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "org.dalol.bestamharickeyboard"
         minSdkVersion project.androidMinSDKVersion.toInteger()
         targetSdkVersion project.androidTargetSDKVersion.toInteger()
         versionCode project.appVersionCode.toInteger()
         versionName project.appVersionName
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
         release {
@@ -30,13 +30,14 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    testImplementation 'junit:junit:4.12'
-    implementation "com.android.support:appcompat-v7:${androidSupportVersion}"
-    implementation "com.android.support:design:${androidSupportVersion}"
-    implementation "com.android.support:cardview-v7:${androidSupportVersion}"
-    implementation "com.android.support:recyclerview-v7:${androidSupportVersion}"
-    implementation "com.jakewharton:butterknife:${butterknifeVersion}"
-    annotationProcessor "com.jakewharton:butterknife-compiler:${butterknifeCompilerVersion}"
+    testImplementation "junit:junit:$jUnitVersion"
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha02'
+    implementation 'com.google.android.material:material:1.1.0-alpha04'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha02'
     //FIREBASE AD and GCM
+    //implementation 'com.google.firebase:firebase-ads:17.1.3'
+
     implementation 'com.google.android.gms:play-services-ads:15.0.1'
+    //implementation "com.google.android.gms:play-services-ads:$playAdServicesVersion"
 }

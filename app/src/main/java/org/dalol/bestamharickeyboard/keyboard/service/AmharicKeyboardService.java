@@ -19,17 +19,18 @@ package org.dalol.bestamharickeyboard.keyboard.service;
 import android.inputmethodservice.InputMethodService;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.FrameLayout;
 
 import org.dalol.bestamharickeyboard.keyboard.callback.OnInputKeyListener;
 import org.dalol.bestamharickeyboard.keyboard.model.EnglishInputKeysInfo;
 import org.dalol.bestamharickeyboard.keyboard.model.GeezInputKeysInfo;
 import org.dalol.bestamharickeyboard.keyboard.model.InputKeysInfo;
+import org.dalol.bestamharickeyboard.keyboard.model.KeyboardInputActionType;
 import org.dalol.bestamharickeyboard.keyboard.model.SymbolsOneInputKeysInfo;
 import org.dalol.bestamharickeyboard.keyboard.model.SymbolsTwoInputKeysInfo;
 import org.dalol.bestamharickeyboard.keyboard.view.InputKeyboardView;
@@ -85,7 +86,7 @@ public class AmharicKeyboardService extends InputMethodService implements OnInpu
     }
 
     public View onCreateInputView() {
-        FrameLayout parent = (FrameLayout) inputKeyboardView.getParent();
+        ViewGroup parent = (ViewGroup) inputKeyboardView.getParent();
         if (parent != null) {
             parent.clearDisappearingChildren();
             parent.removeAllViews();
@@ -106,6 +107,12 @@ public class AmharicKeyboardService extends InputMethodService implements OnInpu
     public void onStartInputView(EditorInfo attribute, boolean restarting) {
         super.onStartInputView(attribute, restarting);
         setInputView(onCreateInputView());
+
+        final EditorInfo ei = getCurrentInputEditorInfo();
+        int imeOptions = ei.imeOptions;
+
+        KeyboardInputActionType actionType = KeyboardInputActionType.fromeImeOptions(imeOptions);
+        //KeyboardView
     }
 
     @Override

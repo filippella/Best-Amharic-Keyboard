@@ -46,13 +46,14 @@ public class LinearListView extends LinearLayout {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public void setAdapter(LinearListViewAdapter adapter) {
+    public <VH extends LinearListViewAdapter.ViewHolder> void setAdapter(LinearListViewAdapter<VH> adapter) {
         clear();
-        for(int i = 0; i < adapter.getItemCount(); i++) {
-            LinearListViewAdapter.ViewHolder viewHolder = adapter.onCreateViewHolder(this);
-            viewHolder.setPosition(i);
-            addView(viewHolder.getItemView());
-            adapter.onBindViewHolder(viewHolder, i);
+        int itemCount = adapter.getItemCount();
+        for(int position = 0; position < itemCount; position++) {
+            VH viewHolder = adapter.onCreateViewHolder(this, adapter.getViewType(position));
+            addView(viewHolder.itemView);
+            viewHolder.position = position;
+            adapter.onBindViewHolder(viewHolder, position);
         }
     }
 

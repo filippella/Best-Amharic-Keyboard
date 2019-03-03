@@ -20,7 +20,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -30,7 +29,7 @@ import android.widget.VideoView;
 import org.dalol.bestamharickeyboard.R;
 import org.dalol.bestamharickeyboard.base.BaseActivity;
 
-import butterknife.BindView;
+import androidx.appcompat.app.ActionBar;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
@@ -39,12 +38,13 @@ import butterknife.BindView;
  */
 public class VideoHelpActivity extends BaseActivity {
 
-    @BindView(R.id.videoPlayer) protected VideoView mVideoPlayer;
+    private VideoView mVideoPlayer;
 
     @Override
     protected void onViewReady(Bundle savedInstanceState, Intent intent) {
         hideSystemUI();
         super.onViewReady(savedInstanceState, intent);
+        mVideoPlayer = findViewById(R.id.videoPlayer);
         MediaController mediaController = new MediaController(this);
         mediaController.setAnchorView(mVideoPlayer);
         Uri video = Uri.parse("android.resource://" + getPackageName() + "/" + getMovie());

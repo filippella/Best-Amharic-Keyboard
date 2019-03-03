@@ -18,6 +18,7 @@ package org.dalol.bestamharickeyboard.modules.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.google.android.gms.ads.AdView;
@@ -33,9 +34,6 @@ import org.dalol.bestamharickeyboard.uitilities.Storage;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-
 import static org.dalol.bestamharickeyboard.uitilities.Constant.SELECTED_THEME_ID;
 import static org.dalol.bestamharickeyboard.uitilities.Constant.THEME_CHANGED_ID;
 import static org.dalol.bestamharickeyboard.uitilities.Constant.UNSELECTED_THEME_ID;
@@ -47,9 +45,9 @@ import static org.dalol.bestamharickeyboard.uitilities.Constant.UNSELECTED_THEME
  */
 public class ThemeSelectionActivity extends BaseActivity {
 
-    @BindView(R.id.adView) protected AdView mAdView;
-    @BindView(R.id.previewPressedKeyBG) protected ImageView pressedKeyBG;
-    @BindView(R.id.previewUnpressedKeyBG) protected ImageView unpressedKeyBG;
+    private AdView mAdView;
+    private ImageView pressedKeyBG;
+    private ImageView unpressedKeyBG;
 
     private Storage mStorage;
     private ThemesInfo themesInfo;
@@ -63,6 +61,26 @@ public class ThemeSelectionActivity extends BaseActivity {
         super.onViewReady(savedInstanceState, intent);
         showHome();
         changeStatusBarColor(R.color.colorPrimaryDark);
+
+        mAdView = findViewById(R.id.adView);
+        pressedKeyBG = findViewById(R.id.previewPressedKeyBG);
+        unpressedKeyBG = findViewById(R.id.previewUnpressedKeyBG);
+
+        findViewById(R.id.selectKeyUnpressedState)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onSelectUnpressedKeyStateBg();
+                    }
+                });
+        findViewById(R.id.selectKeyPressedState)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onSelectPressedKeyStateBg();
+                    }
+                });
+
         mStorage = new Storage(getSharedPreferences(Constant.PREFERENCE_NAME, MODE_PRIVATE));
 
         selectedThemeId = pressedKeyBGPosition = mStorage.getInt(SELECTED_THEME_ID, 25);
@@ -83,8 +101,7 @@ public class ThemeSelectionActivity extends BaseActivity {
         return R.layout.activity_theme_selection;
     }
 
-    @OnClick(R.id.selectKeyUnpressedState)
-    void onSelectUnpressedKeyStateBg() {
+    private void onSelectUnpressedKeyStateBg() {
         ThemeSelectorDialog dialog = new ThemeSelectorDialog(ThemeSelectionActivity.this, unpressedKeyBGPosition);
         dialog.setOnThemeSelectListener(new ThemeSelectorDialog.OnThemeSelectListener() {
             @Override
@@ -104,8 +121,7 @@ public class ThemeSelectionActivity extends BaseActivity {
         dialog.show();
     }
 
-    @OnClick(R.id.selectKeyPressedState)
-    void onSelectPressedKeyStateBg() {
+    private void onSelectPressedKeyStateBg() {
         ThemeSelectorDialog dialog = new ThemeSelectorDialog(ThemeSelectionActivity.this, pressedKeyBGPosition);
         dialog.setOnThemeSelectListener(new ThemeSelectorDialog.OnThemeSelectListener() {
             @Override

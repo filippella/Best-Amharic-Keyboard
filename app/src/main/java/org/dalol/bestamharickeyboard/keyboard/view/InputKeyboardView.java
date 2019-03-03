@@ -28,8 +28,8 @@ import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -118,7 +118,7 @@ public class InputKeyboardView extends LinearLayout {
         themesInfo = new ThemesInfo();
         themes = themesInfo.getThemes();
 
-        //mTypeface = FontType.NYALA.getTypeface(getContext());
+        mTypeface = FontType.NYALA.getTypeface(getContext());
         prepareKeyBackground();
     }
 
@@ -164,7 +164,7 @@ public class InputKeyboardView extends LinearLayout {
                 float keyWeight = keyInfo.getKeyWeight();
                 if (keyLabel != null) {
                     TextView keyText = new TextView(context);
-//                    keyText.setTypeface(mTypeface);
+                    keyText.setTypeface(mTypeface);
 //                    key.setTypeface(FontType.NYALA.getTypeface(context), Typeface.BOLD);
 //                        AmharicTextView key = new AmharicTextView(context);
                     keyText.setGravity(Gravity.CENTER);
@@ -301,8 +301,7 @@ public class InputKeyboardView extends LinearLayout {
                         onInputKeyListener.onClick(label);
                         if (keyModifiers != null && keyModifiers.length > 0) {
                             applyKeyboardChanges();
-                            for (int i = 0; i < keyModifiers.length; i++) {
-                                String keyModifier = keyModifiers[i];
+                            for (String keyModifier : keyModifiers) {
                                 TextView modifierKey = new TextView(getContext());
                                 // AmharicButtonView modifierKey = new AmharicButtonView(getContext());
                                 //modifierKey.setTypeface(FontType.NYALA.getTypeface(getContext()), Typeface.BOLD);
@@ -311,7 +310,7 @@ public class InputKeyboardView extends LinearLayout {
                                 modifierKey.setText(keyModifier);
                                 modifierKey.setTextColor(Color.WHITE);
                                 modifierKey.setGravity(Gravity.CENTER);
-                                modifierKey.setOnClickListener(new View.OnClickListener() {
+                                modifierKey.setOnClickListener(new OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         TextView modifierKeyButton = (TextView) v;
@@ -321,7 +320,7 @@ public class InputKeyboardView extends LinearLayout {
                                         }
                                     }
                                 });
-                                modifiersContainer.addView(modifierKey, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
+                                modifiersContainer.addView(modifierKey, new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
                             }
                         }
                         break;
