@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
  * @version 1.0.0
  * @since Sun, 26/05/2019 at 14:09.
  */
-public interface IVirtualKeyboardView {
+public interface IVirtualKeyboard {
 
     void setVirtualKeyboard(@NonNull VirtualKeyboard keyboard);
 

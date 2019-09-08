@@ -16,6 +16,7 @@
 
 package org.dalol.bestamharickeyboard.delegate;
 
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.ads.AdListener;
@@ -31,11 +32,11 @@ public class AdsDelegate {
 
     private AdView mAdView;
 
-    public AdsDelegate(AdView adView) {
+    public void handleAdBanner(AdView adView) {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
         mAdView = adView;
-    }
-
-    public void handleAdBanner() {
         mAdView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
@@ -44,11 +45,11 @@ public class AdsDelegate {
                 if(visibility != View.VISIBLE) mAdView.setVisibility(View.VISIBLE);
             }
 
-//            @Override
-//            public void onAdFailedToLoad(int i) {
-//                super.onAdFailedToLoad(i);
-//                Log.d("AdLoading", "Failed to load ad -> " + i);
-//            }
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                Log.d("AdLoading", "Failed to load ad -> " + i);
+            }
         });
         mAdView.loadAd(new AdRequest.Builder().build());
     }

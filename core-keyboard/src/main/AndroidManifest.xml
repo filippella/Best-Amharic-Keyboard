@@ -1,2 +1,4 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.dalol.bestamharickeyboard.core" />
+    package="org.dalol.bestamharickeyboard.core">
+    <uses-permission android:name="android.permission.VIBRATE" />
+</manifest>

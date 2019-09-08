@@ -1,9 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.dalol.bestamharickeyboard.ui.widgets.VirtualKeyboardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/keyboard"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:keyBackground="@drawable/keybackground"
-    android:keyPreviewOffset="5dp"
-    android:keyTextColor="@color/colorAccent"
-    android:layout_alignParentBottom="true" />
+    android:layout_alignParentBottom="true"
+    android:orientation="vertical">
+
+    <!--<com.google.android.gms.ads.AdView-->
+        <!--android:id="@+id/adView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center"-->
+        <!--android:visibility="gone"-->
+        <!--app:adSize="SMART_BANNER"-->
+        <!--app:adUnitId="@string/banner_ad_unit_id"-->
+        <!--tools:visibility="visible" />-->
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/vk_background_color_dark"
+        android:padding="5dp">
+
+        <org.dalol.bestamharickeyboard.ui.widgets.AndroidVirtualKeyboardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/keyboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:keyBackground="@drawable/button_bg_state"
+            android:keyPreviewOffset="5dp"
+            android:layout_gravity="center"
+            android:keyPreviewLayout ="@layout/preview"
+            android:background="@android:color/transparent"
+            android:keyTextColor="@color/colorWhite" />
+
+    </FrameLayout>
+
+</LinearLayout>

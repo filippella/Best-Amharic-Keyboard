@@ -49,8 +49,8 @@ public class TypingActivity extends BaseActivity {
         mEditorView = findViewById(R.id.editorEditText);
         mAdView = findViewById(R.id.adView);
 
-        adsDelegate = new AdsDelegate(mAdView);
-        adsDelegate.handleAdBanner();
+        adsDelegate = new AdsDelegate();
+        adsDelegate.handleAdBanner(mAdView);
     }
 
     @Override

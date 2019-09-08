@@ -26,7 +26,7 @@
         android:gravity="center"
         android:textSize="18sp"
         android:text="Select Theme"
-        android:textColor="@color/white" />
+        android:textColor="@color/colorWhite" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/themesList"
@@ -50,14 +50,14 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:text="Reset Default"
-            android:textColor="@color/white" />
+            android:textColor="@color/colorWhite" />
 
         <View
             android:layout_width="0.2dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
-            android:background="@color/white" />
+            android:background="@color/colorWhite" />
 
         <TextView
             android:id="@+id/donetOption"
@@ -67,7 +67,7 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:text="Done"
-            android:textColor="@color/white" />
+            android:textColor="@color/colorWhite" />
 
     </LinearLayout>
 

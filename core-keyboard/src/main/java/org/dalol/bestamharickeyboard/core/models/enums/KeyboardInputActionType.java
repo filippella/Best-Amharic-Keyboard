@@ -1,4 +1,4 @@
-package org.dalol.bestamharickeyboard.keyboard.model;
+package org.dalol.bestamharickeyboard.core.models.enums;
 
 import android.view.inputmethod.EditorInfo;
 
@@ -17,7 +17,7 @@ public enum KeyboardInputActionType {
     IME_ACTION_DONE,
     IME_ACTION_PREVIOUS;
 
-    public static KeyboardInputActionType fromeImeOptions(int imeOptions) {
+    public static KeyboardInputActionType fromImeOptions(int imeOptions) {
 
         KeyboardInputActionType actionType;
 

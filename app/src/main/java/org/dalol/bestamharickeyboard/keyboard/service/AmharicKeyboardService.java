@@ -146,8 +146,8 @@ public class AmharicKeyboardService extends InputMethodService implements OnInpu
         if (inputConnection == null) {
             return;
         }
-        inputConnection.sendKeyEvent(new KeyEvent(0, 62));
-        inputConnection.sendKeyEvent(new KeyEvent(1, 62));
+        inputConnection.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SPACE));
+        inputConnection.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_SPACE));
     }
 
     @Override

@@ -17,7 +17,7 @@ import org.dalol.bestamharickeyboard.R;
  * @version 1.0.0
  * @since Sun, 28/04/2019 at 15:30.
  */
-public class VirtualKeyboardService extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
+public class AndroidVirtualKeyboardService extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
 
     private Context mContext;
     private AudioManager mAudioManager;
@@ -38,8 +38,8 @@ public class VirtualKeyboardService extends InputMethodService implements Keyboa
         View view = getLayoutInflater().inflate(R.layout.layout_keyboard, null);
         keyboardView = (KeyboardView) view.findViewById(R.id.keyboard);
         keyboard = new Keyboard(this, R.xml.querty);
-        keyboardView.setKeyboard(keyboard);
         keyboardView.setOnKeyboardActionListener(this);
+        keyboardView.setKeyboard(keyboard);
         return view;
     }
 

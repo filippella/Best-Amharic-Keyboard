@@ -6,6 +6,7 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -28,23 +29,25 @@ import androidx.annotation.Nullable;
  * @version 1.0.0
  * @since Sun, 28/04/2019 at 15:11.
  */
-public class VirtualKeyboardView extends KeyboardView {
+public class AndroidVirtualKeyboardView extends KeyboardView {
+
+    private static final String TAG = AndroidVirtualKeyboardView.class.getSimpleName();
 
     private Context mContext;
     private PopupWindow popup;
 
-    public VirtualKeyboardView(@NonNull Context context, AttributeSet attrs) {
+    public AndroidVirtualKeyboardView(@NonNull Context context, AttributeSet attrs) {
         super(context, attrs);
         doInitialize(context, attrs);
     }
 
-    public VirtualKeyboardView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public AndroidVirtualKeyboardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         doInitialize(context, attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public VirtualKeyboardView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public AndroidVirtualKeyboardView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         doInitialize(context, attrs);
     }
@@ -61,8 +64,52 @@ public class VirtualKeyboardView extends KeyboardView {
 
         List<Keyboard.Key> keys = keyboard.getKeys();
         for (Keyboard.Key key : keys) {
+
             key.getCurrentDrawableState();
         }
+
+
+        setOnKeyboardActionListener(new OnKeyboardActionListener() {
+            @Override
+            public void onPress(int primaryCode) {
+                showLog("KEY_ACTION onPress() -> " + primaryCode);
+            }
+
+            @Override
+            public void onRelease(int primaryCode) {
+                showLog("KEY_ACTION onRelease() -> " + primaryCode);
+            }
+
+            @Override
+            public void onKey(int primaryCode, int[] keyCodes) {
+                showLog("KEY_ACTION onKey() -> " + primaryCode);
+            }
+
+            @Override
+            public void onText(CharSequence text) {
+
+            }
+
+            @Override
+            public void swipeLeft() {
+
+            }
+
+            @Override
+            public void swipeRight() {
+
+            }
+
+            @Override
+            public void swipeDown() {
+
+            }
+
+            @Override
+            public void swipeUp() {
+
+            }
+        });
     }
 
     @Override
@@ -80,7 +127,8 @@ public class VirtualKeyboardView extends KeyboardView {
 
         contentView.measure(
                 MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
-                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+        );
 
         int measuredWidth = contentView.getMeasuredWidth();
         int measuredHeight = contentView.getMeasuredHeight();
@@ -114,16 +162,37 @@ public class VirtualKeyboardView extends KeyboardView {
 
     @Override
     public boolean onTouchEvent(MotionEvent me) {
+        long start = System.currentTimeMillis();
         int ae = me.getAction() & MotionEvent.ACTION_MASK;
         switch (ae) {
+            case MotionEvent.ACTION_DOWN:
+                showLog("KEY_ACTION onTouchEvent() -> MotionEvent.ACTION_DOWN");
+                break;
+            case MotionEvent.ACTION_POINTER_DOWN:
+                showLog("KEY_ACTION onTouchEvent() -> MotionEvent.ACTION_POINTER_DOWN");
+                break;
+            case MotionEvent.ACTION_MOVE:
+                showLog("KEY_ACTION onTouchEvent() -> MotionEvent.ACTION_MOVE");
+                break;
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_POINTER_UP:
             case MotionEvent.ACTION_UP:
+                showLog("KEY_ACTION onTouchEvent() -> MotionEvent.ACTION_UP");
                 if (popup != null && popup.isShowing()) {
                     popup.dismiss();
                 }
                 break;
         }
-        return super.onTouchEvent(me);
+
+        boolean onTouchEvent = super.onTouchEvent(me);
+
+        long elapsed = System.currentTimeMillis() - start;
+        showLog("KEY_ACTION onTouchEvent() -> elapsed second: " + (elapsed * 1.0f / 1000L));
+
+        return onTouchEvent;
+    }
+
+    private void showLog(String message) {
+        Log.d(TAG, message);
     }
 }

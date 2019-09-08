@@ -55,7 +55,7 @@
                 android:id="@+id/selectKeyUnpressedState"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
-                android:background="@color/white"
+                android:background="@color/colorWhite"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -87,7 +87,7 @@
                 android:id="@+id/selectKeyPressedState"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
-                android:background="@color/white"
+                android:background="@color/colorWhite"
                 android:layout_marginTop="5dp"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"

@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    app:cardBackgroundColor="@color/white"
+                    app:cardBackgroundColor="@color/colorWhite"
                     app:cardCornerRadius="0dp"
                     app:cardElevation="2dp"
                     app:cardUseCompatPadding="false">
@@ -73,7 +73,7 @@
                                 android:background="@drawable/step_indicator_bg"
                                 android:gravity="center"
                                 android:text="1"
-                                android:textColor="@color/white"
+                                android:textColor="@color/colorWhite"
                                 android:textSize="14sp" />
 
                             <!--<ImageView-->
@@ -146,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    app:cardBackgroundColor="@color/white"
+                    app:cardBackgroundColor="@color/colorWhite"
                     app:cardCornerRadius="0dp"
                     app:cardElevation="2dp"
                     app:cardUseCompatPadding="false">
@@ -171,7 +171,7 @@
                                 android:background="@drawable/step_indicator_bg"
                                 android:gravity="center"
                                 android:text="2"
-                                android:textColor="@color/white"
+                                android:textColor="@color/colorWhite"
                                 android:textSize="14sp" />
 
                             <!--<ImageView-->
@@ -245,7 +245,7 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    app:cardBackgroundColor="@color/white"
+                    app:cardBackgroundColor="@color/colorWhite"
                     app:cardCornerRadius="0dp"
                     app:cardElevation="2dp"
                     app:cardUseCompatPadding="false">
@@ -339,7 +339,7 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_layout"
         app:itemIconTint="@color/navigation_view_icon_selector"
-        app:itemTextColor="@color/black"
+        app:itemTextColor="@color/colorBlack"
         app:menu="@menu/navigation_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -92,8 +92,8 @@ public class ThemeSelectionActivity extends BaseActivity {
         pressedKeyBG.setBackgroundDrawable(themesInfo.getGradient(themes.get(selectedThemeId)));
         unpressedKeyBG.setBackgroundDrawable(themesInfo.getGradient(themes.get(unselectedThemeId)));
 
-        adsDelegate = new AdsDelegate(mAdView);
-        adsDelegate.handleAdBanner();
+        adsDelegate = new AdsDelegate();
+        adsDelegate.handleAdBanner(mAdView);
     }
 
     @Override
